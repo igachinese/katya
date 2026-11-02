@@ -11,20 +11,20 @@
   :root {
     --bg: #faf4eb;
     --card: #ffffff;
-    --ink: #2c2118;
-    --ink-soft: #7a6a58;
+    --ink: #221c16;
+    --ink-soft: #635649;
     --line: #ecdccb;
     --terra: #c23b2b;
     --terra-hover: #9c2e22;
     --terra-light: #fef0eb;
-    --sage: #4e8f66;
-    --sage-light: #eff7f2;
-    --honey: #d9822b;
+    --orange: #ea580c;
+    --orange-hover: #c2410c;
+    --sage: #2d6a4f;
+    --sage-light: #eaf5ee;
+    --honey: #d97706;
     --honey-light: #fef8ee;
-    --blue: #3b82f6;
+    --blue: #2563eb;
     --blue-light: #eff6ff;
-    --purple: #8b5cf6;
-    --purple-light: #f5f3ff;
     --shadow: 0 10px 28px rgba(66, 45, 25, 0.08);
     --shadow-hover: 0 16px 36px rgba(66, 45, 25, 0.12);
   }
@@ -37,13 +37,32 @@
       var(--bg);
     color: var(--ink);
     font-family: 'Nunito', system-ui, sans-serif;
-    padding: 0 16px 60px;
+    padding: 0 18px 64px;
     min-height: 100vh;
-    line-height: 1.5;
+    line-height: 1.55;
+    font-size: 16px;
   }
   .zh { font-family: 'Noto Sans SC', sans-serif; }
 
-  .wrap { max-width: 920px; margin: 0 auto; }
+  .wrap { max-width: 940px; margin: 0 auto; }
+
+  /* Pulse Glow Animation for Urgent / Primary Action Buttons */
+  @keyframes pulseGlowOrange {
+    0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.55); }
+    70% { box-shadow: 0 0 0 12px rgba(234, 88, 12, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+  }
+  @keyframes pulseGlowRed {
+    0% { box-shadow: 0 0 0 0 rgba(194, 59, 43, 0.55); }
+    70% { box-shadow: 0 0 0 12px rgba(194, 59, 43, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(194, 59, 43, 0); }
+  }
+  .glow-orange {
+    animation: pulseGlowOrange 2.2s infinite ease-in-out;
+  }
+  .glow-red {
+    animation: pulseGlowRed 2.2s infinite ease-in-out;
+  }
 
   /* Quick Pill Navigation Bar */
   .quick-bar {
@@ -54,7 +73,7 @@
   .pill-link {
     display: inline-flex; align-items: center; gap: 6px;
     background: #ffffff; border: 1.5px solid var(--line); border-radius: 999px;
-    padding: 8px 16px; font-size: 0.92rem; font-weight: 800; color: var(--ink);
+    padding: 8px 18px; font-size: 0.95rem; font-weight: 800; color: var(--ink);
     text-decoration: none; box-shadow: 0 2px 8px rgba(66,45,25,.04);
     transition: all .15s ease; white-space: nowrap;
   }
@@ -70,27 +89,27 @@
   .profile-card {
     background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
     border: 2px solid var(--line); border-radius: 28px;
-    padding: 28px; margin: 10px 0 22px;
+    padding: 30px; margin: 10px 0 24px;
     box-shadow: var(--shadow);
     display: flex; justify-content: space-between; align-items: center;
     flex-wrap: wrap; gap: 20px;
   }
-  .profile-left { display: flex; align-items: center; gap: 20px; }
+  .profile-left { display: flex; align-items: center; gap: 22px; }
   .profile-avatar {
-    width: 80px; height: 80px; border-radius: 24px;
+    width: 84px; height: 84px; border-radius: 26px;
     background: linear-gradient(135deg, #ffe0e9 0%, #ffd0dc 100%);
     display: flex; align-items: center; justify-content: center;
-    font-size: 2.8rem; border: 3px solid #fff;
-    box-shadow: 0 8px 20px rgba(244,114,182,.25);
+    font-size: 3rem; border: 3px solid #fff;
+    box-shadow: 0 8px 22px rgba(244,114,182,.25);
   }
-  .profile-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .profile-name { font-size: 2.1rem; font-weight: 900; color: var(--ink); line-height: 1.1; }
-  .profile-zh { font-size: 1.5rem; font-weight: 900; color: var(--terra); }
-  .profile-sub { color: var(--ink-soft); font-size: 1rem; font-weight: 600; margin-top: 4px; }
-  .profile-tags { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .profile-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .profile-name { font-size: 2.25rem; font-weight: 900; color: var(--ink); line-height: 1.1; }
+  .profile-zh { font-size: 1.6rem; font-weight: 900; color: var(--terra); }
+  .profile-sub { color: var(--ink-soft); font-size: 1.05rem; font-weight: 600; margin-top: 4px; }
+  .profile-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .tag {
     background: var(--honey-light); color: var(--honey); border: 1px solid #fed7aa;
-    padding: 4px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 800;
+    padding: 5px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 800;
   }
   .tag.blue { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
   .tag.sage { background: var(--sage-light); color: var(--sage); border-color: #bbf7d0; }
@@ -98,39 +117,39 @@
   /* Goal Banner */
   .goal-card {
     background: linear-gradient(135deg, #2b2118 0%, #3a2b20 100%);
-    color: #fff; border-radius: 24px; padding: 24px 26px; margin-bottom: 24px;
-    box-shadow: 0 12px 32px rgba(44,33,24,.18);
+    color: #fff; border-radius: 26px; padding: 26px 30px; margin-bottom: 24px;
+    box-shadow: 0 14px 34px rgba(44,33,24,.18);
   }
   .goal-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
-  .goal-title { font-size: 1.35rem; font-weight: 900; display: flex; align-items: center; gap: 8px; color: #fff; }
+  .goal-title { font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; gap: 10px; color: #fff; }
   .goal-badge {
-    background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,.25); padding: 6px 14px; border-radius: 999px;
-    font-size: 0.95rem; font-weight: 800; color: #fde047;
+    background: rgba(255,255,255,.16); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.28); padding: 6px 16px; border-radius: 999px;
+    font-size: 0.98rem; font-weight: 800; color: #fde047;
   }
-  .goal-desc { color: #e2d9cf; font-size: 1rem; margin-bottom: 16px; line-height: 1.5; max-width: 68ch; }
-  .goal-bar-wrap { background: rgba(255,255,255,.15); height: 14px; border-radius: 999px; overflow: hidden; }
+  .goal-desc { color: #e2d9cf; font-size: 1.05rem; margin-bottom: 18px; line-height: 1.55; max-width: 70ch; }
+  .goal-bar-wrap { background: rgba(255,255,255,.16); height: 16px; border-radius: 999px; overflow: hidden; }
   .goal-bar {
     background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%);
     height: 100%; border-radius: 999px; width: 62%;
   }
-  .goal-foot { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.88rem; color: #cbd5e1; }
+  .goal-foot { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem; color: #cbd5e1; }
 
   /* Progress Metrics Grid */
   .metrics-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
   }
   @media(max-width: 760px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
   @media(max-width: 440px) { .metrics-grid { grid-template-columns: 1fr; } }
 
   .metric-card {
-    background: var(--card); border: 2px solid var(--line); border-radius: 20px;
-    padding: 18px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--card); border: 2px solid var(--line); border-radius: 22px;
+    padding: 20px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
   }
   .metric-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 10px; }
-  .metric-title { font-size: 0.92rem; font-weight: 800; color: var(--ink-soft); line-height: 1.3; }
+  .metric-title { font-size: 0.96rem; font-weight: 800; color: var(--ink-soft); line-height: 1.3; }
   .metric-pct {
-    font-size: 1.05rem; font-weight: 900; padding: 2px 8px; border-radius: 8px;
+    font-size: 1.05rem; font-weight: 900; padding: 3px 9px; border-radius: 8px;
     white-space: nowrap; line-height: 1.2;
   }
   .pct-green { background: var(--sage-light); color: var(--sage); }
@@ -138,185 +157,219 @@
   .pct-terra { background: var(--terra-light); color: var(--terra); }
   .pct-honey { background: var(--honey-light); color: var(--honey); }
 
-  .metric-val { font-size: 1.6rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; font-family: 'Baloo 2', sans-serif; }
-  .metric-sub { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 8px; }
-  .mini-bar-wrap { background: #f1e7d8; height: 8px; border-radius: 999px; overflow: hidden; }
+  .metric-val { font-size: 1.75rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; font-family: 'Baloo 2', sans-serif; }
+  .metric-sub { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 10px; }
+  .mini-bar-wrap { background: #f1e7d8; height: 9px; border-radius: 999px; overflow: hidden; }
   .mini-bar { height: 100%; border-radius: 999px; }
 
-  /* Section Header Badge */
-  .block-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: #ffffff; border: 1.5px solid var(--line); border-radius: 999px;
-    padding: 6px 14px; font-size: 0.85rem; font-weight: 900; color: var(--ink-soft);
-    margin-bottom: 14px;
+  /* ================= БЛОК УЧЕНИКА ================= */
+  .student-block-heading {
+    display: flex; align-items: center; gap: 10px; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line);
   }
+  .student-block-title { font-size: 1.35rem; font-weight: 900; color: var(--ink); }
 
   /* Next Lesson Card */
   .next-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 24px;
-    padding: 24px 26px; margin-bottom: 24px; box-shadow: var(--shadow);
+    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
+    padding: 26px 28px; margin-bottom: 24px; box-shadow: var(--shadow);
   }
   .next-header {
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed var(--line);
   }
-  .next-title { font-size: 1.3rem; font-weight: 900; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .next-title { font-size: 1.35rem; font-weight: 900; color: var(--ink); display: flex; align-items: center; gap: 8px; }
   .next-time {
     background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe;
-    padding: 6px 14px; border-radius: 12px; font-size: 0.95rem; font-weight: 800;
+    padding: 6px 16px; border-radius: 12px; font-size: 1rem; font-weight: 800;
   }
   .next-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: center; }
   @media(max-width: 680px) { .next-content { grid-template-columns: 1fr; } }
-  .next-meta p { font-size: 0.98rem; margin-bottom: 6px; }
+  .next-meta p { font-size: 1.02rem; margin-bottom: 8px; }
   .next-meta b { color: var(--ink); }
   .zoom-box { text-align: center; }
   .btn-zoom {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     background: #2563eb; color: #fff; text-decoration: none;
-    font-weight: 800; font-size: 1.15rem; padding: 14px 28px; border-radius: 16px;
+    font-weight: 900; font-size: 1.2rem; padding: 15px 30px; border-radius: 18px;
     box-shadow: 0 8px 24px rgba(37,99,235,.28); transition: all .2s ease; width: 100%;
   }
   .btn-zoom:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(37,99,235,.36); }
-  .zoom-sub { font-size: 0.85rem; color: var(--ink-soft); margin-top: 8px; }
+  .zoom-sub { font-size: 0.9rem; color: var(--ink-soft); margin-top: 8px; font-weight: 600; }
 
   /* 🔥 CURRENT HOMEWORK HERO BANNER 🔥 */
   .hw-hero {
     background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
     border: 3px solid #fb923c; border-radius: 26px;
-    padding: 28px; margin-bottom: 24px;
+    padding: 28px 30px; margin-bottom: 24px;
     box-shadow: 0 14px 36px rgba(234,88,12,.15);
     position: relative; overflow: hidden;
   }
   .hw-badge-now {
     display: inline-flex; align-items: center; gap: 6px;
-    background: #ea580c; color: #fff; font-size: 0.92rem; font-weight: 900;
-    padding: 6px 16px; border-radius: 999px; letter-spacing: 0.04em;
+    background: #ea580c; color: #fff; font-size: 0.95rem; font-weight: 900;
+    padding: 6px 18px; border-radius: 999px; letter-spacing: 0.04em;
     box-shadow: 0 4px 12px rgba(234,88,12,.3); margin-bottom: 12px;
   }
-  .hw-title { font-size: 1.6rem; font-weight: 900; color: #9a3412; margin-bottom: 8px; line-height: 1.25; }
-  .hw-subtitle { font-size: 1.05rem; color: #7c2d12; margin-bottom: 18px; font-weight: 600; }
+  .hw-title { font-size: 1.7rem; font-weight: 900; color: #9a3412; margin-bottom: 8px; line-height: 1.25; }
+  .hw-subtitle { font-size: 1.08rem; color: #7c2d12; margin-bottom: 20px; font-weight: 600; }
 
   .hw-action-box {
-    background: #ffffff; border: 2px solid #fdba74; border-radius: 20px;
-    padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;
+    background: #ffffff; border: 2px solid #fdba74; border-radius: 22px;
+    padding: 22px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 16px; box-shadow: 0 8px 20px rgba(154,52,18,.08);
   }
-  .hw-action-text b { font-size: 1.15rem; color: #9a3412; display: block; margin-bottom: 4px; }
-  .hw-action-text span { font-size: 0.92rem; color: #7c2d12; }
+  .hw-action-text b { font-size: 1.22rem; color: #9a3412; display: block; margin-bottom: 4px; }
+  .hw-action-text span { font-size: 0.98rem; color: #7c2d12; }
   .btn-hw-big {
     display: inline-flex; align-items: center; gap: 10px;
     background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-    color: #ffffff; text-decoration: none; font-weight: 900; font-size: 1.1rem;
-    padding: 14px 26px; border-radius: 16px; box-shadow: 0 8px 20px rgba(194,65,12,.35);
+    color: #ffffff; text-decoration: none; font-weight: 900; font-size: 1.15rem;
+    padding: 15px 30px; border-radius: 18px;
     transition: all .2s ease;
   }
-  .btn-hw-big:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(194,65,12,.45); }
+  .btn-hw-big:hover { transform: translateY(-2px); }
 
   /* Homework Checklist */
   .hw-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
   .hw-item {
-    background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 14px;
-    padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
-    gap: 12px; font-size: 0.98rem; font-weight: 700; color: #431407; flex-wrap: wrap;
+    background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 16px;
+    padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; font-size: 1.02rem; font-weight: 700; color: #431407; flex-wrap: wrap;
   }
   .hw-item-left { display: flex; align-items: center; gap: 12px; }
   .hw-check-icon {
-    width: 26px; height: 26px; border-radius: 50%; background: #ffedd5; border: 2px solid #fb923c;
-    display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: #c2410c;
+    width: 28px; height: 28px; border-radius: 50%; background: #ffedd5; border: 2px solid #fb923c;
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #c2410c; font-weight: 900;
   }
   .btn-item-link {
-    background: #ffedd5; color: #c2410c; border: 1px solid #fdba74; border-radius: 10px;
-    padding: 6px 14px; font-size: 0.85rem; font-weight: 800; text-decoration: none;
+    background: #ffedd5; color: #c2410c; border: 1px solid #fdba74; border-radius: 12px;
+    padding: 8px 16px; font-size: 0.92rem; font-weight: 800; text-decoration: none;
     transition: all .15s ease;
   }
   .btn-item-link:hover { background: #ea580c; color: #fff; }
 
   /* 🎯 MAIN CONSTANT WORD TRAINER BANNER 🎯 */
   .main-trainer-banner {
-    background: #ffffff; border: 2.5px solid var(--terra); border-radius: 26px;
-    padding: 26px 28px; margin-bottom: 30px; box-shadow: 0 14px 34px rgba(194,59,43,0.1);
+    background: #ffffff; border: 2.5px solid var(--terra); border-radius: 28px;
+    padding: 28px 30px; margin-bottom: 24px; box-shadow: 0 14px 34px rgba(194,59,43,0.1);
     position: relative; overflow: hidden;
   }
   .main-trainer-banner::before {
     content: '练习';
-    position: absolute; right: 20px; bottom: -20px;
-    font-family: 'Noto Sans SC', sans-serif; font-size: 6rem; font-weight: 900;
+    position: absolute; right: 24px; bottom: -20px;
+    font-family: 'Noto Sans SC', sans-serif; font-size: 6.5rem; font-weight: 900;
     color: rgba(194,59,43,0.035); pointer-events: none;
   }
   .mt-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
   .mt-badge {
-    background: var(--terra); color: #fff; font-size: 0.85rem; font-weight: 900;
-    padding: 5px 14px; border-radius: 999px; letter-spacing: 0.04em;
+    background: var(--terra); color: #fff; font-size: 0.88rem; font-weight: 900;
+    padding: 5px 16px; border-radius: 999px; letter-spacing: 0.04em;
   }
-  .mt-title { font-size: 1.65rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
-  .mt-desc { font-size: 1.02rem; color: var(--ink-soft); margin-bottom: 20px; font-weight: 600; max-width: 68ch; line-height: 1.55; }
+  .mt-title { font-size: 1.75rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; }
+  .mt-desc { font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 22px; font-weight: 600; max-width: 68ch; line-height: 1.55; }
   .mt-action-box {
-    background: var(--bg); border: 1.5px solid var(--line); border-radius: 18px;
-    padding: 18px 22px; display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg); border: 1.5px solid var(--line); border-radius: 20px;
+    padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 16px;
   }
   .btn-mt-big {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--terra); color: #fff; text-decoration: none;
-    font-weight: 900; font-size: 1.1rem; padding: 14px 28px; border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(194,59,43,0.3); transition: all .2s ease;
+    font-weight: 900; font-size: 1.15rem; padding: 15px 32px; border-radius: 16px;
+    transition: all .2s ease;
   }
-  .btn-mt-big:hover { background: var(--terra-hover); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(194,59,43,0.38); }
+  .btn-mt-big:hover { background: var(--terra-hover); transform: translateY(-2px); }
+
+  /* 🦫 ИНТЕРАКТИВНЫЙ ТАЛИСМАН: КАПИБАРА МИНМИН (ИЗЮМИНКА КАТИ) */
+  .capy-interactive-card {
+    background: linear-gradient(135deg, #fdfbf7 0%, #fffcf5 100%);
+    border: 2px solid #ecd8c2; border-radius: 26px;
+    padding: 24px 26px; margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 18px;
+  }
+  .capy-left { display: flex; align-items: center; gap: 18px; }
+  .capy-mascot-btn {
+    width: 76px; height: 76px; border-radius: 24px; background: #faf0e4;
+    border: 2.5px solid #dcbfa3; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0;
+  }
+  .capy-mascot-btn:hover {
+    transform: scale(1.08) rotate(4deg); background: #fdf5ea; border-color: var(--terra);
+  }
+  .capy-speech-bubble {
+    background: #ffffff; border: 1.5px solid #ecd8c2; border-radius: 18px;
+    padding: 12px 18px; position: relative; max-width: 480px;
+  }
+  .capy-speech-bubble::before {
+    content: ''; position: absolute; left: -9px; top: 24px;
+    width: 14px; height: 14px; background: #ffffff; border-left: 1.5px solid #ecd8c2; border-bottom: 1.5px solid #ecd8c2;
+    transform: rotate(45deg);
+  }
+  .capy-quote-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--terra); margin-bottom: 2px; }
+  .capy-quote-ru { font-size: 0.94rem; color: var(--ink-soft); font-weight: 600; }
+  .btn-capy-listen {
+    background: #ffffff; border: 1.5px solid #ecd8c2; border-radius: 12px;
+    padding: 8px 16px; font-family: inherit; font-size: 0.92rem; font-weight: 800; color: var(--ink);
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all .15s ease;
+  }
+  .btn-capy-listen:hover { border-color: var(--terra); color: var(--terra); }
 
   /* 📚 ARCHIVE & PRACTICE MATERIALS 📚 */
-  .archive-section { margin-bottom: 28px; }
+  .archive-section { margin-bottom: 30px; }
   .section-heading {
-    font-size: 1.45rem; font-weight: 900; color: var(--ink); margin-bottom: 14px;
+    font-size: 1.5rem; font-weight: 900; color: var(--ink); margin-bottom: 16px;
     display: flex; align-items: center; gap: 10px;
   }
   .archive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media(max-width: 640px) { .archive-grid { grid-template-columns: 1fr; } }
 
   .archive-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 20px;
-    padding: 20px; box-shadow: var(--shadow); transition: all .2s ease;
+    background: #ffffff; border: 2px solid var(--line); border-radius: 22px;
+    padding: 22px; box-shadow: var(--shadow); transition: all .2s ease;
     display: flex; flex-direction: column; justify-content: space-between;
   }
   .archive-card:hover { border-color: var(--terra); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
   .archive-tag {
-    display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;
+    display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 800;
     margin-bottom: 10px;
   }
-  .archive-title { font-size: 1.18rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
-  .archive-desc { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.45; }
+  .archive-title { font-size: 1.22rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+  .archive-desc { font-size: 0.96rem; color: var(--ink-soft); margin-bottom: 18px; line-height: 1.48; }
   .btn-open-material {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px;
-    padding: 10px 16px; font-weight: 800; font-size: 0.92rem; color: var(--ink);
+    padding: 11px 18px; font-weight: 800; font-size: 0.95rem; color: var(--ink);
     text-decoration: none; transition: all .15s ease;
   }
   .archive-card:hover .btn-open-material { background: var(--terra); color: #fff; border-color: var(--terra); }
 
   /* Student Superpowers / Badges */
-  .superpowers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .superpowers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
   @media(max-width: 760px) { .superpowers-grid { grid-template-columns: 1fr 1fr; } }
   .super-card {
-    background: #ffffff; border: 1.5px solid var(--line); border-radius: 18px;
-    padding: 16px; text-align: center; box-shadow: var(--shadow);
+    background: #ffffff; border: 1.5px solid var(--line); border-radius: 20px;
+    padding: 18px; text-align: center; box-shadow: var(--shadow);
   }
-  .super-icon { font-size: 2.2rem; margin-bottom: 8px; }
-  .super-title { font-size: 1.02rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
-  .super-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.4; }
+  .super-icon { font-size: 2.3rem; margin-bottom: 8px; }
+  .super-title { font-size: 1.08rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+  .super-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.45; }
 
   /* Teacher Report for Parents */
   .report-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 24px;
-    padding: 26px; margin-bottom: 28px; box-shadow: var(--shadow);
+    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
+    padding: 28px; margin-bottom: 30px; box-shadow: var(--shadow);
   }
   .report-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
   .report-badge {
     background: var(--sage-light); color: var(--sage); border: 1px solid #bbf7d0;
-    padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 0.88rem;
+    padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 0.9rem;
   }
-  .report-body { font-size: 1rem; color: var(--ink); line-height: 1.65; }
+  .report-body { font-size: 1.05rem; color: var(--ink); line-height: 1.68; }
   .report-highlight {
     background: var(--bg); border-left: 4px solid var(--terra); border-radius: 0 12px 12px 0;
-    padding: 12px 16px; margin: 14px 0; font-size: 0.95rem; color: var(--ink);
+    padding: 14px 18px; margin: 16px 0; font-size: 0.98rem; color: var(--ink);
   }
 
   /* Accordion for archive */
@@ -324,14 +377,14 @@
     border: 1.5px solid var(--line); border-radius: 14px; margin-top: 12px; overflow: hidden;
   }
   .accordion-btn {
-    width: 100%; background: #ffffff; border: none; padding: 14px 18px;
-    text-align: left; font-weight: 800; font-size: 0.98rem; color: var(--ink);
+    width: 100%; background: #ffffff; border: none; padding: 15px 20px;
+    text-align: left; font-weight: 800; font-size: 1.02rem; color: var(--ink);
     display: flex; justify-content: space-between; align-items: center; cursor: pointer;
   }
   .accordion-btn:hover { background: var(--bg); }
   .accordion-body {
-    display: none; padding: 16px 18px; background: #fffcf8; border-top: 1px dashed var(--line);
-    font-size: 0.94rem; color: var(--ink-soft); line-height: 1.6;
+    display: none; padding: 16px 20px; background: #fffcf8; border-top: 1px dashed var(--line);
+    font-size: 0.96rem; color: var(--ink-soft); line-height: 1.65;
   }
   .accordion-item.open .accordion-body { display: block; }
   .accordion-item.open .acc-icon { transform: rotate(180deg); }
@@ -339,25 +392,25 @@
 
   /* Journal & Balance Table */
   .journal-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 24px;
-    padding: 26px; margin-bottom: 28px; box-shadow: var(--shadow);
+    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
+    padding: 28px; margin-bottom: 30px; box-shadow: var(--shadow);
   }
-  .journal-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.94rem; }
-  .journal-table th, .journal-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+  .journal-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.96rem; }
+  .journal-table th, .journal-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
   .journal-table th { background: var(--bg); font-weight: 800; color: var(--ink-soft); border-radius: 8px; }
-  .st-done { background: var(--sage-light); color: var(--sage); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; }
-  .st-next { background: var(--honey-light); color: var(--honey); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; }
-  .st-plan { background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+  .st-done { background: var(--sage-light); color: var(--sage); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.88rem; }
+  .st-next { background: var(--honey-light); color: var(--honey); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.88rem; }
+  .st-plan { background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; }
 
   /* Footer */
   footer {
-    text-align: center; padding-top: 24px; border-top: 1px solid var(--line);
-    color: var(--ink-soft); font-size: 0.9rem;
+    text-align: center; padding-top: 26px; border-top: 1px solid var(--line);
+    color: var(--ink-soft); font-size: 0.94rem;
   }
   .teacher-link {
     display: inline-flex; align-items: center; gap: 6px;
-    color: #a89f91; text-decoration: none; font-size: 0.85rem; font-weight: 700;
-    margin-top: 14px; padding: 6px 14px; border-radius: 999px; transition: all .15s ease;
+    color: #a89f91; text-decoration: none; font-size: 0.88rem; font-weight: 700;
+    margin-top: 14px; padding: 7px 16px; border-radius: 999px; transition: all .15s ease;
   }
   .teacher-link:hover { color: var(--ink); background: #eee5d8; }
 </style>
@@ -476,14 +529,18 @@
     </div>
   </section>
 
-  <!-- ================= БЛОК ДЛЯ УЧЕНИКА (В ВЕРХНЕЙ ЧАСТИ) ================= -->
+  <!-- ================= БЛОК ДЛЯ УЧЕНИКА (В ВЕРХНЕЙ ЧАСТИ ДАШБОРДА) ================= -->
+  <div class="student-block-heading">
+    <div style="font-size:1.8rem">🎒</div>
+    <div class="student-block-title">Учебный план ученика (к ближайшему уроку)</div>
+  </div>
 
   <!-- 1. Next Lesson Card -->
   <section class="next-card">
     <div class="next-header">
       <div class="next-title">
         <span>🔜 Ближайший урок</span>
-        <span style="font-size:0.95rem;color:var(--ink-soft);font-weight:600">· Урок 13 (№3 во 2-м абонементе)</span>
+        <span style="font-size:0.98rem;color:var(--ink-soft);font-weight:600">· Урок 13 (№3 во 2-м абонементе)</span>
       </div>
       <div class="next-time">📅 Воскресенье · 18:00 МСК (60 минут)</div>
     </div>
@@ -502,19 +559,19 @@
     </div>
   </section>
 
-  <!-- 2. 🔥 CURRENT HOMEWORK HERO BANNER 🔥 -->
+  <!-- 2. 🔥 CURRENT HOMEWORK HERO BANNER (С ПОДСТВЕТКОЙ СРОЧНОСТИ) 🔥 -->
   <section class="hw-hero" id="homework">
     <div class="hw-badge-now">🔥 СДЕЛАЙ СЕЙЧАС (К СЛЕДУЮЩЕМУ УРОКУ)</div>
     <h2 class="hw-title">Тема 10: Закрепление времени + подготовка к теме 11</h2>
     <p class="hw-subtitle">Задания подобраны с учётом школьной нагрузки: сначала печатный лист от руки, затем 5 минут интерактивной практики на сайте!</p>
 
-    <!-- Main action button container -->
+    <!-- Main action button container with Pulse Glow -->
     <div class="hw-action-box">
       <div class="hw-action-text">
         <b>⏰ Интерактивная практика: Тренажёр времени с капибарой</b>
         <span>10 быстрых вопросов по часам, четвертям (刻) и половинам (半). Помоги Минмину разобраться со стрелками!</span>
       </div>
-      <a href="time-trainer.html" class="btn-hw-big">
+      <a href="time-trainer.html" class="btn-hw-big glow-orange">
         👉 НАЖМИ СЮДА, ЧТОБЫ ОТКРЫТЬ ТРЕНАЖЁР ВРЕМЕНИ ⏰
       </a>
     </div>
@@ -526,14 +583,14 @@
           <div class="hw-check-icon">1</div>
           <span>📄 <b>Печатный воркшит по теме «Время» (из WhatsApp):</b> распечатать и заполнить от руки стрелки и иероглифы.</span>
         </div>
-        <span style="font-size:0.85rem;color:#7c2d12;font-weight:800">✍️ Пишем рукой</span>
+        <span style="font-size:0.88rem;color:#7c2d12;font-weight:800">✍️ Пишем рукой</span>
       </li>
       <li class="hw-item">
         <div class="hw-item-left">
           <div class="hw-check-icon">2</div>
           <span>🖼️ <b>Слайд из презентации:</b> прочитать вслух 4 предложения с частями дня (<code>上午</code>, <code>下午</code>, <code>晚上</code>).</span>
         </div>
-        <span style="font-size:0.85rem;color:#7c2d12;font-weight:800">🗣️ Вслух</span>
+        <span style="font-size:0.88rem;color:#7c2d12;font-weight:800">🗣️ Вслух</span>
       </li>
       <li class="hw-item">
         <div class="hw-item-left">
@@ -552,31 +609,49 @@
     </ul>
   </section>
 
-  <!-- 3. 🎯 MAIN CONSTANT WORD TRAINER (ПОСТОЯННЫЙ ГЛАВНЫЙ ТРЕНАЖЁР) 🎯 -->
+  <!-- 3. 🎯 MAIN CONSTANT WORD TRAINER (ГЛАВНЫЙ ПОСТОЯННЫЙ ТРЕНАЖЁР) 🎯 -->
   <section class="main-trainer-banner" id="trainer-main">
     <div class="mt-top">
       <div style="display:flex;align-items:center;gap:10px">
         <span class="mt-badge">ГЛАВНЫЙ ТРЕНАЖЁР</span>
-        <span style="font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:1.05rem;color:var(--terra)">词汇练习本</span>
+        <span style="font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:1.15rem;color:var(--terra)">词汇练习本</span>
       </div>
-      <span style="font-size:0.88rem;font-weight:800;color:var(--ink-soft);background:var(--bg);padding:4px 12px;border-radius:999px;border:1px solid var(--line)">
-        15 тематических блоков · HSK 1
+      <span style="font-size:0.92rem;font-weight:800;color:var(--ink-soft);background:var(--bg);padding:4px 14px;border-radius:999px;border:1px solid var(--line)">
+        15 тем · 8 форматов HSK 1 · 0.7x звук
       </span>
     </div>
 
     <h2 class="mt-title">Тренажёр китайского языка</h2>
     <p class="mt-desc">
-      Интерактивная отработка всей лексики: карточки в китайской клетке 米字格, выбор перевода, аудирование на слух, ловушки и путаницы, тоны, конструктор предложений и спринт.
+      Интерактивная тренировка всех слов словаря: карточки в китайской клетке 米字格, выбор перевода, аудирование на слух, ловушки и путаницы, тоны, конструктор предложений и спринт.
     </p>
 
     <div class="mt-action-box">
       <div>
-        <b style="font-size:1.08rem;color:var(--ink);display:block;margin-bottom:2px">Сквозные экзаменационные форматы и темы учебника</b>
-        <span style="font-size:0.9rem;color:var(--ink-soft)">Академический стиль китайской тетради: чистый фокус на языке без лишнего визуального шума.</span>
+        <b style="font-size:1.15rem;color:var(--ink);display:block;margin-bottom:2px">Сквозные экзаменационные форматы и темы учебника</b>
+        <span style="font-size:0.94rem;color:var(--ink-soft)">Академический стиль китайской тетради: чистый фокус на языке без лишнего визуального шума.</span>
       </div>
-      <a href="trainer.html" class="btn-mt-big">
+      <a href="trainer.html" class="btn-mt-big glow-red">
         👉 Начать тренировку по всем темам →
       </a>
+    </div>
+  </section>
+
+  <!-- 4. 🦫 ИНТЕРАКТИВНЫЙ ТАЛИСМАН ДНЯ: КАПИБАРА МИНМИН (ИЗЮМИНКА КАТИ) -->
+  <section class="capy-interactive-card" id="capy-widget">
+    <div class="capy-left">
+      <button class="capy-mascot-btn" onclick="sayCapyQuote()" title="Нажми на Минмина, чтобы услышать совет дня!">
+        🦫
+      </button>
+      <div class="capy-speech-bubble">
+        <div class="capy-quote-zh zh" id="capyZh">你好，卡佳！我们一起学中文！</div>
+        <div class="capy-quote-ru" id="capyRu">«Привет, Катя! Учим китайский вместе!» (нажми на капибару 🦫)</div>
+      </div>
+    </div>
+    <div>
+      <button class="btn-capy-listen" onclick="repeatCapyQuote()">
+        🔊 Слушать (0.7x голос)
+      </button>
     </div>
   </section>
 
@@ -637,7 +712,7 @@
   </section>
 
   <!-- Student Superpowers / Badges -->
-  <section style="margin-bottom:28px">
+  <section style="margin-bottom:30px">
     <h2 class="section-heading">🌟 Суперсилы и сильные стороны Кати</h2>
     <div class="superpowers-grid">
       <div class="super-card">
@@ -663,10 +738,10 @@
     </div>
   </section>
 
-  <!-- Teacher Report for Parents (СМЕЩЁН НИЖЕ, КАК ПРОСИЛ ПРЕПОДАВАТЕЛЬ) -->
+  <!-- Teacher Report for Parents (СМЕЩЁН НИЖЕ БЛОКА УЧЕНИКА) -->
   <section class="report-card" id="report">
     <div class="report-top">
-      <h2 style="font-size:1.35rem;font-weight:900;color:var(--ink)">📝 Отчёт преподавателя для родителей</h2>
+      <h2 style="font-size:1.45rem;font-weight:900;color:var(--ink)">📝 Отчёт преподавателя для родителей</h2>
       <span class="report-badge">Урок 12 · 25.10 · Тема «Время» закрыта ✓</span>
     </div>
     <div class="report-body">
@@ -683,7 +758,7 @@
 
     <!-- Accordion Archive of Reports -->
     <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)">
-      <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink-soft);margin-bottom:8px">📜 Архив отчётов по прошлым урокам</h3>
+      <h3 style="font-size:1.1rem;font-weight:800;color:var(--ink-soft);margin-bottom:8px">📜 Архив отчётов по прошлым урокам</h3>
       
       <div class="accordion-item">
         <button class="accordion-btn" onclick="toggleAcc(this)">
@@ -720,8 +795,8 @@
   <!-- Journal & Balance Table -->
   <section class="journal-card" id="balance">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <h2 style="font-size:1.35rem;font-weight:900;color:var(--ink)">🎟️ Журнал занятий и баланс уроков</h2>
-      <span class="tag" style="font-size:0.92rem;padding:6px 14px">Абонемент №2: 2 из 10 пройдено · осталось 8</span>
+      <h2 style="font-size:1.45rem;font-weight:900;color:var(--ink)">🎟️ Журнал занятий и баланс уроков</h2>
+      <span class="tag" style="font-size:0.95rem;padding:6px 16px">Абонемент №2: 2 из 10 пройдено · осталось 8</span>
     </div>
 
     <table class="journal-table">
@@ -777,7 +852,7 @@
   <!-- Footer -->
   <footer>
     <p>🌸 Персональный учебный портал по китайскому языку для Кати · Easy Steps to Chinese 1 & HSK 1</p>
-    <p style="margin-top:6px;font-size:0.85rem">Все права на капибар принадлежат Кате и Минмину 🦫</p>
+    <p style="margin-top:6px;font-size:0.88rem">Все права на капибар принадлежат Кате и Минмину 🦫</p>
     <div>
       <a href="console.html" class="teacher-link">🔒 Панель преподавателя</a>
     </div>
@@ -785,6 +860,79 @@
 </div>
 
 <script>
+// ================= ADVANCED TTS FOR DASHBOARD (EDGE CHILD VOICE 0.7x + FALLBACK CHAIN) =================
+var edgeVoice = null;
+
+function findEdgeChildVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  var vs = window.speechSynthesis.getVoices();
+  if (!vs || !vs.length) return null;
+
+  var filters = [
+    function(v){ return /yunxia|云夏/i.test(v.name); },
+    function(v){ return /xiaoxiao|晓晓/i.test(v.name); },
+    function(v){ return /yunjian|云健|xiaoyi/i.test(v.name); },
+    function(v){ return /natural.*zh/i.test(v.name); },
+    function(v){ return /google.*普通话/i.test(v.name); },
+    function(v){ return /^zh-CN/i.test(v.lang); },
+    function(v){ return /^zh/i.test(v.lang); }
+  ];
+
+  for (var i = 0; i < filters.length; i++) {
+    for (var k = 0; k < vs.length; k++) {
+      if (filters[i](vs[k])) return vs[k];
+    }
+  }
+  return vs[0] || null;
+}
+
+if ('speechSynthesis' in window) {
+  edgeVoice = findEdgeChildVoice();
+  window.speechSynthesis.onvoiceschanged = function() { edgeVoice = findEdgeChildVoice(); };
+}
+
+function speakWithRate(text, rate) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    if (!edgeVoice) edgeVoice = findEdgeChildVoice();
+    var u = new SpeechSynthesisUtterance(text);
+    if (edgeVoice) {
+      u.voice = edgeVoice;
+      u.lang = edgeVoice.lang || 'zh-CN';
+    } else {
+      u.lang = 'zh-CN';
+    }
+    u.rate = rate || 0.7; // 0.7x rate strictly
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+// ================= CAPYBARA MINGMING QUOTES (ИЗЮМИНКА КАТИ) =================
+var CAPY_QUOTES = [
+  { zh: "你好，卡佳！我们一起学中文！", ru: "«Привет, Катя! Учим китайский вместе!»" },
+  { zh: "现在几点？两点半！", ru: "«Который час? 2:30 (два часа — строго 两点)!»" },
+  { zh: "明天是明天，今年是今年！", ru: "«Минтянь — это завтра, а цзиньнянь — этот год! Не путай!»" },
+  { zh: "水豚和海豚都是好朋友！", ru: "«Капибара и дельфин — отличные друзья!»" },
+  { zh: "加油，卡佳！你很厉害！", ru: "«Вперёд, Катя! Ты большая молодец!»" },
+  { zh: "早上好！吃早饭了吗？", ru: "«Доброе утро! Ты уже позавтракала?»" }
+];
+
+var capyIdx = 0;
+
+function sayCapyQuote() {
+  capyIdx = (capyIdx + 1) % CAPY_QUOTES.length;
+  var q = CAPY_QUOTES[capyIdx];
+  document.getElementById('capyZh').textContent = q.zh;
+  document.getElementById('capyRu').textContent = q.ru;
+  speakWithRate(q.zh, 0.7);
+}
+
+function repeatCapyQuote() {
+  var text = document.getElementById('capyZh').textContent;
+  speakWithRate(text, 0.7);
+}
+
 function toggleAcc(btn) {
   var item = btn.parentElement;
   item.classList.toggle('open');
