@@ -1,0 +1,458 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔒 Панель преподавателя · Ученица Катя</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+SC:wght@500;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1e1e24;
+    --card: #282832;
+    --card-hover: #32323e;
+    --border: #3d3d4e;
+    --text: #f0f0f5;
+    --text-muted: #a0a0b2;
+    --accent: #e57342;
+    --accent-hover: #f08354;
+    --green: #48bb78;
+    --yellow: #ecc94b;
+    --blue: #4299e1;
+    --purple: #9f7aea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Nunito', system-ui, sans-serif;
+    padding: 0 16px 60px; min-height: 100vh;
+  }
+  .zh { font-family: 'Noto Sans SC', sans-serif; }
+
+  .top-nav {
+    max-width: 1080px; margin: 16px auto 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #2a2a36; border: 2px solid var(--border); border-radius: 12px;
+    padding: 10px 18px; font-weight: 800; font-size: 0.98rem; color: #fff;
+    text-decoration: none; transition: all .15s;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent-hover); transform: translateX(-2px); }
+
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #2c2738 0%, #1f2536 100%);
+    border: 2px solid var(--border); border-radius: 20px;
+    padding: 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+  }
+  .header h1 { font-size: 1.6rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 10px; }
+  .header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 4px; }
+  .status-pill {
+    background: rgba(72, 187, 120, 0.2); color: #68d391; border: 1px solid rgba(72, 187, 120, 0.4);
+    padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 0.88rem;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  @media(max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 22px; position: relative;
+  }
+  .card h2 {
+    font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Timer Component */
+  .timer-display {
+    font-size: 3.8rem; font-weight: 900; text-align: center;
+    font-family: 'Baloo 2', monospace; color: var(--accent); margin: 10px 0;
+    letter-spacing: 0.05em; text-shadow: 0 0 20px rgba(229,115,66,.2);
+  }
+  .timer-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
+  .t-btn {
+    background: #3a3a4c; border: 1px solid var(--border); color: #fff;
+    padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    transition: all .15s;
+  }
+  .t-btn:hover { background: #45455a; }
+  .t-btn.primary { background: var(--accent); border-color: var(--accent); }
+  .t-btn.primary:hover { background: var(--accent-hover); }
+
+  .phases-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .phase-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; background: #22222b; border-radius: 10px; font-size: 0.92rem;
+    border-left: 4px solid transparent;
+  }
+  .phase-item.active { border-left-color: var(--accent); background: #30262b; font-weight: 800; }
+  .phase-time { color: var(--text-muted); font-size: 0.85rem; }
+
+  /* Quick Actions */
+  .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .q-link {
+    background: #202029; border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px; text-decoration: none; color: #fff; font-weight: 700; font-size: 0.92rem;
+    display: flex; align-items: center; gap: 10px; transition: all .15s;
+  }
+  .q-link:hover { background: #2f2f3d; border-color: var(--accent); }
+  .q-link b { display: block; font-size: 1rem; }
+  .q-link span { display: block; color: var(--text-muted); font-size: 0.8rem; font-weight: 400; }
+
+  /* Spaced repetition review card */
+  .sr-card {
+    background: #1f1f28; border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; text-align: center; margin-top: 10px;
+  }
+  .sr-zh { font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
+  .sr-py { color: var(--accent); font-style: italic; font-size: 1.1rem; }
+  .sr-ru { color: var(--text-muted); font-size: 1rem; margin: 8px 0 14px; }
+  .sr-note { background: #2a2a36; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; color: #e2e8f0; }
+
+  /* Curriculum table */
+  .curr-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.92rem; }
+  .curr-table th, .curr-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .curr-table th { color: var(--text-muted); font-weight: 700; }
+  .badge-done { background: rgba(72,187,120,.2); color: #68d391; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; }
+  .badge-next { background: rgba(236,201,75,.2); color: #f6e05e; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; }
+  .badge-lock { background: rgba(160,160,178,.15); color: #a0a0b2; padding: 3px 8px; border-radius: 6px; font-size: 0.82rem; }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" class="back-btn">⬅️ Вернуться назад в Главное меню (режим ученика)</a>
+  <span style="color:var(--text-muted);font-size:0.9rem">Режим репетитора Zoom · Консоль урока</span>
+</div>
+
+<div class="container">
+  <header class="header">
+    <div>
+      <h1>🔒 Панель преподавателя · Катя (12 лет)</h1>
+      <p>Easy Steps to Chinese 1 · HSK 1 · Абонемент №2 (Урок 3 из 10)</p>
+    </div>
+    <div class="status-pill">🟢 Готов к трансляции Zoom</div>
+  </header>
+
+  <div class="grid-2">
+    <!-- Timer & Phases -->
+    <div class="card">
+      <h2>⏱️ Таймер урока (60 минут)</h2>
+      <div class="timer-display" id="timer">60:00</div>
+      <div class="timer-controls">
+        <button class="t-btn primary" id="btn-toggle">▶️ Старт</button>
+        <button class="t-btn" id="btn-reset">🔄 Сброс</button>
+        <button class="t-btn" id="btn-sound">🔔 Звук: ВКЛ</button>
+      </div>
+
+      <ul class="phases-list">
+        <li class="phase-item active" id="p1">
+          <span><b>1. Разминка & Блиц:</b> время + <code>今年/今天</code></span>
+          <span class="phase-time">00:00 – 10:00</span>
+        </li>
+        <li class="phase-item" id="p2">
+          <span><b>2. Разбор ДЗ:</b> печатный лист + чтение вслух</span>
+          <span class="phase-time">10:00 – 22:00</span>
+        </li>
+        <li class="phase-item" id="p3">
+          <span><b>3. Новая тема:</b> Тема 11 «Распорядок дня»</span>
+          <span class="phase-time">22:00 – 48:00</span>
+        </li>
+        <li class="phase-item" id="p4">
+          <span><b>4. Закрепление:</b> диалог + фиксация ДЗ</span>
+          <span class="phase-time">48:00 – 60:00</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Quick Tool Launchers & Links -->
+    <div class="card">
+      <h2>🚀 Быстрый запуск на уроке</h2>
+      <div class="quick-links">
+        <a href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" class="q-link">
+          <div style="font-size:1.8rem">🎥</div>
+          <div>
+            <b>Запустить Zoom</b>
+            <span>ID: 886 6964 6666 (12345)</span>
+          </div>
+        </a>
+        <a href="time-trainer.html" class="q-link">
+          <div style="font-size:1.8rem">⏰</div>
+          <div>
+            <b>Тренажёр времени</b>
+            <span>Тема 10 · 10 вопросов</span>
+          </div>
+        </a>
+        <a href="capybara-jobs.html" class="q-link">
+          <div style="font-size:1.8rem">🦫</div>
+          <div>
+            <b>Бюро профессий</b>
+            <span>Капибары · 5 станций</span>
+          </div>
+        </a>
+        <a href="https://app.notion.com/p/39dee1a0b26881b69ebcfacb40d2b1fe" target="_blank" class="q-link">
+          <div style="font-size:1.8rem">🌸</div>
+          <div>
+            <b>Notion Кати</b>
+            <span>База и абонементы</span>
+          </div>
+        </a>
+        <a href="https://app.notion.com/p/3a2ee1a0b26881a5b006c99d67cc9ce9" target="_blank" class="q-link">
+          <div style="font-size:1.8rem">📖</div>
+          <div>
+            <b>Словарик Кати</b>
+            <span>Все темы с 1 по 11</span>
+          </div>
+        </a>
+        <a href="https://app.notion.com/p/a3c4ee6bddc948deac6bec65294ec334" target="_blank" class="q-link">
+          <div style="font-size:1.8rem">📋</div>
+          <div>
+            <b>Тарифы & Условия</b>
+            <span>Правила переносов</span>
+          </div>
+        </a>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+        <h3 style="font-size:1rem;color:var(--text-muted);margin-bottom:8px">💡 Методическая шпаргалка на урок 13:</h3>
+        <p style="font-size:0.88rem;color:#cbd5e0;line-height:1.5">
+          • Ввести распорядок дня через глаголы: <code>起床</code>, <code>吃早饭</code>, <code>去上学</code>, <code>睡觉</code>.<br>
+          • <b>Порядок слов:</b> <code>Субъект + Время + Действие</code> (время <i>не в конец</i>!).<br>
+          • Проверить разведение: <code>今年</code> vs <code>今天</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spaced Repetition Tricky Flashcards -->
+  <div class="card" style="margin-bottom:24px">
+    <h2>🎯 Карточки повторения зон риска (Flashcards)</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-size:0.9rem;color:var(--text-muted)" id="fc-count">Карточка 1 из 6</span>
+      <div style="display:flex;gap:8px">
+        <button class="t-btn" id="fc-prev">‹ Назад</button>
+        <button class="t-btn primary" id="fc-next">Вперёд ›</button>
+      </div>
+    </div>
+
+    <div class="sr-card" id="fc-box">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
+  <!-- Curriculum Table -->
+  <div class="card">
+    <h2>🗺️ Маршрут по учебнику (Easy Steps to Chinese 1)</h2>
+    <table class="curr-table">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Тема</th>
+          <th>Статус</th>
+          <th>HSK 1 эквивалент</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1–6</td>
+          <td>Тоны · Числа · Приветствия · Даты · Возраст · Телефоны</td>
+          <td><span class="badge-done">✅ Пройдено в школе</span></td>
+          <td>Счёт, цифры, базовая вежливость</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Члены семьи 家庭成员</td>
+          <td><span class="badge-done">✅ Завершено 09.08</span></td>
+          <td>Состав семьи, счетные слова 只/口/本/棵</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>О себе 自我介绍</td>
+          <td><span class="badge-done">✅ Завершено 23.08</span></td>
+          <td>Класс, где живёт, 住在, 没有, 上学</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Профессии 职业</td>
+          <td><span class="badge-done">✅ Завершено 20.09</span></td>
+          <td>9 профессий, конструкция 不是 X, 是 Y, 也</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Время 时间</td>
+          <td><span class="badge-done">✅ Завершено 25.10</span></td>
+          <td>Часы, минуты, 点, 分, 半, 刻, части дня</td>
+        </tr>
+        <tr style="background:#302924">
+          <td>11</td>
+          <td><b>Распорядок дня 日常起居</b></td>
+          <td><span class="badge-next">⏳ Стартует сейчас</span></td>
+          <td>Глаголы режима, порядок слов со временем</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>Транспорт 交通工具</td>
+          <td><span class="badge-lock">🔜 В плане абонемента №2</span></td>
+          <td>Виды транспорта, 坐 / 开 / 骑</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>Цвета 颜色</td>
+          <td><span class="badge-lock">🔒 Заблокировано</span></td>
+          <td>Прилагательные цвета, 的</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>Одежда 穿着</td>
+          <td><span class="badge-lock">🔒 Заблокировано</span></td>
+          <td>Предметы гардероба, 穿 / 戴</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>Части тела 人体部位</td>
+          <td><span class="badge-lock">🔒 Финал книги</span></td>
+          <td>Части тела, описание внешности</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// Timer Logic
+var totalSec = 60 * 60;
+var currentSec = totalSec;
+var timerRunning = false;
+var timerInterval = null;
+var soundEnabled = true;
+
+var timerDisplay = document.getElementById('timer');
+var btnToggle = document.getElementById('btn-toggle');
+var btnReset = document.getElementById('btn-reset');
+var btnSound = document.getElementById('btn-sound');
+
+function updateDisplay() {
+  var m = Math.floor(currentSec / 60);
+  var s = currentSec % 60;
+  timerDisplay.textContent = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+
+  var elapsed = totalSec - currentSec;
+  var minElapsed = elapsed / 60;
+
+  var p1 = document.getElementById('p1');
+  var p2 = document.getElementById('p2');
+  var p3 = document.getElementById('p3');
+  var p4 = document.getElementById('p4');
+
+  [p1, p2, p3, p4].forEach(function(el){ el.classList.remove('active'); });
+
+  if (minElapsed < 10) p1.classList.add('active');
+  else if (minElapsed < 22) p2.classList.add('active');
+  else if (minElapsed < 48) p3.classList.add('active');
+  else p4.classList.add('active');
+}
+
+btnToggle.onclick = function() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btnToggle.textContent = '▶️ Продолжить';
+    btnToggle.classList.remove('primary');
+  } else {
+    timerRunning = true;
+    btnToggle.textContent = '⏸️ Пауза';
+    btnToggle.classList.add('primary');
+    timerInterval = setInterval(function() {
+      if (currentSec > 0) {
+        currentSec--;
+        updateDisplay();
+      } else {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btnToggle.textContent = '🏁 Урок завершён!';
+      }
+    }, 1000);
+  }
+};
+
+btnReset.onclick = function() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  currentSec = totalSec;
+  btnToggle.textContent = '▶️ Старт';
+  btnToggle.classList.add('primary');
+  updateDisplay();
+};
+
+btnSound.onclick = function() {
+  soundEnabled = !soundEnabled;
+  btnSound.textContent = soundEnabled ? '🔔 Звук: ВКЛ' : '🔕 Звук: ВЫКЛ';
+};
+
+// Flashcards
+var FLASHCARDS = [
+  {
+    zh: '今天 vs 今年',
+    py: 'jīntiān (сегодня) · jīnnián (в этом году)',
+    ru: 'Главная путаница Кати! Оба начинаются с 今 (jīn, настоящий / этот).',
+    note: 'Тренаж: 你今年几岁？(возраст — только с 年!). 今天星期几？(день недели — с 天!)'
+  },
+  {
+    zh: '点 vs 两',
+    py: 'diǎn (час на часах) · liǎng (два перед сч. словом)',
+    ru: 'Произношение: diǎn — строго «дьен» (не «дьян»!). «Два часа» — 两点 (не 二点!).',
+    note: '«Ьян» произносится только когда в конце есть «g» (как в 两 liǎng).'
+  },
+  {
+    zh: '分 vs 饭',
+    py: 'fēn (1 тон — минута) · fàn (4 тон — еда / рис)',
+    ru: 'Минута на часах: 七点十分. Еда: 吃饭 chī fàn.',
+    note: 'Длительность: 分钟 fēnzhōng (пять минут = 五分钟).'
+  },
+  {
+    zh: '不是 vs 不 vs 没有',
+    py: 'bú shì (перед сущ.) · bù (перед глаг./прил.) · méiyǒu (нет/не имеет)',
+    ru: '他不是老师。 他妈妈不工作。 他没有兄弟姐妹。',
+    note: 'Катя иногда ставит 不是 перед глаголами — мягко поправляем.'
+  },
+  {
+    zh: '日常起居 (Распорядок дня)',
+    py: 'qǐchuáng (вставать) · shuìjiào (спать) · chī zǎofàn (завтракать)',
+    ru: 'Ключевые глаголы новой темы 11.',
+    note: 'Грамматика: 我早上七点半起床。 Время идёт ДО глагола!'
+  },
+  {
+    zh: '独生女 · 秘书',
+    py: 'dúshēngnǚ (единственная дочь) · mìshū (секретарь)',
+    ru: 'Слова, которые забывались на прошлых уроках.',
+    note: '独 (один) + 生 (рождённый) + 女 (дочь). 秘 (секрет) + 书 (книга).'
+  }
+];
+
+var fcIdx = 0;
+function renderFc() {
+  var it = FLASHCARDS[fcIdx];
+  document.getElementById('fc-count').textContent = 'Карточка ' + (fcIdx + 1) + ' из ' + FLASHCARDS.length;
+  document.getElementById('fc-box').innerHTML = ''
+    + '<div class="sr-zh zh">' + it.zh + '</div>'
+    + '<div class="sr-py">' + it.py + '</div>'
+    + '<div class="sr-ru">' + it.ru + '</div>'
+    + '<div class="sr-note">💡 <b>Методический фокус:</b> ' + it.note + '</div>';
+}
+
+document.getElementById('fc-prev').onclick = function() {
+  if (fcIdx > 0) { fcIdx--; renderFc(); }
+};
+document.getElementById('fc-next').onclick = function() {
+  if (fcIdx < FLASHCARDS.length - 1) { fcIdx++; renderFc(); }
+};
+
+renderFc();
+updateDisplay();
+</script>
+</body>
+</html>
