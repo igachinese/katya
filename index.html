@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -14,8 +14,8 @@
     --ink: #2c2118;
     --ink-soft: #7a6a58;
     --line: #ecdccb;
-    --terra: #d9532f;
-    --terra-hover: #b83d1c;
+    --terra: #c23b2b;
+    --terra-hover: #9c2e22;
     --terra-light: #fef0eb;
     --sage: #4e8f66;
     --sage-light: #eff7f2;
@@ -60,7 +60,7 @@
   }
   .pill-link:hover {
     border-color: var(--terra); color: var(--terra); transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(217,83,47,.15);
+    box-shadow: 0 4px 12px rgba(194,59,43,.15);
   }
   .pill-link.active-pill {
     background: var(--terra); color: #fff; border-color: var(--terra);
@@ -118,7 +118,7 @@
 
   /* Progress Metrics Grid */
   .metrics-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px;
   }
   @media(max-width: 760px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
   @media(max-width: 440px) { .metrics-grid { grid-template-columns: 1fr; } }
@@ -143,10 +143,18 @@
   .mini-bar-wrap { background: #f1e7d8; height: 8px; border-radius: 999px; overflow: hidden; }
   .mini-bar { height: 100%; border-radius: 999px; }
 
+  /* Section Header Badge */
+  .block-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #ffffff; border: 1.5px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; font-size: 0.85rem; font-weight: 900; color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
   /* Next Lesson Card */
   .next-card {
     background: #ffffff; border: 2px solid var(--line); border-radius: 24px;
-    padding: 24px 26px; margin-bottom: 26px; box-shadow: var(--shadow);
+    padding: 24px 26px; margin-bottom: 24px; box-shadow: var(--shadow);
   }
   .next-header {
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
@@ -175,7 +183,7 @@
   .hw-hero {
     background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
     border: 3px solid #fb923c; border-radius: 26px;
-    padding: 28px; margin-bottom: 28px;
+    padding: 28px; margin-bottom: 24px;
     box-shadow: 0 14px 36px rgba(234,88,12,.15);
     position: relative; overflow: hidden;
   }
@@ -222,6 +230,38 @@
     transition: all .15s ease;
   }
   .btn-item-link:hover { background: #ea580c; color: #fff; }
+
+  /* 🎯 MAIN CONSTANT WORD TRAINER BANNER 🎯 */
+  .main-trainer-banner {
+    background: #ffffff; border: 2.5px solid var(--terra); border-radius: 26px;
+    padding: 26px 28px; margin-bottom: 30px; box-shadow: 0 14px 34px rgba(194,59,43,0.1);
+    position: relative; overflow: hidden;
+  }
+  .main-trainer-banner::before {
+    content: '练习';
+    position: absolute; right: 20px; bottom: -20px;
+    font-family: 'Noto Sans SC', sans-serif; font-size: 6rem; font-weight: 900;
+    color: rgba(194,59,43,0.035); pointer-events: none;
+  }
+  .mt-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .mt-badge {
+    background: var(--terra); color: #fff; font-size: 0.85rem; font-weight: 900;
+    padding: 5px 14px; border-radius: 999px; letter-spacing: 0.04em;
+  }
+  .mt-title { font-size: 1.65rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+  .mt-desc { font-size: 1.02rem; color: var(--ink-soft); margin-bottom: 20px; font-weight: 600; max-width: 68ch; line-height: 1.55; }
+  .mt-action-box {
+    background: var(--bg); border: 1.5px solid var(--line); border-radius: 18px;
+    padding: 18px 22px; display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .btn-mt-big {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--terra); color: #fff; text-decoration: none;
+    font-weight: 900; font-size: 1.1rem; padding: 14px 28px; border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(194,59,43,0.3); transition: all .2s ease;
+  }
+  .btn-mt-big:hover { background: var(--terra-hover); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(194,59,43,0.38); }
 
   /* 📚 ARCHIVE & PRACTICE MATERIALS 📚 */
   .archive-section { margin-bottom: 28px; }
@@ -327,13 +367,12 @@
 <div class="wrap">
   <!-- Quick Navigation Pills -->
   <nav class="quick-bar" aria-label="Быстрая навигация">
-    <a href="#homework" class="pill-link active-pill">🔥 Домашнее задание</a>
-    <a href="trainer.html" class="pill-link" style="border-color:#16a34a;color:#15803d;font-weight:900;background:#f0fdf4">🐼 Все темы (слова)</a>
-    <a href="time-trainer.html" class="pill-link">⏰ Тренажёр времени</a>
-    <a href="capybara-jobs.html" class="pill-link">🦫 Бюро профессий</a>
+    <a href="#trainer-main" class="pill-link" style="border-color:var(--terra);color:var(--terra);font-weight:900;background:#fff8f6">🎯 Тренажёр по всем темам</a>
+    <a href="#homework" class="pill-link active-pill">🔥 Текущее ДЗ</a>
+    <a href="time-trainer.html" class="pill-link">⏰ Время (Тема 10)</a>
     <a href="https://app.notion.com/p/3a2ee1a0b26881a5b006c99d67cc9ce9" target="_blank" class="pill-link">📖 Словарик Кати</a>
     <a href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" class="pill-link">🎥 Урок в Zoom</a>
-    <a href="#report" class="pill-link">📝 Отчёт для родителей</a>
+    <a href="#report" class="pill-link">📝 Отчёт для мамы</a>
     <a href="#balance" class="pill-link">🎟️ Абонемент</a>
   </nav>
 
@@ -417,7 +456,7 @@
         <span class="metric-pct pct-terra">95%</span>
       </div>
       <div class="metric-val">142 <span style="font-size:1rem;color:var(--ink-soft);font-weight:600">слова</span></div>
-      <div class="metric-sub">Из 150 слов HSK 1 (курс: 220 слов)</div>
+      <div class="metric-sub">Из 150 слов HSK 1 (база: 290 слов)</div>
       <div class="mini-bar-wrap">
         <div class="mini-bar" style="width:95%;background:var(--terra)"></div>
       </div>
@@ -437,7 +476,9 @@
     </div>
   </section>
 
-  <!-- Next Lesson Card -->
+  <!-- ================= БЛОК ДЛЯ УЧЕНИКА (В ВЕРХНЕЙ ЧАСТИ) ================= -->
+
+  <!-- 1. Next Lesson Card -->
   <section class="next-card">
     <div class="next-header">
       <div class="next-title">
@@ -461,7 +502,7 @@
     </div>
   </section>
 
-  <!-- 🔥 CURRENT HOMEWORK HERO BANNER 🔥 -->
+  <!-- 2. 🔥 CURRENT HOMEWORK HERO BANNER 🔥 -->
   <section class="hw-hero" id="homework">
     <div class="hw-badge-now">🔥 СДЕЛАЙ СЕЙЧАС (К СЛЕДУЮЩЕМУ УРОКУ)</div>
     <h2 class="hw-title">Тема 10: Закрепление времени + подготовка к теме 11</h2>
@@ -511,55 +552,39 @@
     </ul>
   </section>
 
-  <!-- 🎯 MASTER WORD TRAINER SECTION (PANDA EXPLORER) 🎯 -->
-  <section class="trainer-hero" id="trainer-all" style="background:linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);border:3px solid #86efac;border-radius:26px;padding:28px;margin-bottom:28px;box-shadow:0 14px 36px rgba(22,101,52,0.12);position:relative;overflow:hidden;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#15803d;color:#fff;font-size:0.92rem;font-weight:900;padding:6px 16px;border-radius:999px;letter-spacing:0.03em;box-shadow:0 4px 12px rgba(21,128,61,.3);">
-        🐼 PANDA EXPLORER · ПЕРСОНАЛЬНЫЙ ТРЕНАЖЁР
-      </span>
-      <span style="background:#bbf7d0;color:#166534;font-size:0.85rem;font-weight:800;padding:4px 12px;border-radius:999px;">
-        14 режимов тренировки
+  <!-- 3. 🎯 MAIN CONSTANT WORD TRAINER (ПОСТОЯННЫЙ ГЛАВНЫЙ ТРЕНАЖЁР) 🎯 -->
+  <section class="main-trainer-banner" id="trainer-main">
+    <div class="mt-top">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="mt-badge">ГЛАВНЫЙ ТРЕНАЖЁР</span>
+        <span style="font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:1.05rem;color:var(--terra)">词汇练习本</span>
+      </div>
+      <span style="font-size:0.88rem;font-weight:800;color:var(--ink-soft);background:var(--bg);padding:4px 12px;border-radius:999px;border:1px solid var(--line)">
+        15 тематических блоков · HSK 1
       </span>
     </div>
-    
-    <h2 style="font-size:1.65rem;font-weight:900;color:#14532d;margin-bottom:8px;line-height:1.25;">
-      🎯 Тренажёры по всем темам (отработка слов)
-    </h2>
-    <p style="font-size:1.05rem;color:#166534;margin-bottom:20px;font-weight:600;max-width:72ch;line-height:1.55;">
-      Интерактивная отработка всей лексики из словаря Notion: карточки, выбор перевода, на слух, ловушки, тоны, звуки, фразы, пары и режим Молния.
+
+    <h2 class="mt-title">Тренажёр китайского языка</h2>
+    <p class="mt-desc">
+      Интерактивная отработка всей лексики: карточки в китайской клетке 米字格, выбор перевода, аудирование на слух, ловушки и путаницы, тоны, конструктор предложений и спринт.
     </p>
 
-    <!-- Action container with Panda mascot preview & big button -->
-    <div style="background:#ffffff;border:2px solid #86efac;border-radius:20px;padding:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;box-shadow:0 8px 24px rgba(20,83,45,.08);">
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="width:62px;height:62px;border-radius:18px;background:#eef7f0;display:flex;align-items:center;justify-content:center;font-size:2.4rem;flex-shrink:0;border:2px solid #bbf7d0;">
-          🐼
-        </div>
-        <div>
-          <b style="font-size:1.15rem;color:#14532d;display:block;margin-bottom:4px;">13 тем учебника + капибары + ловушки тонов</b>
-          <span style="font-size:0.92rem;color:#166534;">Персональная база Кати без перегруза: выбирай тему и качай слова в любом удобном формате!</span>
-        </div>
+    <div class="mt-action-box">
+      <div>
+        <b style="font-size:1.08rem;color:var(--ink);display:block;margin-bottom:2px">Сквозные экзаменационные форматы и темы учебника</b>
+        <span style="font-size:0.9rem;color:var(--ink-soft)">Академический стиль китайской тетради: чистый фокус на языке без лишнего визуального шума.</span>
       </div>
-
-      <a href="trainer.html" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg, #16a34a 0%, #15803d 100%);color:#ffffff;text-decoration:none;font-weight:900;font-size:1.12rem;padding:15px 28px;border-radius:16px;box-shadow:0 8px 22px rgba(21,128,61,.35);transition:all .2s ease;">
-        👉 Начать тренировку по всем темам 🐼
+      <a href="trainer.html" class="btn-mt-big">
+        👉 Начать тренировку по всем темам →
       </a>
-    </div>
-
-    <!-- Mode Badges -->
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">🃏 Карточки</span>
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">🎧 На слух</span>
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">🎯 Ловушки</span>
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">🎵 Тоны</span>
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">⚡ Молния 60 сек</span>
-      <span style="background:#ffffff;border:1px solid #bbf7d0;color:#166534;padding:4px 10px;border-radius:8px;font-size:0.82rem;font-weight:700">🧩 Пары (Memory)</span>
     </div>
   </section>
 
+  <!-- ================= НИЖНЯЯ ЧАСТЬ (АРХИВ, РОДИТЕЛИ, БАЛАНС) ================= -->
+
   <!-- 📚 ARCHIVE & PRACTICE MATERIALS 📚 -->
   <section class="archive-section">
-    <h2 class="section-heading">📚 Прошлые задания и архив для повторения</h2>
+    <h2 class="section-heading">📚 Прошлые задания и полезные материалы</h2>
     <div class="archive-grid">
       <!-- 1. Capybara Job Center -->
       <div class="archive-card">
@@ -638,7 +663,7 @@
     </div>
   </section>
 
-  <!-- Teacher Report for Parents -->
+  <!-- Teacher Report for Parents (СМЕЩЁН НИЖЕ, КАК ПРОСИЛ ПРЕПОДАВАТЕЛЬ) -->
   <section class="report-card" id="report">
     <div class="report-top">
       <h2 style="font-size:1.35rem;font-weight:900;color:var(--ink)">📝 Отчёт преподавателя для родителей</h2>
