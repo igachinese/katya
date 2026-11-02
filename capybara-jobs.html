@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦫 Бюро профессий с капибарами · Тренажёр</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbf3e4;
+    --paper2:#f4e8d3;
+    --ink:#3a2a1c;
+    --ink-soft:#8a7457;
+    --terra:#d4643c;
+    --terra-d:#a94525;
+    --sage:#5f9270;
+    --sage-d:#477254;
+    --honey:#e8a83a;
+    --line:#e0cca8;
+    --fur:#a8794f;
+    --fur-d:#8a6039;
+    --fur-l:#c79a6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    background:
+      radial-gradient(ellipse 90% 50% at 50% 0%, #fffaf0 0%, transparent 62%),
+      repeating-linear-gradient(135deg, rgba(224,204,168,.16) 0 2px, transparent 2px 9px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Baloo 2',system-ui,sans-serif;
+    padding:0 16px 48px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .zh{font-family:'Noto Sans SC','Baloo 2',sans-serif}
+
+  header{width:100%;max-width:760px;padding:20px 0 10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{font-family:'Noto Sans SC',sans-serif;font-weight:900;font-size:1.25rem;color:var(--terra);letter-spacing:.05em}
+  .logo span{font-family:'Baloo 2';font-weight:800;color:var(--ink);letter-spacing:0;font-size:1rem;margin-left:8px}
+  .badges{margin-left:auto;font-weight:700;color:var(--ink-soft);white-space:nowrap;font-size:1rem}
+  .badges b{color:var(--terra-d);font-size:1.3rem}
+
+  .track{width:100%;max-width:760px;display:flex;gap:6px;margin-bottom:16px}
+  .track i{flex:1;height:7px;border-radius:4px;background:var(--line)}
+  .track i.done{background:var(--sage)}
+  .track i.now{background:var(--terra)}
+
+  main{width:100%;max-width:760px}
+  .card{
+    background:#fffdf8;border:2px solid var(--line);border-radius:20px;
+    padding:24px 22px 26px;box-shadow:0 14px 34px rgba(90,60,25,.12);
+  }
+  .stationhead{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+  .stnum{font-family:'Noto Sans SC';font-weight:900;font-size:1.45rem;color:var(--terra)}
+  h2{font-weight:800;font-size:1.45rem;line-height:1.15}
+  .rule{color:var(--ink-soft);font-size:1rem;line-height:1.5;font-weight:400;max-width:60ch;margin-top:4px}
+
+  .capy{display:block;margin:0 auto}
+  .who{text-align:center;margin:12px 0 4px}
+  .who .nm{font-family:'Noto Sans SC';font-weight:700;font-size:1.6rem}
+  .who .py{color:var(--ink-soft);font-style:italic;font-size:1rem}
+
+  .bigzh{font-family:'Noto Sans SC';font-weight:900;text-align:center;line-height:1.25;color:var(--ink);font-size:clamp(2.4rem,10vw,3.4rem)}
+  .subpy{text-align:center;color:var(--ink-soft);font-style:italic;font-size:1.05rem;margin-top:2px}
+
+  .claim{
+    text-align:center;background:var(--paper2);border-radius:14px;padding:16px 14px;margin:16px 0 4px;
+    border:2px dashed var(--line);
+  }
+  .claim .s{font-family:'Noto Sans SC';font-weight:700;font-size:clamp(1.4rem,6vw,1.95rem);line-height:1.35}
+  .claim .p{color:var(--ink-soft);font-size:.98rem;margin-top:6px;font-weight:400}
+  .gap{display:inline-block;min-width:2.6em;border-bottom:4px solid var(--terra);margin:0 .12em}
+
+  .say{
+    display:block;margin:14px auto 0;background:none;border:2px solid var(--line);border-radius:999px;
+    padding:10px 22px;font-family:'Baloo 2';font-weight:700;font-size:1rem;color:var(--ink);cursor:pointer;
+  }
+  .say:hover{border-color:var(--terra);color:var(--terra-d)}
+  .say:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+  .hint{text-align:center;color:var(--ink-soft);margin-top:10px;font-size:.98rem;min-height:1.3em;font-weight:400}
+
+  .opts{display:grid;gap:10px;margin-top:16px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  .opts.three{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:560px){.opts.two,.opts.three{grid-template-columns:1fr}}
+  .opt{
+    font-family:'Baloo 2';font-weight:600;font-size:1.02rem;background:#fff;
+    border:2px solid var(--line);border-radius:14px;padding:14px 12px;color:var(--ink);
+    cursor:pointer;text-align:center;line-height:1.3;
+  }
+  .opt .zh{display:block;font-size:1.45rem;font-weight:700}
+  .opt .sub{font-size:.88rem;color:var(--ink-soft);font-style:italic}
+  .opt:hover:not(:disabled){border-color:var(--honey);background:#fffcf2}
+  .opt:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+  .opt.right{border-color:var(--sage);background:#eef7f0}
+  .opt.wrong{border-color:var(--terra);background:#fdeee9}
+  .opt:disabled{cursor:default}
+  .opt.big .zh{font-size:1.8rem}
+
+  .verdict{margin-top:16px;padding:14px 16px;border-radius:14px;font-size:1.02rem;line-height:1.55;display:none;font-weight:400}
+  .verdict.show{display:block}
+  .verdict.good{background:#eef7f0;border-left:5px solid var(--sage)}
+  .verdict.fix{background:#fdf4e6;border-left:5px solid var(--honey)}
+  .verdict b{font-weight:800}
+  .verdict .zh{font-size:1.2rem;font-weight:700}
+  .verdict .py{color:var(--ink-soft);font-style:italic}
+
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;justify-content:center}
+  .btn{
+    font-family:'Baloo 2';font-weight:700;font-size:1.05rem;background:var(--terra);color:#fff8ee;
+    border:none;border-radius:14px;padding:13px 26px;cursor:pointer;
+  }
+  .btn:hover{background:var(--terra-d)}
+  .btn:focus-visible{outline:3px solid var(--honey);outline-offset:2px}
+  .btn.ghost{background:none;color:var(--ink);border:2px solid var(--line)}
+  .btn.ghost:hover{background:var(--paper2)}
+  .btn.sage{background:var(--sage)}
+  .btn.sage:hover{background:var(--sage-d)}
+
+  .learnwrap{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:6px}
+  .arrow{background:none;border:2px solid var(--line);border-radius:50%;width:46px;height:46px;font-size:1.3rem;cursor:pointer;color:var(--ink);flex:none;font-family:'Baloo 2'}
+  .arrow:hover{border-color:var(--terra)}
+  .arrow:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+  .learncard{flex:1;max-width:430px}
+  .meta{text-align:center;margin-top:12px;font-size:1.05rem;color:var(--ink-soft);font-weight:400;line-height:1.6}
+  .meta .zh{color:var(--ink);font-weight:700;font-size:1.25rem}
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+  .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .dots i.on{background:var(--terra)}
+
+  .prompts{list-style:none;margin:16px auto 0;max-width:400px}
+  .prompts li{padding:10px 0;border-bottom:1px dotted var(--line);font-size:1.05rem;color:var(--ink-soft);font-weight:400}
+  .prompts li:last-child{border:none}
+  .prompts b{color:var(--ink)}
+  .model{margin-top:16px;padding:16px;background:var(--paper2);border-radius:14px;display:none;text-align:center}
+  .model.show{display:block}
+  .model .zh{font-family:'Noto Sans SC';font-weight:700;font-size:1.3rem;line-height:1.8}
+  .model .py{color:var(--ink-soft);font-style:italic;font-size:.96rem;margin-top:6px}
+
+  .center{text-align:center}
+  h1{font-weight:800;font-size:clamp(2rem,7vw,2.9rem);line-height:1.05}
+  .h1zh{font-family:'Noto Sans SC';font-weight:900;color:var(--terra);font-size:clamp(1.4rem,5vw,1.9rem);letter-spacing:.08em;margin-bottom:6px}
+  .lead{color:var(--ink-soft);font-size:1.05rem;line-height:1.6;max-width:48ch;margin:14px auto 0;font-weight:400}
+  .menu{list-style:none;margin:20px auto 0;max-width:460px;text-align:left}
+  .menu li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px dotted var(--line)}
+  .menu li:last-child{border:none}
+  .menu .n{font-family:'Noto Sans SC';font-weight:900;color:var(--terra);min-width:1.4em}
+  .menu .t{font-weight:700}
+  .menu .d{color:var(--ink-soft);font-size:.93rem;font-weight:400}
+  .score{font-family:'Noto Sans SC';font-weight:900;font-size:clamp(2.8rem,13vw,4.6rem);color:var(--terra);line-height:1}
+  .foot{max-width:62ch;text-align:center;color:var(--ink-soft);font-size:.88rem;line-height:1.6;margin:22px auto 0;font-weight:400}
+  .foot b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div style="width:100%;max-width:760px;margin:16px auto 0;display:flex;justify-content:flex-start;">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;border:2px solid var(--line);border-radius:12px;padding:10px 18px;font-family:'Baloo 2',system-ui,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);text-decoration:none;box-shadow:0 4px 14px rgba(90,60,25,.1);transition:transform .15s ease,border-color .15s ease;">
+    ⬅️ Вернуться назад в Главное меню
+  </a>
+</div>
+
+<header>
+  <div class="logo zh">水豚职业中心<span>Capybara Job Center</span></div>
+  <div class="badges" id="badges">🎫 <b>0</b></div>
+</header>
+<div class="track" id="track"></div>
+
+<main>
+  <section class="card" id="stage" aria-live="polite"></section>
+  <p class="foot" id="foot"></p>
+</main>
+
+<script>
+/* ===================== CAST ===================== */
+var CAST = [
+  {id:'meiz', nm:'小美',  py:'Xiǎoměi',   f:true,
+   job:'医生', jpy:'yīshēng',  jen:'doctor',
+   nat:'中国人', npy:'Zhōngguó rén', nen:'Chinese',
+   age:'三十',   apy:'sānshí',   acc:'steth', col:'#eef0ec'},
+  {id:'dali', nm:'大力',  py:'Dàlì',      f:false,
+   job:'牙医', jpy:'yáyī',     jen:'dentist',
+   nat:'美国人', npy:'Měiguó rén',   nen:'American',
+   age:'三十五', apy:'sānshíwǔ', acc:'lamp',  col:'#cfe3ee'},
+  {id:'wang', nm:'王星',  py:'Wáng Xīng', f:false,
+   job:'司机', jpy:'sījī',     jen:'driver',
+   nat:'中国人', npy:'Zhōngguó rén', nen:'Chinese',
+   age:'二十八', apy:'èrshíbā',  acc:'cap',   col:'#8aa87f'},
+  {id:'wen',  nm:'小文',  py:'Xiǎowén',   f:true,
+   job:'老师', jpy:'lǎoshī',   jen:'teacher',
+   nat:'英国人', npy:'Yīngguó rén',  nen:'British',
+   age:'二十六', apy:'èrshíliù', acc:'glass', col:'#d9b8d4'},
+  {id:'shan', nm:'大山',  py:'Dàshān',    f:false,
+   job:'律师', jpy:'lǜshī',    jen:'lawyer',
+   nat:'法国人', npy:'Fǎguó rén',    nen:'French',
+   age:'四十',   apy:'sìshí',    acc:'bow',   col:'#4a4f63'},
+  {id:'yu',   nm:'小雨',  py:'Xiǎoyǔ',    f:true,
+   job:'护士', jpy:'hùshi',    jen:'nurse',
+   nat:'日本人', npy:'Rìběn rén',    nen:'Japanese',
+   age:'二十四', apy:'èrshísì',  acc:'nurse', col:'#f2d7d7'},
+  {id:'dong', nm:'小东',  py:'Xiǎodōng',  f:false,
+   job:'秘书', jpy:'mìshū',    jen:'secretary',
+   nat:'德国人', npy:'Déguó rén',    nen:'German',
+   age:'二十二', apy:'èrshí’èr', acc:'head', col:'#e3c98f'},
+  {id:'hai',  nm:'大海',  py:'Dàhǎi',     f:false,
+   job:'商人', jpy:'shāngrén', jen:'businessman',
+   nat:'美国人', npy:'Měiguó rén',   nen:'American',
+   age:'四十五', apy:'sìshíwǔ',  acc:'apron', col:'#c98f5e'},
+  {id:'hong', nm:'小红',  py:'Xiǎohóng',  f:true,
+   job:'经理', jpy:'jīnglǐ',   jen:'manager',
+   nat:'中国人', npy:'Zhōngguó rén', nen:'Chinese',
+   age:'三十三', apy:'sānshísān', acc:'tie',  col:'#b8483c'}
+];
+function byId(i){ for(var k=0;k<CAST.length;k++){ if(CAST[k].id===i) return CAST[k]; } return null; }
+function tazh(c){ return c.f ? '她' : '他'; }
+function taEn(c){ return c.f ? 'She' : 'He'; }
+function taEnLow(c){ return c.f ? 'she' : 'he'; }
+function herHis(c){ return c.f ? 'her' : 'his'; }
+
+/* ===================== CAPYBARA ART ===================== */
+function capy(c, size){
+  var acc = {
+    steth:'<path d="M36 94 q0 20 14 20 q14 0 14 -20" fill="none" stroke="#5b6b73" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="115" r="5.5" fill="#5b6b73"/>',
+    lamp:'<rect x="19" y="31" width="62" height="8" rx="4" fill="#cfe3ee"/><circle cx="50" cy="30" r="8" fill="#fff" stroke="#9ab8c9" stroke-width="3"/>',
+    cap:'<path d="M18 33 q32 -22 64 0 z" fill="#5f7a55"/><rect x="13" y="31" width="74" height="7" rx="3.5" fill="#4c6344"/>',
+    glass:'<circle cx="33" cy="45" r="11" fill="none" stroke="#4a3524" stroke-width="3.2"/><circle cx="67" cy="45" r="11" fill="none" stroke="#4a3524" stroke-width="3.2"/><path d="M44 45 h12" stroke="#4a3524" stroke-width="3.2"/>',
+    bow:'<path d="M36 94 h28 l-14 14 z" fill="#fdf6e8"/><path d="M50 99 l-13 -6 v12 z" fill="#8e2f3a"/><path d="M50 99 l13 -6 v12 z" fill="#8e2f3a"/><circle cx="50" cy="99" r="4" fill="#6d222b"/>',
+    nurse:'<path d="M21 33 h58 v-6 q-29 -13 -58 0 z" fill="#fff" stroke="#e8cccc" stroke-width="2"/><path d="M46 20 h8 v4 h4 v8 h-4 v4 h-8 v-4 h-4 v-8 h4 z" fill="#d4643c"/>',
+    head:'<path d="M15 50 q0 -34 35 -34 q35 0 35 34" fill="none" stroke="#6b6f7a" stroke-width="5"/><rect x="8" y="46" width="13" height="17" rx="6.5" fill="#6b6f7a"/>',
+    apron:'<path d="M31 98 h38 v20 h-38 z" fill="#e8d3b4" stroke="#c9a877" stroke-width="2"/><path d="M40 98 v-5 M60 98 v-5" stroke="#c9a877" stroke-width="3"/>',
+    tie:'<path d="M36 94 h28 l-14 15 z" fill="#fdf6e8"/><path d="M50 99 l-5 6 l5 13 l5 -13 z" fill="#31415c"/><path d="M50 94 l-4.5 5 h9 z" fill="#222f45"/>'
+  }[c.acc] || '';
+
+  return '<svg class="capy" width="'+size+'" height="'+Math.round(size*1.12)+'" viewBox="0 0 100 118" role="img" aria-label="'+c.jen+' capybara">'
+    /* shoulders / clothes */
+    + '<path d="M22 118 q0 -24 28 -24 q28 0 28 24 z" fill="'+c.col+'"/>'
+    /* tiny ears tucked at the top corners, drawn behind the head */
+    + '<ellipse cx="25" cy="30" rx="6" ry="5.5" fill="var(--fur-d)"/>'
+    + '<ellipse cx="75" cy="30" rx="6" ry="5.5" fill="var(--fur-d)"/>'
+    + '<ellipse cx="25" cy="31" rx="2.8" ry="2.6" fill="#8a6b52"/>'
+    + '<ellipse cx="75" cy="31" rx="2.8" ry="2.6" fill="#8a6b52"/>'
+    /* wide blocky capybara head */
+    + '<rect x="14" y="26" width="72" height="62" rx="20" fill="var(--fur)"/>'
+    /* big blunt snout filling the lower face */
+    + '<rect x="22" y="52" width="56" height="38" rx="17" fill="var(--fur-l)"/>'
+    /* eyes set high and wide apart */
+    + '<circle cx="30" cy="42" r="3.6" fill="#2b1d12"/>'
+    + '<circle cx="70" cy="42" r="3.6" fill="#2b1d12"/>'
+    + '<circle cx="31.2" cy="40.8" r="1.2" fill="#fff" opacity=".9"/>'
+    + '<circle cx="71.2" cy="40.8" r="1.2" fill="#fff" opacity=".9"/>'
+    /* flat nose pad with nostrils */
+    + '<rect x="38" y="62" width="24" height="11" rx="5.5" fill="#3a2a1c"/>'
+    + '<circle cx="44.5" cy="67.5" r="1.7" fill="#1d130c"/>'
+    + '<circle cx="55.5" cy="67.5" r="1.7" fill="#1d130c"/>'
+    /* calm mouth */
+    + '<path d="M50 74 v4.5 M43.5 81 q6.5 4.5 13 0" fill="none" stroke="#3a2a1c" stroke-width="2.2" stroke-linecap="round"/>'
+    + acc + '</svg>';
+}
+
+/* ===================== SPEECH ===================== */
+var voice = null;
+function loadVoice(){
+  if(!('speechSynthesis' in window)) return;
+  var vs = speechSynthesis.getVoices();
+  if(!vs.length) return;
+  var zh = [];
+  for(var i=0;i<vs.length;i++){ if(/^zh/i.test(vs[i].lang)) zh.push(vs[i]); }
+  var pick = null;
+  for(i=0;i<zh.length;i++){ if(/yunxia|云夏/i.test(zh[i].name)){ pick = zh[i]; break; } }
+  if(!pick) for(i=0;i<zh.length;i++){ if(/xiaoxiao|晓晓/i.test(zh[i].name)){ pick = zh[i]; break; } }
+  if(!pick) for(i=0;i<zh.length;i++){ if(/^zh-CN/i.test(zh[i].lang)){ pick = zh[i]; break; } }
+  if(!pick && zh.length) pick = zh[0];
+  voice = pick;
+  setFoot();
+}
+if('speechSynthesis' in window){
+  loadVoice();
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+function speak(t){
+  if(!voice) return false;
+  try{
+    var u = new SpeechSynthesisUtterance(t);
+    u.voice = voice; u.lang = voice.lang || 'zh-CN'; u.rate = .78;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    return true;
+  }catch(e){ return false; }
+}
+function setFoot(){
+  var f = document.getElementById('foot');
+  if(si >= 0){ f.innerHTML = ''; return; }
+  f.innerHTML = voice
+    ? 'Sound is on, using <b>' + voice.name + '</b>.'
+    : 'No Chinese voice in this browser — everything still works, you will read instead of listen. <b>Microsoft Edge</b> has the best Chinese voices.';
+}
+
+/* ===================== STATIONS ===================== */
+var STATIONS = [
+  {zh:'一', t:'Meet the team', rule:'Nine capybaras, nine jobs. Use the arrows and listen to each one. Nothing is scored here — just get to know them.'},
+  {zh:'二', t:'对 or 不对?', rule:'Read the sign on the door. If it is wrong, say so and then fix it. Eight cards.'},
+  {zh:'三', t:'也 — me too', rule:'One capybara, then another. Pick the ending that makes the second sentence true. Six cards.'},
+  {zh:'四', t:'Listen up', rule:'Listen, then tap the capybara being described. Press play to hear it again. Six cards.'},
+  {zh:'五', t:'Your turn to talk', rule:'Say three sentences out loud about each capybara, then check yourself. Four cards, not scored.'}
+];
+
+var TF = [
+  {who:'meiz', claim:'律师', ok:false, opts:['医生','老师','商人']},
+  {who:'wang', claim:'司机', ok:true},
+  {who:'yu',   claim:'医生', ok:false, opts:['护士','秘书','经理']},
+  {who:'wen',  claim:'老师', ok:true},
+  {who:'hai',  claim:'牙医', ok:false, opts:['商人','律师','司机']},
+  {who:'hong', claim:'经理', ok:true},
+  {who:'dong', claim:'商人', ok:false, opts:['秘书','医生','老师']},
+  {who:'dali', claim:'牙医', ok:true}
+];
+
+var YE = [
+  {a:'meiz', b:'wang', kind:'shi', frag:'中国人', right:'也是',
+   why:'Both of them are Chinese, so the second sentence agrees — 也是 means "also is".'},
+  {a:'meiz', b:'dali', kind:'shi', frag:'医生', right:'不是',
+   why:'大力 is a dentist, not a doctor. Nothing matches here, so no 也 — just 不是.'},
+  {a:'yu',   b:'meiz', kind:'qu',  frag:'医院', right:'也去',
+   why:'The nurse and the doctor both head to the hospital, so 也去 — "also goes".'},
+  {a:'wen',  b:'hong', kind:'shi', frag:'英国人', right:'不是',
+   why:'小红 is Chinese, so she is not British. 也 only works when the two things match.'},
+  {a:'shan', b:'dong', kind:'shi', frag:'法国人', right:'不是',
+   why:'小东 is German, 大山 is French. Different countries — no 也.'},
+  {a:'hai',  b:'hong', kind:'work',frag:'工作', right:'也',
+   why:'Both of them work. 工作 is already a verb, so 也 goes straight in front of it.'}
+];
+
+var LISTEN = [
+  {who:'yu',   say:'她是护士。她是日本人。'},
+  {who:'shan', say:'他是律师。他四十岁。'},
+  {who:'hong', say:'她是经理。她是中国人。'},
+  {who:'dong', say:'他是秘书。他是德国人。'},
+  {who:'dali', say:'他不是医生，他是牙医。'},
+  {who:'hai',  say:'他是商人。他去商店。'}
+];
+
+var SPEAK = ['meiz','wang','wen','shan'];
+
+/* ===================== STATE ===================== */
+var si = -1, ii = 0, badges = 0, locked = false;
+
+var stage = document.getElementById('stage');
+var trackEl = document.getElementById('track');
+for(var s=0;s<STATIONS.length;s++){ trackEl.insertAdjacentHTML('beforeend','<i></i>'); }
+
+function paintTrack(){
+  var kids = trackEl.children;
+  for(var i=0;i<kids.length;i++){
+    kids[i].className = i < si ? 'done' : (i === si ? 'now' : '');
+  }
+}
+function bump(){ badges++; document.querySelector('#badges b').textContent = badges; }
+function esc(x){ return String(x).replace(/[&<>]/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m]; }); }
+
+function head(){
+  var st = STATIONS[si];
+  return '<div class="stationhead"><span class="stnum zh">' + st.zh + '</span><h2>' + esc(st.t) + '</h2></div>'
+       + '<p class="rule">' + esc(st.rule) + '</p>';
+}
+function nextBtn(label){ return '<div class="row"><button class="btn" id="next">' + label + '</button></div>'; }
+function wireNext(){
+  var b = document.getElementById('next');
+  if(b){ b.onclick = function(){ ii++; render(); }; b.focus(); }
+}
+function verdict(ok, html){
+  var v = document.getElementById('verdict');
+  v.className = 'verdict show ' + (ok ? 'good' : 'fix');
+  v.innerHTML = '<b>' + (ok ? '对！' : '差一点。') + '</b> ' + html;
+}
+
+/* ===================== TITLE ===================== */
+function title(){
+  si = -1; paintTrack(); setFoot();
+  var rows = '';
+  for(var i=0;i<STATIONS.length;i++){
+    rows += '<li><span class="n zh">' + STATIONS[i].zh + '</span><span><span class="t">'
+         + esc(STATIONS[i].t) + '</span><br><span class="d">' + esc(STATIONS[i].rule) + '</span></span></li>';
+  }
+  stage.innerHTML =
+    '<div class="center" style="padding:14px 0 6px">'
+    + '<div class="h1zh">水豚职业中心</div>'
+    + '<h1>Capybara Job Center</h1>'
+    + '<p class="lead">Nine capybaras, nine jobs, five stations. About fifteen minutes. Collect job tickets 🎫 as you go.</p>'
+    + '<ul class="menu">' + rows + '</ul>'
+    + '<div class="row"><button class="btn" id="go">Open the office</button></div>'
+    + '</div>';
+  document.getElementById('go').onclick = function(){
+    si = 0; ii = 0; badges = 0;
+    document.querySelector('#badges b').textContent = 0;
+    paintTrack(); render();
+  };
+}
+
+/* ===================== ROUTER ===================== */
+function render(){
+  var lens = [CAST.length, TF.length, YE.length, LISTEN.length, SPEAK.length];
+  if(ii >= lens[si]){
+    si++; ii = 0; paintTrack();
+    if(si >= STATIONS.length) return finish();
+  }
+  locked = false;
+  [learn, trueFalse, yeRound, listenRound, speakRound][si]();
+}
+
+/* ---------- 1. LEARN ---------- */
+function learn(){
+  var c = CAST[ii];
+  var line = tazh(c) + '是' + c.job + '。' + tazh(c) + '是' + c.nat + '。';
+  var dots = '';
+  for(var i=0;i<CAST.length;i++){ dots += '<i class="' + (i===ii?'on':'') + '"></i>'; }
+
+  stage.innerHTML = head()
+    + '<div class="learnwrap">'
+    +   '<button class="arrow" id="prev" aria-label="previous">&#8249;</button>'
+    +   '<div class="learncard">'
+    +     capy(c,180)
+    +     '<div class="who"><div class="nm zh">' + c.nm + '</div><div class="py">' + c.py + '</div></div>'
+    +     '<div class="bigzh">' + c.job + '</div>'
+    +     '<div class="subpy">' + c.jpy + ' — ' + c.jen + '</div>'
+    +     '<button class="say" id="say">🔊 Listen</button>'
+    +     '<div class="meta"><span class="zh">' + line + '</span><br>'
+    +       '<span style="font-style:italic">tā shì ' + c.jpy + '. tā shì ' + c.npy + '.</span><br>'
+    +       taEn(c) + ' is a ' + c.jen + '. ' + taEn(c) + ' is ' + c.nen + '.</div>'
+    +   '</div>'
+    +   '<button class="arrow" id="nxt" aria-label="next">&#8250;</button>'
+    + '</div>'
+    + '<div class="dots">' + dots + '</div>'
+    + (ii === CAST.length-1 ? nextBtn('Start station 二 →') : '');
+
+  document.getElementById('say').onclick = function(){ speak(line); };
+  speak(line);
+  document.getElementById('prev').onclick = function(){ if(ii > 0){ ii--; learn(); } };
+  document.getElementById('nxt').onclick = function(){ if(ii < CAST.length-1){ ii++; learn(); } };
+  if(ii === CAST.length-1) wireNext();
+}
+
+/* ---------- 2. TRUE / FALSE ---------- */
+function trueFalse(){
+  var it = TF[ii], c = byId(it.who);
+  var line = tazh(c) + '是' + it.claim + '。';
+
+  stage.innerHTML = head()
+    + capy(c,140)
+    + '<div class="who"><div class="nm zh">' + c.nm + '</div><div class="py">' + c.py + '</div></div>'
+    + '<div class="claim"><div class="s zh">' + line + '</div>'
+    +   '<div class="p">The sign on the door says this. Is it right?</div></div>'
+    + '<button class="say" id="say">🔊 Listen</button>'
+    + '<div class="opts two" id="opts">'
+    +   '<button class="opt big" data-v="1"><span class="zh">对</span><span class="sub">duì — true</span></button>'
+    +   '<button class="opt big" data-v="0"><span class="zh">不对</span><span class="sub">bú duì — false</span></button>'
+    + '</div>'
+    + '<div class="verdict" id="verdict"></div>'
+    + '<div class="hint">' + (ii+1) + ' / ' + TF.length + '</div>';
+
+  document.getElementById('say').onclick = function(){ speak(line); };
+
+  var btns = document.querySelectorAll('#opts .opt');
+  for(var i=0;i<btns.length;i++){
+    btns[i].onclick = (function(b){ return function(){
+      if(locked) return; locked = true;
+      var said = b.getAttribute('data-v') === '1';
+      var ok = (said === it.ok);
+      for(var k=0;k<btns.length;k++){
+        btns[k].disabled = true;
+        var v = btns[k].getAttribute('data-v') === '1';
+        if(v === it.ok) btns[k].classList.add('right');
+        else if(btns[k] === b) btns[k].classList.add('wrong');
+      }
+      if(ok) bump();
+      if(it.ok){
+        verdict(ok, '<span class="zh">' + line + '</span> <span class="py">The sign is correct — '
+          + taEnLow(c) + ' really is a ' + c.jen + '.</span>');
+        speak(line);
+        stage.insertAdjacentHTML('beforeend', nextBtn(ii === TF.length-1 ? 'Next station →' : 'Keep going'));
+        wireNext();
+      } else {
+        verdict(ok, 'The sign is wrong. So what is ' + taEnLow(c) + ' really?');
+        askFix(it, c);
+      }
+    };})(btns[i]);
+  }
+}
+function askFix(it, c){
+  var bag = it.opts.slice().sort(function(){ return Math.random() - .5; });
+  var html = '<div class="opts three" id="fix">';
+  for(var i=0;i<bag.length;i++){
+    html += '<button class="opt" data-j="' + bag[i] + '"><span class="zh">' + bag[i] + '</span></button>';
+  }
+  html += '</div>';
+  document.getElementById('verdict').insertAdjacentHTML('afterend', html);
+
+  var done = false;
+  var btns = document.querySelectorAll('#fix .opt');
+  for(var k=0;k<btns.length;k++){
+    btns[k].onclick = (function(b){ return function(){
+      if(done) return; done = true;
+      var good = b.getAttribute('data-j') === c.job;
+      for(var m=0;m<btns.length;m++){
+        btns[m].disabled = true;
+        if(btns[m].getAttribute('data-j') === c.job) btns[m].classList.add('right');
+        else if(btns[m] === b) btns[m].classList.add('wrong');
+      }
+      if(good) bump();
+      var full = tazh(c) + '不是' + it.claim + '，' + tazh(c) + '是' + c.job + '。';
+      verdict(good, '<span class="zh">' + full + '</span> <span class="py">tā bú shì …, tā shì ' + c.jpy + '.</span><br>'
+        + taEn(c) + ' is not that — ' + taEnLow(c) + ' is a ' + c.jen + '. That is the pattern: <b class="zh">不是 X，是 Y</b>.');
+      speak(full);
+      stage.insertAdjacentHTML('beforeend', nextBtn(ii === TF.length-1 ? 'Next station →' : 'Keep going'));
+      wireNext();
+    };})(btns[k]);
+  }
+}
+
+/* ---------- 3. 也 ---------- */
+function yeRound(){
+  var it = YE[ii], A = byId(it.a), B = byId(it.b);
+  var first, tail, choices;
+
+  if(it.kind === 'qu'){
+    first = tazh(A) + '去' + it.frag + '。';
+    tail = it.frag + '。';
+    choices = ['也去','不去','去'];
+  } else if(it.kind === 'work'){
+    first = tazh(A) + '工作。';
+    tail = '工作。';
+    choices = ['也','不','也不'];
+  } else {
+    first = tazh(A) + '是' + it.frag + '。';
+    tail = it.frag + '。';
+    choices = ['也是','不是','是'];
+  }
+
+  var opts = '';
+  for(var i=0;i<choices.length;i++){
+    opts += '<button class="opt" data-o="' + choices[i] + '"><span class="zh">' + choices[i] + '</span></button>';
+  }
+
+  stage.innerHTML = head()
+    + '<div style="display:flex;gap:10px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-top:6px">'
+    +   '<div style="text-align:center">' + capy(A,108) + '<div class="zh" style="font-weight:700;font-size:1.2rem">' + A.nm + '</div></div>'
+    +   '<div style="text-align:center">' + capy(B,108) + '<div class="zh" style="font-weight:700;font-size:1.2rem">' + B.nm + '</div></div>'
+    + '</div>'
+    + '<div class="claim">'
+    +   '<div class="s zh" style="font-size:1.3rem;opacity:.7">' + first + '</div>'
+    +   '<div class="s zh" style="margin-top:10px">' + B.nm + '<span class="gap"></span>' + tail + '</div>'
+    + '</div>'
+    + '<button class="say" id="say">🔊 Listen to the first sentence</button>'
+    + '<div class="opts three" id="opts">' + opts + '</div>'
+    + '<div class="verdict" id="verdict"></div>'
+    + '<div class="hint">' + (ii+1) + ' / ' + YE.length + '</div>';
+
+  document.getElementById('say').onclick = function(){ speak(first); };
+
+  var btns = document.querySelectorAll('#opts .opt');
+  for(var k=0;k<btns.length;k++){
+    btns[k].onclick = (function(b){ return function(){
+      if(locked) return; locked = true;
+      var ok = b.getAttribute('data-o') === it.right;
+      for(var m=0;m<btns.length;m++){
+        btns[m].disabled = true;
+        if(btns[m].getAttribute('data-o') === it.right) btns[m].classList.add('right');
+        else if(btns[m] === b) btns[m].classList.add('wrong');
+      }
+      if(ok) bump();
+      var full = B.nm + it.right + tail;
+      verdict(ok, '<span class="zh">' + full + '</span><br>' + esc(it.why));
+      speak(full);
+      stage.insertAdjacentHTML('beforeend', nextBtn(ii === YE.length-1 ? 'Next station →' : 'Keep going'));
+      wireNext();
+    };})(btns[k]);
+  }
+}
+
+/* ---------- 4. LISTENING ---------- */
+function listenRound(){
+  var it = LISTEN[ii], right = byId(it.who);
+  var others = [];
+  for(var i=0;i<CAST.length;i++){ if(CAST[i].id !== right.id) others.push(CAST[i]); }
+  others.sort(function(){ return Math.random() - .5; });
+  var pool = [right, others[0], others[1]].sort(function(){ return Math.random() - .5; });
+
+  var opts = '';
+  for(i=0;i<pool.length;i++){
+    opts += '<button class="opt" data-id="' + pool[i].id + '">' + capy(pool[i],92)
+         + '<span class="zh" style="font-size:1.15rem">' + pool[i].nm + '</span></button>';
+  }
+
+  stage.innerHTML = head()
+    + '<button class="say" id="say" style="font-size:1.12rem;padding:14px 30px">🔊 Play</button>'
+    + '<div class="hint" id="hint">' + (voice ? (ii+1) + ' / ' + LISTEN.length
+        : 'No Chinese voice — read it instead: <b class="zh">' + it.say + '</b>') + '</div>'
+    + '<div class="opts three" id="opts">' + opts + '</div>'
+    + '<div class="verdict" id="verdict"></div>';
+
+  function play(){
+    if(!speak(it.say)){
+      document.getElementById('hint').innerHTML = 'No Chinese voice — read it instead: <b class="zh">' + it.say + '</b>';
+    }
+  }
+  document.getElementById('say').onclick = play;
+  if(voice) play();
+
+  var btns = document.querySelectorAll('#opts .opt');
+  for(var k=0;k<btns.length;k++){
+    btns[k].onclick = (function(b){ return function(){
+      if(locked) return; locked = true;
+      var ok = b.getAttribute('data-id') === right.id;
+      for(var m=0;m<btns.length;m++){
+        btns[m].disabled = true;
+        if(btns[m].getAttribute('data-id') === right.id) btns[m].classList.add('right');
+        else if(btns[m] === b) btns[m].classList.add('wrong');
+      }
+      if(ok) bump();
+      verdict(ok, '<span class="zh">' + it.say + '</span><br>That is <b class="zh">' + right.nm + '</b> — '
+        + right.jen + ', ' + right.nen + '.');
+      stage.insertAdjacentHTML('beforeend', nextBtn(ii === LISTEN.length-1 ? 'Last station →' : 'Keep going'));
+      wireNext();
+    };})(btns[k]);
+  }
+}
+
+/* ---------- 5. SPEAK ---------- */
+function speakRound(){
+  var c = byId(SPEAK[ii]);
+  var line = tazh(c) + '叫' + c.nm + '。' + tazh(c) + '是' + c.job + '。' + tazh(c) + '是' + c.nat + '。';
+
+  stage.innerHTML = head()
+    + capy(c,165)
+    + '<div class="who"><div class="nm zh">' + c.nm + '</div><div class="py">' + c.py + '</div></div>'
+    + '<ul class="prompts">'
+    +   '<li><b>1</b> · What is ' + herHis(c) + ' name?</li>'
+    +   '<li><b>2</b> · What is ' + herHis(c) + ' job?</li>'
+    +   '<li><b>3</b> · Where is ' + taEnLow(c) + ' from?</li>'
+    + '</ul>'
+    + '<div class="row"><button class="btn sage" id="reveal">Check myself</button></div>'
+    + '<div class="model" id="model">'
+    +   '<div class="zh">' + tazh(c) + '叫' + c.nm + '。<br>' + tazh(c) + '是' + c.job + '。<br>' + tazh(c) + '是' + c.nat + '。</div>'
+    +   '<div class="py">tā jiào ' + c.py + '. tā shì ' + c.jpy + '. tā shì ' + c.npy + '.</div>'
+    +   '<button class="say" id="say">🔊 Listen</button>'
+    + '</div>'
+    + '<div class="hint">' + (ii+1) + ' / ' + SPEAK.length + '</div>';
+
+  document.getElementById('reveal').onclick = function(){
+    document.getElementById('model').classList.add('show');
+    speak(line);
+    document.getElementById('say').onclick = function(){ speak(line); };
+    if(!document.getElementById('next')){
+      stage.insertAdjacentHTML('beforeend', nextBtn(ii === SPEAK.length-1 ? 'Finish 🎫' : 'Keep going'));
+    }
+    wireNext();
+  };
+}
+
+/* ---------- FINISH ---------- */
+function finish(){
+  paintTrack();
+  var falseCount = 0;
+  for(var i=0;i<TF.length;i++){ if(!TF[i].ok) falseCount++; }
+  var total = TF.length + falseCount + YE.length + LISTEN.length;
+  var pct = badges / total;
+  var line = pct >= .9 ? '太厉害了！Almost perfect.'
+           : pct >= .7 ? '很好！Strong run.'
+           : pct >= .5 ? '不错。Solid — the second run is always faster.'
+           : '加油！Every run makes the next one easier.';
+
+  stage.innerHTML =
+    '<div class="center" style="padding:18px 0 8px">'
+    + '<div class="h1zh" style="font-size:1.05rem">水豚职业中心 · 下班了</div>'
+    + '<div class="score">🎫 ' + badges + '</div>'
+    + '<h1 style="font-size:clamp(1.3rem,5.5vw,2rem);margin-top:6px">' + esc(line) + '</h1>'
+    + '<p class="lead">' + badges + ' job tickets out of ' + total + '. All five stations cleared.</p>'
+    + '<div class="row"><button class="btn" id="again">Run it again</button>'
+    +   '<button class="btn ghost" id="menu">Back to the door</button></div>'
+    + '</div>';
+
+  document.getElementById('again').onclick = function(){
+    si = 0; ii = 0; badges = 0;
+    document.querySelector('#badges b').textContent = 0;
+    paintTrack(); render();
+  };
+  document.getElementById('menu').onclick = title;
+}
+
+title();
+</script>
+</body>
+</html>
