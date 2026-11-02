@@ -317,12 +317,44 @@ function drawClock(h, m){
     + '</svg>';
 }
 
+var selectedVoice = null;
+function getEdgeChildVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  var vs = window.speechSynthesis.getVoices();
+  if (!vs || !vs.length) return null;
+  var filters = [
+    function(v){ return /yunxia|云夏/i.test(v.name); },
+    function(v){ return /xiaoxiao|晓晓/i.test(v.name); },
+    function(v){ return /yunjian|云健|xiaoyi/i.test(v.name); },
+    function(v){ return /natural.*zh/i.test(v.name); },
+    function(v){ return /google.*普通话/i.test(v.name); },
+    function(v){ return /^zh-CN/i.test(v.lang); },
+    function(v){ return /^zh/i.test(v.lang); }
+  ];
+  for (var i = 0; i < filters.length; i++) {
+    for (var k = 0; k < vs.length; k++) {
+      if (filters[i](vs[k])) return vs[k];
+    }
+  }
+  return vs[0] || null;
+}
+if ('speechSynthesis' in window) {
+  selectedVoice = getEdgeChildVoice();
+  window.speechSynthesis.onvoiceschanged = function(){ selectedVoice = getEdgeChildVoice(); };
+}
+
 function speakZh(text){
   if(!('speechSynthesis' in window)) return;
   try {
+    if(!selectedVoice) selectedVoice = getEdgeChildVoice();
     var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN';
-    u.rate = 0.8;
+    if(selectedVoice){
+      u.voice = selectedVoice;
+      u.lang = selectedVoice.lang || 'zh-CN';
+    } else {
+      u.lang = 'zh-CN';
+    }
+    u.rate = 0.7; // 0.7x speed for child-friendly listening
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   } catch(e) {}
