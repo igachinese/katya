@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⏰ Тренажёр времени с капибарой · Katya Chinese</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbf3e4;
+    --paper2: #f4e8d3;
+    --ink: #3a2a1c;
+    --ink-soft: #8a7457;
+    --terra: #d4643c;
+    --terra-d: #a94525;
+    --sage: #5f9270;
+    --sage-d: #477254;
+    --honey: #e8a83a;
+    --line: #e0cca8;
+    --fur: #a8794f;
+    --fur-d: #8a6039;
+    --fur-l: #c79a6b;
+    --blue: #4a90e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(ellipse 90% 50% at 50% 0%, #fffaf0 0%, transparent 62%),
+      repeating-linear-gradient(135deg, rgba(224,204,168,.16) 0 2px, transparent 2px 9px),
+      var(--paper);
+    color: var(--ink);
+    font-family: 'Nunito', 'Baloo 2', system-ui, sans-serif;
+    padding: 0 16px 48px;
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh;
+  }
+  .zh { font-family: 'Noto Sans SC', sans-serif; }
+
+  .top-nav {
+    width: 100%; max-width: 760px; margin: 16px auto 8px; display: flex; justify-content: flex-start;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 2px solid var(--line); border-radius: 14px;
+    padding: 10px 18px; font-weight: 800; font-size: 0.98rem; color: var(--ink);
+    text-decoration: none; box-shadow: 0 4px 14px rgba(90,60,25,.08);
+    transition: all .15s ease;
+  }
+  .back-btn:hover { border-color: var(--terra); color: var(--terra-d); transform: translateX(-2px); }
+
+  header {
+    width: 100%; max-width: 760px; padding: 14px 0 10px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .logo { font-size: 1.25rem; font-weight: 900; color: var(--terra); display: flex; align-items: center; gap: 8px; }
+  .logo span { font-weight: 800; color: var(--ink); font-size: 1rem; }
+  .badges { margin-left: auto; font-weight: 800; font-size: 1.1rem; color: var(--terra-d); }
+
+  .track { width: 100%; max-width: 760px; display: flex; gap: 6px; margin-bottom: 16px; }
+  .track i { flex: 1; height: 8px; border-radius: 4px; background: var(--line); }
+  .track i.done { background: var(--sage); }
+  .track i.now { background: var(--terra); }
+
+  main { width: 100%; max-width: 760px; }
+  .card {
+    background: #fffdf8; border: 2px solid var(--line); border-radius: 24px;
+    padding: 26px 22px; box-shadow: 0 14px 34px rgba(90,60,25,.12);
+  }
+  .title-tag {
+    display: inline-block; background: var(--paper2); border-radius: 999px;
+    padding: 4px 14px; font-size: 0.88rem; font-weight: 800; color: var(--terra);
+    margin-bottom: 10px; border: 1px solid var(--line);
+  }
+
+  /* Analog clock */
+  .clock-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 10px 0 20px; }
+  .clock-svg { filter: drop-shadow(0 8px 16px rgba(90,60,25,.15)); }
+
+  .digital-time {
+    font-size: 2.2rem; font-weight: 900; color: var(--terra);
+    margin-top: 10px; letter-spacing: 0.05em; font-family: 'Baloo 2', sans-serif;
+  }
+  .period-badge {
+    display: inline-block; background: #eef7f0; color: var(--sage-d);
+    padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; margin-top: 4px;
+  }
+
+  .question-prompt {
+    text-align: center; font-size: 1.35rem; font-weight: 800; color: var(--ink); margin-bottom: 16px;
+  }
+  .question-prompt .zh { font-size: 1.6rem; color: var(--terra-d); }
+
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media(max-width: 580px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .opt-btn {
+    background: #ffffff; border: 2px solid var(--line); border-radius: 16px;
+    padding: 16px 14px; cursor: pointer; text-align: center; transition: all .15s ease;
+    font-family: inherit; color: var(--ink);
+  }
+  .opt-btn .zh { font-size: 1.55rem; font-weight: 800; display: block; margin-bottom: 4px; }
+  .opt-btn .py { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; }
+  .opt-btn:hover:not(:disabled) { border-color: var(--honey); background: #fffcf2; transform: translateY(-2px); }
+  .opt-btn.correct { background: #eef7f0; border-color: var(--sage); color: var(--sage-d); }
+  .opt-btn.wrong { background: #fdeee9; border-color: var(--terra); color: var(--terra-d); }
+  .opt-btn:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 18px; padding: 14px 18px; border-radius: 16px; display: none;
+    font-size: 1.05rem; line-height: 1.5; font-weight: 600;
+  }
+  .feedback.show { display: block; }
+  .feedback.good { background: #eef7f0; border-left: 6px solid var(--sage); color: var(--sage-d); }
+  .feedback.fix { background: #fdf4e6; border-left: 6px solid var(--honey); color: var(--ink); }
+
+  .btn {
+    font-family: 'Baloo 2', system-ui, sans-serif; font-weight: 800; font-size: 1.08rem;
+    background: var(--terra); color: #fff; border: none; border-radius: 14px;
+    padding: 12px 28px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 12px rgba(212,100,60,.3); transition: all .15s;
+  }
+  .btn:hover { background: var(--terra-d); transform: translateY(-1px); }
+  .btn-center { display: flex; justify-content: center; margin-top: 20px; }
+  .btn-audio {
+    background: var(--paper2); border: 2px solid var(--line); border-radius: 999px;
+    padding: 8px 18px; font-weight: 700; font-size: 0.92rem; color: var(--ink);
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin: 8px auto 0;
+  }
+  .btn-audio:hover { border-color: var(--terra); color: var(--terra-d); }
+
+  .capy-speech {
+    display: flex; align-items: center; gap: 14px; background: var(--paper2);
+    border: 2px dashed var(--line); border-radius: 18px; padding: 12px 18px; margin-bottom: 18px;
+  }
+  .capy-speech-text { font-size: 1rem; color: var(--ink); line-height: 1.4; }
+  .capy-speech-text b { color: var(--terra-d); }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" class="back-btn">⬅️ Вернуться назад в Главное меню</a>
+</div>
+
+<header>
+  <div class="logo zh">⏰ 几点了？<span>Тренажёр времени с капибарой</span></div>
+  <div class="badges" id="badges">⭐ <b>0</b> / 10</div>
+</header>
+
+<div class="track" id="track"></div>
+
+<main>
+  <section class="card" id="stage"></section>
+</main>
+
+<script>
+var ITEMS = [
+  {
+    h: 8, m: 0, period: '早上 (утро)', periodZh: '早上',
+    correctZh: '早上八点', correctPy: 'zǎoshang bā diǎn',
+    ru: '8:00 утра',
+    options: [
+      { zh: '早上八点', py: 'zǎoshang bā diǎn' },
+      { zh: '晚上八点', py: 'wǎnshang bā diǎn' },
+      { zh: '早上八分', py: 'zǎoshang bā fēn' },
+      { zh: '下午八点', py: 'xiàwǔ bā diǎn' }
+    ],
+    rule: 'Называем период (早上) + час (八) + 点 (час на часах).'
+  },
+  {
+    h: 2, m: 30, period: '下午 (день)', periodZh: '下午',
+    correctZh: '下午两点半', correctPy: 'xiàwǔ liǎng diǎn bàn',
+    ru: '14:30 (полтретьего дня)',
+    options: [
+      { zh: '下午两点半', py: 'xiàwǔ liǎng diǎn bàn' },
+      { zh: '下午二点半', py: 'xiàwǔ èr diǎn bàn' },
+      { zh: '上午两点半', py: 'shàngwǔ liǎng diǎn bàn' },
+      { zh: '下午两点刻', py: 'xiàwǔ liǎng diǎn kè' }
+    ],
+    rule: '❗ Важно: «2 часа» перед счётным словом — строго 两 liǎng (两点), а не 二! Половина — 半 bàn.'
+  },
+  {
+    h: 9, m: 15, period: '晚上 (вечер)', periodZh: '晚上',
+    correctZh: '晚上九点一刻', correctPy: 'wǎnshang jiǔ diǎn yí kè',
+    ru: '21:15 (четверть десятого вечера)',
+    options: [
+      { zh: '晚上九点一刻', py: 'wǎnshang jiǔ diǎn yí kè' },
+      { zh: '晚上九点三刻', py: 'wǎnshang jiǔ diǎn sān kè' },
+      { zh: '早上九点一刻', py: 'zǎoshang jiǔ diǎn yí kè' },
+      { zh: '晚上九点十五', py: 'wǎnshang jiǔ diǎn shíwǔ' }
+    ],
+    rule: 'Четверть часа (15 минут) — это 一刻 yí kè. Три четверти (45 минут) — 三刻 sān kè.'
+  },
+  {
+    h: 6, m: 5, period: '早上 (утро)', periodZh: '早上',
+    correctZh: '早上六点零五分', correctPy: 'zǎoshang liù diǎn líng wǔ fēn',
+    ru: '6:05 утра',
+    options: [
+      { zh: '早上六点零五分', py: 'zǎoshang liù diǎn líng wǔ fēn' },
+      { zh: '早上六点五分', py: 'zǎoshang liù diǎn wǔ fēn' },
+      { zh: '早上六点五十分', py: 'zǎoshang liù diǎn wǔshí fēn' },
+      { zh: '下午六点零五分', py: 'xiàwǔ liù diǎn líng wǔ fēn' }
+    ],
+    rule: 'Ноль между часами и минутами — 零 líng! Чтобы 5 минут не перепутать с 50 минутами.'
+  },
+  {
+    h: 7, m: 45, period: '晚上 (вечер)', periodZh: '晚上',
+    correctZh: '晚上七点三刻', correctPy: 'wǎnshang qī diǎn sān kè',
+    ru: '19:45 (без четверти восемь вечера)',
+    options: [
+      { zh: '晚上七点三刻', py: 'wǎnshang qī diǎn sān kè' },
+      { zh: '晚上七点一刻', py: 'wǎnshang qī diǎn yí kè' },
+      { zh: '晚上八点三刻', py: 'wǎnshang bā diǎn sān kè' },
+      { zh: '早上七点三刻', py: 'zǎoshang qī diǎn sān kè' }
+    ],
+    rule: '45 минут — это 3 четверти: 三刻 sān kè. Семь часов и три четверти: 七点三刻.'
+  },
+  {
+    h: 12, m: 0, period: '中午 (полдень)', periodZh: '中午',
+    correctZh: '中午十二点', correctPy: 'zhōngwǔ shí’èr diǎn',
+    ru: '12:00 (полдень)',
+    options: [
+      { zh: '中午十二点', py: 'zhōngwǔ shí’èr diǎn' },
+      { zh: '晚上十二点', py: 'wǎnshang shí’èr diǎn' },
+      { zh: '中午两点', py: 'zhōngwǔ liǎng diǎn' },
+      { zh: '中午十点', py: 'zhōngwǔ shí diǎn' }
+    ],
+    rule: 'Полдень — 中午 zhōngwǔ. Двенадцать — 十二 shí’èr. Всё вместе: 中午十二点.'
+  },
+  {
+    h: 3, m: 10, period: '下午 (день)', periodZh: '下午',
+    correctZh: '下午三点十分', correctPy: 'xiàwǔ sān diǎn shí fēn',
+    ru: '15:10 дня',
+    options: [
+      { zh: '下午三点十分', py: 'xiàwǔ sān diǎn shí fēn' },
+      { zh: '下午三点十饭', py: 'xiàwǔ sān diǎn shí fàn' },
+      { zh: '上午三点十分', py: 'shàngwǔ sān diǎn shí fēn' },
+      { zh: '下午三点零十分', py: 'xiàwǔ sān diǎn líng shí fēn' }
+    ],
+    rule: '❗ Внимание: минута — fēn (分), а не fàn (饭 еда!).'
+  },
+  {
+    h: 10, m: 30, period: '上午 (до полудня)', periodZh: '上午',
+    correctZh: '上午十点半', correctPy: 'shàngwǔ shí diǎn bàn',
+    ru: '10:30 утра',
+    options: [
+      { zh: '上午十点半', py: 'shàngwǔ shí diǎn bàn' },
+      { zh: '下午十点半', py: 'xiàwǔ shí diǎn bàn' },
+      { zh: '上午十点三十', py: 'shàngwǔ shí diǎn sānshí' },
+      { zh: '晚上十点半', py: 'wǎnshang shí diǎn bàn' }
+    ],
+    rule: 'Половина одиннадцатого: час + 半 bàn. В первой половине дня — 上午 shàngwǔ.'
+  },
+  {
+    h: 4, m: 20, period: '下午 (день)', periodZh: '下午',
+    correctZh: '下午四点二十分', correctPy: 'xiàwǔ sì diǎn èrshí fēn',
+    ru: '16:20 дня',
+    options: [
+      { zh: '下午四点二十分', py: 'xiàwǔ sì diǎn èrshí fēn' },
+      { zh: '下午十点二十分', py: 'xiàwǔ shí diǎn èrshí fēn' },
+      { zh: '下午四点两十分', py: 'xiàwǔ sì diǎn liǎngshí fēn' },
+      { zh: '晚上四点二十分', py: 'wǎnshang sì diǎn èrshí fēn' }
+    ],
+    rule: 'В минутах 20 — это 二十 èrshí (не liǎngshí!). 两 ставим только перед счетным словом: 两点, 两个.'
+  },
+  {
+    h: 11, m: 50, period: '晚上 (вечер)', periodZh: '晚上',
+    correctZh: '晚上十一点五十分', correctPy: 'wǎnshang shíyī diǎn wǔshí fēn',
+    ru: '23:50 (без десяти полночь)',
+    options: [
+      { zh: '晚上十一点五十分', py: 'wǎnshang shíyī diǎn wǔshí fēn' },
+      { zh: '早上十一点五十分', py: 'zǎoshang shíyī diǎn wǔshí fēn' },
+      { zh: '晚上十二点五十分', py: 'wǎnshang shí’èr diǎn wǔshí fēn' },
+      { zh: '晚上十一点半', py: 'wǎnshang shíyī diǎn bàn' }
+    ],
+    rule: '晚上 + 十一点 + 五十分. Отличный финальный вопрос!'
+  }
+];
+
+var curr = 0, score = 0, locked = false;
+
+var trackEl = document.getElementById('track');
+for(var i=0; i<ITEMS.length; i++){ trackEl.insertAdjacentHTML('beforeend', '<i></i>'); }
+
+function updateTrack(){
+  var kids = trackEl.children;
+  for(var i=0; i<kids.length; i++){
+    kids[i].className = i < curr ? 'done' : (i === curr ? 'now' : '');
+  }
+}
+
+function drawClock(h, m){
+  var mAngle = m * 6;
+  var hAngle = (h % 12) * 30 + (m / 60) * 30;
+
+  var ticks = '';
+  for(var i=1; i<=12; i++){
+    var a = i * 30 * Math.PI / 180;
+    var x = 100 + 72 * Math.sin(a);
+    var y = 100 - 72 * Math.cos(a);
+    ticks += '<text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="14" fill="#3a2a1c">' + i + '</text>';
+  }
+
+  return '<svg class="clock-svg" width="180" height="180" viewBox="0 0 200 200">'
+    + '<circle cx="100" cy="100" r="92" fill="#fffdf8" stroke="#d4643c" stroke-width="8"/>'
+    + '<circle cx="100" cy="100" r="84" fill="#fcf8f2" stroke="#e0cca8" stroke-width="2"/>'
+    + ticks
+    /* Hour hand */
+    + '<line x1="100" y1="100" x2="100" y2="52" stroke="#3a2a1c" stroke-width="6" stroke-linecap="round" transform="rotate(' + hAngle + ' 100 100)"/>'
+    /* Minute hand */
+    + '<line x1="100" y1="100" x2="100" y2="34" stroke="#d4643c" stroke-width="4" stroke-linecap="round" transform="rotate(' + mAngle + ' 100 100)"/>'
+    /* Center cap */
+    + '<circle cx="100" cy="100" r="6" fill="#d4643c"/>'
+    + '<circle cx="100" cy="100" r="2.5" fill="#fff"/>'
+    + '</svg>';
+}
+
+function speakZh(text){
+  if(!('speechSynthesis' in window)) return;
+  try {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    u.rate = 0.8;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  } catch(e) {}
+}
+
+function renderCard(){
+  updateTrack();
+  if(curr >= ITEMS.length){
+    return finishScreen();
+  }
+  locked = false;
+  var it = ITEMS[curr];
+  var stage = document.getElementById('stage');
+
+  var optsHtml = '';
+  var shuffled = it.options.slice();
+  for(var i=0; i<shuffled.length; i++){
+    optsHtml += '<button class="opt-btn" data-zh="' + shuffled[i].zh + '">'
+      + '<span class="zh">' + shuffled[i].zh + '</span>'
+      + '<span class="py">' + shuffled[i].py + '</span>'
+      + '</button>';
+  }
+
+  stage.innerHTML = ''
+    + '<div class="capy-speech">'
+    + '  <div style="font-size:2rem">🦫</div>'
+    + '  <div class="capy-speech-text">Капибара Минмин спрашивает: <b>现在几点？</b> (Который сейчас час?) Посмотри на циферблат и выбери правильный ответ!</div>'
+    + '</div>'
+    + '<div class="clock-wrap">'
+    + drawClock(it.h, it.m)
+    + '  <div class="digital-time">' + (it.h < 10 ? '0' + it.h : it.h) + ':' + (it.m < 10 ? '0' + it.m : it.m) + '</div>'
+    + '  <div class="period-badge">' + it.period + ' · ' + it.ru + '</div>'
+    + '  <button class="btn-audio" id="audio-q">🔊 Прослушать подсказку</button>'
+    + '</div>'
+    + '<div class="options-grid" id="opts-grid">' + optsHtml + '</div>'
+    + '<div class="feedback" id="feedback"></div>'
+    + '<div class="btn-center" id="next-wrap" style="display:none">'
+    + '  <button class="btn" id="next-btn">Следующий вопрос →</button>'
+    + '</div>';
+
+  document.getElementById('audio-q').onclick = function(){
+    speakZh(it.correctZh);
+  };
+
+  var btns = document.querySelectorAll('#opts-grid .opt-btn');
+  for(var k=0; k<btns.length; k++){
+    btns[k].onclick = (function(btn){
+      return function(){
+        if(locked) return;
+        locked = true;
+        var chosen = btn.getAttribute('data-zh');
+        var isRight = (chosen === it.correctZh);
+
+        for(var m=0; m<btns.length; m++){
+          btns[m].disabled = true;
+          if(btns[m].getAttribute('data-zh') === it.correctZh){
+            btns[m].classList.add('correct');
+          } else if(btns[m] === btn){
+            btns[m].classList.add('wrong');
+          }
+        }
+
+        var fb = document.getElementById('feedback');
+        fb.className = 'feedback show ' + (isRight ? 'good' : 'fix');
+        if(isRight){
+          score++;
+          document.querySelector('#badges b').textContent = score;
+          fb.innerHTML = '🎉 <b>Верно! 对！</b><br><span class="zh" style="font-size:1.25rem;font-weight:700">' + it.correctZh + '</span> (' + it.correctPy + ')<br>' + it.rule;
+        } else {
+          fb.innerHTML = '💡 <b>Почти! Давай запомним:</b><br>Правильно: <span class="zh" style="font-size:1.25rem;font-weight:700">' + it.correctZh + '</span> (' + it.correctPy + ')<br>' + it.rule;
+        }
+
+        speakZh(it.correctZh);
+
+        document.getElementById('next-wrap').style.display = 'flex';
+        document.getElementById('next-btn').onclick = function(){
+          curr++;
+          renderCard();
+        };
+      };
+    })(btns[k]);
+  }
+}
+
+function finishScreen(){
+  var stage = document.getElementById('stage');
+  var pct = Math.round((score / ITEMS.length) * 100);
+  stage.innerHTML = ''
+    + '<div style="text-align:center;padding:24px 10px">'
+    + '  <div style="font-size:4rem">🏆</div>'
+    + '  <h2 style="font-size:2rem;color:var(--terra);margin:8px 0">Отличная работа, Катя!</h2>'
+    + '  <p style="font-size:1.15rem;color:var(--ink-soft);margin-bottom:16px">Твой результат: <b>' + score + ' из ' + ITEMS.length + '</b> (' + pct + '%)</p>'
+    + '  <div style="background:var(--paper2);border:2px dashed var(--line);border-radius:18px;padding:16px 20px;max-width:440px;margin:0 auto 24px;text-align:left;line-height:1.6">'
+    + '    🦫 <b>Капибара Минмин ставит зачёт по теме 10 «Время»!</b><br>'
+    + '    Теперь ты уверенно читаешь часы, минуты, половины и четверти. На следующем уроке переходим к теме 11 «Распорядок дня»! ⏰'
+    + '  </div>'
+    + '  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
+    + '    <button class="btn" onclick="curr=0;score=0;document.querySelector(\'#badges b\').textContent=0;renderCard();">🔄 Пройти ещё раз</button>'
+    + '    <a href="index.html" class="btn" style="background:var(--sage);text-decoration:none">🏠 В Главное меню</a>'
+    + '  </div>'
+    + '</div>';
+}
+
+renderCard();
+</script>
+</body>
+</html>
