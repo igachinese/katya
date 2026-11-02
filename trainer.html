@@ -15,7 +15,12 @@
 <div class="top-bar">
   <div class="top-bar-in">
     <a href="index.html" class="back-btn">⬅️ Вернуться назад в Главное меню</a>
-    <div class="top-title zh">卡佳 · 汉字练习本</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="voice-badge" id="voiceIndicator" onclick="cycleSpeed()" title="Нажми, чтобы изменить скорость озвучки">
+        🔊 <span id="voiceSpeedLabel">0.7x</span> · <span id="voiceNameLabel">Детский голос</span>
+      </button>
+      <div class="top-title zh">卡佳 · 汉字练习本</div>
+    </div>
   </div>
 </div>
 
@@ -28,11 +33,11 @@
         <span class="header-zh zh">卡佳 · 词汇</span>
       </h1>
       <p class="header-desc">
-        Минималистичный академический тренажёр: отработка слов по темам учебника и сквозные экзаменационные форматы HSK 1.
+        Академический стиль китайской тетради (米字格): 15 тем учебника, сквозные экзаменационные форматы HSK 1 и озвучка в замедленном темпе 0.7x.
       </p>
     </div>
     <div style="text-align:right">
-      <span class="section-count" id="totalWordsBadge">Загрузка...</span>
+      <span class="section-count" id="totalWordsBadge">290 уникальных слов</span>
     </div>
   </header>
 
@@ -67,7 +72,7 @@
         <div>
           <div class="gen-zh zh">听力</div>
           <div class="gen-t">На слух (HSK 1)</div>
-          <div class="gen-d">Слушаешь произношение на китайском и выбираешь правильный иероглиф.</div>
+          <div class="gen-d">Слушаешь чистое детское произношение 0.7x и выбираешь нужный иероглиф.</div>
         </div>
       </div>
 
@@ -113,7 +118,7 @@
     </div>
 
     <!-- SECTION 2: TOPIC-BY-TOPIC DRILLS -->
-    <div class="section-head" style="margin-top:36px">
+    <div class="section-head" style="margin-top:38px">
       <h2 class="section-title">
         <span>📚 Отработка по темам</span>
       </h2>
@@ -137,9 +142,14 @@
 
   <!-- Exercise Play Screen -->
   <section id="playView" class="view-box hide">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
       <button class="btn-sub-back" onclick="exitExercise()" style="margin-bottom:0">← Закончить тренировку</button>
-      <span id="playCounter" style="font-weight:800;font-size:0.92rem;color:var(--ink-soft)">1 / 10</span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="voice-badge" onclick="cycleSpeed()" title="Сменить скорость озвучки">
+          ⚡ <span class="current-speed-tag">0.7x</span>
+        </button>
+        <span id="playCounter" style="font-weight:900;font-size:1rem;color:var(--ink-soft)">1 / 10</span>
+      </div>
     </div>
     <div class="progress-line">
       <div class="progress-fill" id="playProgressBar" style="width:0%"></div>
@@ -149,19 +159,19 @@
       <!-- Injected via JS depending on mode -->
     </div>
 
-    <div id="playActions" class="text-center" style="margin-top:16px"></div>
+    <div id="playActions" class="text-center" style="margin-top:18px"></div>
   </section>
 
   <!-- Result Screen -->
   <section id="resultView" class="view-box hide text-center">
-    <div style="font-size:3.5rem;margin-bottom:12px" id="resIcon">🏆</div>
+    <div style="font-size:3.8rem;margin-bottom:12px" id="resIcon">🏆</div>
     <h2 class="sub-title" id="resTitle">Тренировка завершена</h2>
     <p class="sub-desc" id="resSubtitle">Результат сохранён</p>
-    <div id="resMistakes" class="hide" style="max-width:480px;margin:16px auto;text-align:left;background:var(--paper);padding:14px 18px;border-radius:12px;border:1px solid var(--border)">
-      <b style="font-size:0.92rem;color:var(--accent)">Обрати внимание на слова:</b>
-      <ul id="resMistakesList" style="margin-top:8px;padding-left:18px;font-size:0.92rem;line-height:1.6"></ul>
+    <div id="resMistakes" class="hide" style="max-width:480px;margin:18px auto;text-align:left;background:var(--paper);padding:16px 20px;border-radius:14px;border:1px solid var(--border)">
+      <b style="font-size:0.95rem;color:var(--accent)">Обрати внимание на слова:</b>
+      <ul id="resMistakesList" style="margin-top:8px;padding-left:18px;font-size:0.94rem;line-height:1.65"></ul>
     </div>
-    <div style="display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
       <button class="btn-primary" id="btnAgain">Повторить режим</button>
       <button class="btn-secondary" onclick="showCatalog()">К списку тем</button>
     </div>
@@ -169,6 +179,96 @@
 </div>
 
 <script>
+/* ================= ADVANCED SPEECH ENGINE (EDGE CHILD VOICE 0.7x + FALLBACK CHAIN) ================= */
+let selectedVoice = null;
+let currentRate = 0.7; // Automatically 0.7x for clear child comprehension
+
+function detectBestVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices || voices.length === 0) return null;
+
+  // Exact priority ranking for best child / natural voices:
+  // 1. Yunxia (Microsoft Edge online child voice - boy)
+  // 2. Xiaoxiao (Microsoft Edge online young voice - girl)
+  // 3. Yunjian / Xiaoyi / other Microsoft Edge online natural voices
+  // 4. Google 普通话 (Chrome child/clear natural)
+  // 5. Apple Tingting / Sinji
+  // 6. Any zh-CN voice
+  // 7. Any zh voice
+  // 8. Fallback to first available voice
+  const filters = [
+    v => /yunxia|云夏/i.test(v.name),
+    v => /xiaoxiao|晓晓/i.test(v.name),
+    v => /yunjian|云健/i.test(v.name),
+    v => /xiaoyi|晓依/i.test(v.name),
+    v => /natural.*zh/i.test(v.name),
+    v => /zh-cn.*natural/i.test(v.name),
+    v => /google.*普通话/i.test(v.name),
+    v => /tingting/i.test(v.name),
+    v => /^zh-CN/i.test(v.lang),
+    v => /^zh/i.test(v.lang)
+  ];
+
+  for (const fn of filters) {
+    const candidate = voices.find(fn);
+    if (candidate) return candidate;
+  }
+  return voices[0] || null;
+}
+
+function updateVoiceUI() {
+  selectedVoice = detectBestVoice();
+  const nameLabel = document.getElementById('voiceNameLabel');
+  const speedLabel = document.getElementById('voiceSpeedLabel');
+  const speedTags = document.querySelectorAll('.current-speed-tag');
+
+  if (speedLabel) speedLabel.textContent = `${currentRate}x`;
+  speedTags.forEach(el => el.textContent = `${currentRate}x`);
+
+  if (nameLabel) {
+    if (selectedVoice) {
+      if (/yunxia|云夏/i.test(selectedVoice.name)) nameLabel.textContent = 'Детский голос (Yunxia)';
+      else if (/xiaoxiao|晓晓/i.test(selectedVoice.name)) nameLabel.textContent = 'Юный голос (Xiaoxiao)';
+      else nameLabel.textContent = selectedVoice.name.replace(/Microsoft |Online |\(Natural\)|Google /g, '').slice(0, 15);
+    } else {
+      nameLabel.textContent = 'Синтез речи';
+    }
+  }
+}
+
+function cycleSpeed() {
+  if (currentRate === 0.7) currentRate = 0.5;
+  else if (currentRate === 0.5) currentRate = 0.85;
+  else currentRate = 0.7;
+  updateVoiceUI();
+  speak('你好');
+}
+
+if ('speechSynthesis' in window) {
+  updateVoiceUI();
+  window.speechSynthesis.onvoiceschanged = updateVoiceUI;
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    if (!selectedVoice) selectedVoice = detectBestVoice();
+    const u = new SpeechSynthesisUtterance(text);
+    if (selectedVoice) {
+      u.voice = selectedVoice;
+      u.lang = selectedVoice.lang || 'zh-CN';
+    } else {
+      u.lang = 'zh-CN';
+    }
+    u.rate = currentRate; // Strictly 0.7x by default
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  } catch (e) {
+    console.error('Speech error:', e);
+  }
+}
+
 /* ================= STATE & DATA ================= */
 let DATA = null;
 let ALL_WORDS = [];
@@ -179,18 +279,6 @@ let Q_INDEX = 0;
 let SCORE = 0;
 let WRONG_WORDS = [];
 let LOCKED = false;
-
-/* ================= WEB SPEECH API (CHINESE) ================= */
-function speak(text) {
-  if (!('speechSynthesis' in window)) return;
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN';
-    u.rate = 0.82;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  } catch (e) {}
-}
 
 /* ================= LOAD DATA ================= */
 async function init() {
@@ -204,6 +292,7 @@ async function init() {
     document.getElementById('topicsCountBadge').textContent = `${DATA.topics.length} тем`;
 
     renderTopicsGrid();
+    updateVoiceUI();
   } catch (e) {
     document.getElementById('catalogView').innerHTML = `
       <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:24px;text-align:center">
@@ -244,9 +333,9 @@ function openTopic(topicId) {
   document.getElementById('tmDesc').textContent = `В теме ${ACTIVE_TOPIC.w.length} слов. Выбери формат отработки:`;
 
   const modes = [
-    { id: 'cards', zh: '认字', t: 'Карточки в клетке', d: 'Просмотр иероглифа в 米字格 с озвучкой.' },
+    { id: 'cards', zh: '认字', t: 'Карточки в клетке', d: 'Просмотр иероглифа в 米字格 с замедленной озвучкой 0.7x.' },
     { id: 'choice', zh: '选择', t: 'Выбор перевода', d: 'Быстрый проверочный тест из 4 вариантов.' },
-    { id: 'listen', zh: '听力', t: 'На слух', d: 'Слушай произношение и выбирай нужное слово.' },
+    { id: 'listen', zh: '听力', t: 'На слух (0.7x)', d: 'Слушай детское произношение и выбирай нужное слово.' },
     { id: 'tones', zh: '声调', t: 'Тренажёр тонов', d: 'Определи тоновый рисунок слова.' },
     { id: 'memory', zh: '配对', t: 'Пары (Memory)', d: 'Найди карточки иероглифов и переводов.' }
   ];
@@ -293,7 +382,6 @@ function startTopicMode(modeId) {
 function setupExercise(wordsPool, modeId) {
   if (!wordsPool || wordsPool.length === 0) return;
 
-  // Shuffle and pick pool
   const pool = wordsPool.slice().sort(() => Math.random() - 0.5);
   
   if (modeId === 'blitz') {
@@ -301,7 +389,6 @@ function setupExercise(wordsPool, modeId) {
   } else if (modeId === 'memory') {
     QUEUE = pool.slice(0, Math.min(6, pool.length));
   } else if (modeId === 'traps') {
-    // Collect tricky trap pairs
     const trapWords = [
       ["今天", "jīntiān", "сегодня"], ["今年", "jīnnián", "в этом году"],
       ["点", "diǎn", "час (на часах)"], ["两点", "liǎng diǎn", "два часа"],
@@ -383,7 +470,7 @@ function renderCardsMode(w, stage, actions) {
     <div class="py-line">${w[1]}</div>
     <div class="ru-line" id="cardTrans" style="visibility:hidden">${w[2]}</div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-secondary" onclick="speak('${w[0]}')">🔊 Озвучить</button>
+      <button class="btn-secondary" onclick="speak('${w[0]}')">🔊 Озвучить (0.7x)</button>
       <button class="btn-secondary" id="btnReveal" onclick="document.getElementById('cardTrans').style.visibility='visible'">Показать перевод</button>
     </div>
   `;
@@ -397,7 +484,6 @@ function renderCardsMode(w, stage, actions) {
 
 /* 2. CHOICE / TRAPS / BLITZ MODE */
 function renderChoiceMode(w, stage, actions) {
-  // Generate 4 options
   let options = [w];
   const others = ALL_WORDS.filter(x => x[0] !== w[0]).sort(() => Math.random() - 0.5);
   options.push(others[0], others[1], others[2]);
@@ -453,17 +539,17 @@ function renderListenMode(w, stage, actions) {
   options = options.filter(Boolean).sort(() => Math.random() - 0.5);
 
   stage.innerHTML = `
-    <div style="margin-bottom:20px;text-align:center">
-      <button class="btn-primary" onclick="speak('${w[0]}')" style="font-size:1.15rem;padding:14px 28px">
-        🔊 Прослушать слово
+    <div style="margin-bottom:22px;text-align:center">
+      <button class="btn-primary" onclick="speak('${w[0]}')" style="font-size:1.15rem;padding:15px 30px">
+        🔊 Прослушать (0.7x)
       </button>
-      <p style="color:var(--ink-soft);font-size:0.92rem;margin-top:10px">Нажми и выбери правильный иероглиф</p>
+      <p style="color:var(--ink-soft);font-size:0.95rem;margin-top:10px">Слушай внимательно и выбери правильный иероглиф</p>
     </div>
     <div class="opts-grid" id="listenOpts">
       ${options.map(opt => `
-        <button class="opt-btn zh" style="font-size:1.55rem;font-weight:900" onclick="checkListen(this, '${opt[0]}', '${w[0]}')">
+        <button class="opt-btn zh" style="font-size:1.6rem;font-weight:900" onclick="checkListen(this, '${opt[0]}', '${w[0]}')">
           ${opt[0]}
-          <div style="font-size:0.85rem;font-weight:600;color:var(--ink-soft);margin-top:4px">${opt[2]}</div>
+          <div style="font-size:0.88rem;font-weight:600;color:var(--ink-soft);margin-top:4px">${opt[2]}</div>
         </button>
       `).join('')}
     </div>
@@ -495,12 +581,11 @@ function checkListen(btn, selectedHanzi, correctHanzi) {
 function renderTonesMode(w, stage, actions) {
   const tones = [
     { num: 1, label: '1-й тон ( mā · ровный высокий )' },
-    { num: 2, label: '2-й тон ( má · восходящий / вопрос )' },
+    { num: 2, label: '2-й тон ( má · вопрос вверх )' },
     { num: 3, label: '3-й тон ( mǎ · горка вниз-вверх )' },
-    { num: 4, label: '4-й тон ( mà · резкий вниз / команда )' }
+    { num: 4, label: '4-й тон ( mà · четкий вниз )' }
   ];
 
-  // Determine correct tone from pinyin marks
   const py = w[1];
   let correctTone = 1;
   if (/[āēīōūǖ]/.test(py)) correctTone = 1;
@@ -514,7 +599,7 @@ function renderTonesMode(w, stage, actions) {
       <div class="mizige-char zh">${w[0]}</div>
     </div>
     <div style="margin-bottom:14px">
-      <button class="btn-secondary" onclick="speak('${w[0]}')">🔊 Прослушать ещё раз</button>
+      <button class="btn-secondary" onclick="speak('${w[0]}')">🔊 Прослушать ещё раз (0.7x)</button>
     </div>
     <div class="opts-grid" id="tonesOpts">
       ${tones.map(t => `
@@ -564,9 +649,9 @@ function renderSentMode(w, stage, actions) {
 
   function paintSent() {
     stage.innerHTML = `
-      <div style="font-size:1.15rem;font-weight:800;color:var(--ink);margin-bottom:16px">${currentSent.ru}</div>
+      <div style="font-size:1.2rem;font-weight:800;color:var(--ink);margin-bottom:16px">${currentSent.ru}</div>
       <div class="chips-area" id="builtArea">
-        ${built.length ? built.map((b, i) => `<div class="chip" onclick="removeChip(${i})">${b.w}</div>`).join('') : '<span style="color:var(--ink-light);font-size:0.92rem">Нажимай слова по порядку</span>'}
+        ${built.length ? built.map((b, i) => `<div class="chip" onclick="removeChip(${i})">${b.w}</div>`).join('') : '<span style="color:var(--ink-light);font-size:0.95rem">Нажимай слова по порядку</span>'}
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px" id="sourceChips">
         ${shuffledChips.map(c => `
@@ -626,13 +711,13 @@ function renderMemoryMode(stage, actions) {
 
   function paintMemory() {
     stage.innerHTML = `
-      <div style="font-size:0.95rem;color:var(--ink-soft);margin-bottom:12px;text-align:center">
+      <div style="font-size:1rem;color:var(--ink-soft);margin-bottom:14px;text-align:center">
         Найди пары: китайский иероглиф и русский перевод
       </div>
       <div class="memory-grid">
         ${cards.map((c, i) => `
           <div class="mem-card ${c.matched ? 'matched' : (selected.includes(i) ? 'open' : '')}" onclick="flipMemory(${i})">
-            <span class="${c.isZh ? 'zh' : ''}" style="${c.isZh ? 'font-size:1.45rem;font-weight:900' : 'font-size:0.88rem'}">
+            <span class="${c.isZh ? 'zh' : ''}" style="${c.isZh ? 'font-size:1.55rem;font-weight:900' : 'font-size:0.92rem'}">
               ${c.matched || selected.includes(i) ? c.text : '？'}
             </span>
           </div>
