@@ -1,747 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 Катя · Личный кабинет по китайскому языку</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+SC:wght@500;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #faf4eb;
-    --card: #ffffff;
-    --ink: #221c16;
-    --ink-soft: #635649;
-    --line: #ecdccb;
-    --terra: #c23b2b;
-    --terra-hover: #9c2e22;
-    --terra-light: #fef0eb;
-    --orange: #ea580c;
-    --orange-hover: #c2410c;
-    --sage: #2d6a4f;
-    --sage-light: #eaf5ee;
-    --honey: #d97706;
-    --honey-light: #fef8ee;
-    --blue: #2563eb;
-    --blue-light: #eff6ff;
-    --shadow: 0 10px 28px rgba(66, 45, 25, 0.08);
-    --shadow-hover: 0 16px 36px rgba(66, 45, 25, 0.12);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background:
-      radial-gradient(ellipse 90% 40% at 50% 0%, #ffffff 0%, transparent 70%),
-      repeating-linear-gradient(135deg, rgba(236,220,203,.18) 0 2px, transparent 2px 10px),
-      var(--bg);
-    color: var(--ink);
-    font-family: 'Nunito', system-ui, sans-serif;
-    padding: 0 18px 64px;
-    min-height: 100vh;
-    line-height: 1.55;
-    font-size: 16px;
-  }
-  .zh { font-family: 'Noto Sans SC', sans-serif; }
-
-  .wrap { max-width: 940px; margin: 0 auto; }
-
-  /* Pulse Glow Animation for Urgent / Primary Action Buttons */
-  @keyframes pulseGlowOrange {
-    0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.55); }
-    70% { box-shadow: 0 0 0 12px rgba(234, 88, 12, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
-  }
-  @keyframes pulseGlowRed {
-    0% { box-shadow: 0 0 0 0 rgba(194, 59, 43, 0.55); }
-    70% { box-shadow: 0 0 0 12px rgba(194, 59, 43, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(194, 59, 43, 0); }
-  }
-  .glow-orange {
-    animation: pulseGlowOrange 2.2s infinite ease-in-out;
-  }
-  .glow-red {
-    animation: pulseGlowRed 2.2s infinite ease-in-out;
-  }
-
-  /* Quick Pill Navigation Bar */
-  .quick-bar {
-    display: flex; gap: 8px; overflow-x: auto; padding: 16px 0 12px;
-    scrollbar-width: none; -ms-overflow-style: none; flex-wrap: wrap;
-  }
-  .quick-bar::-webkit-scrollbar { display: none; }
-  .pill-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: #ffffff; border: 1.5px solid var(--line); border-radius: 999px;
-    padding: 8px 18px; font-size: 0.95rem; font-weight: 800; color: var(--ink);
-    text-decoration: none; box-shadow: 0 2px 8px rgba(66,45,25,.04);
-    transition: all .15s ease; white-space: nowrap;
-  }
-  .pill-link:hover {
-    border-color: var(--terra); color: var(--terra); transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(194,59,43,.15);
-  }
-  .pill-link.active-pill {
-    background: var(--terra); color: #fff; border-color: var(--terra);
-  }
-
-  /* Profile Header */
-  .profile-card {
-    background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
-    border: 2px solid var(--line); border-radius: 28px;
-    padding: 30px; margin: 10px 0 24px;
-    box-shadow: var(--shadow);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 20px;
-  }
-  .profile-left { display: flex; align-items: center; gap: 22px; }
-  .profile-avatar {
-    width: 84px; height: 84px; border-radius: 26px;
-    background: linear-gradient(135deg, #ffe0e9 0%, #ffd0dc 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; border: 3px solid #fff;
-    box-shadow: 0 8px 22px rgba(244,114,182,.25);
-  }
-  .profile-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .profile-name { font-size: 2.25rem; font-weight: 900; color: var(--ink); line-height: 1.1; }
-  .profile-zh { font-size: 1.6rem; font-weight: 900; color: var(--terra); }
-  .profile-sub { color: var(--ink-soft); font-size: 1.05rem; font-weight: 600; margin-top: 4px; }
-  .profile-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-  .tag {
-    background: var(--honey-light); color: var(--honey); border: 1px solid #fed7aa;
-    padding: 5px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 800;
-  }
-  .tag.blue { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
-  .tag.sage { background: var(--sage-light); color: var(--sage); border-color: #bbf7d0; }
-
-  /* Goal Banner */
-  .goal-card {
-    background: linear-gradient(135deg, #2b2118 0%, #3a2b20 100%);
-    color: #fff; border-radius: 26px; padding: 26px 30px; margin-bottom: 24px;
-    box-shadow: 0 14px 34px rgba(44,33,24,.18);
-  }
-  .goal-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
-  .goal-title { font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; gap: 10px; color: #fff; }
-  .goal-badge {
-    background: rgba(255,255,255,.16); backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,.28); padding: 6px 16px; border-radius: 999px;
-    font-size: 0.98rem; font-weight: 800; color: #fde047;
-  }
-  .goal-desc { color: #e2d9cf; font-size: 1.05rem; margin-bottom: 18px; line-height: 1.55; max-width: 70ch; }
-  .goal-bar-wrap { background: rgba(255,255,255,.16); height: 16px; border-radius: 999px; overflow: hidden; }
-  .goal-bar {
-    background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%);
-    height: 100%; border-radius: 999px; width: 62%;
-  }
-  .goal-foot { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem; color: #cbd5e1; }
-
-  /* Progress Metrics Grid */
-  .metrics-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
-  }
-  @media(max-width: 760px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
-  @media(max-width: 440px) { .metrics-grid { grid-template-columns: 1fr; } }
-
-  .metric-card {
-    background: var(--card); border: 2px solid var(--line); border-radius: 22px;
-    padding: 20px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .metric-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 10px; }
-  .metric-title { font-size: 0.96rem; font-weight: 800; color: var(--ink-soft); line-height: 1.3; }
-  .metric-pct {
-    font-size: 1.05rem; font-weight: 900; padding: 3px 9px; border-radius: 8px;
-    white-space: nowrap; line-height: 1.2;
-  }
-  .pct-green { background: var(--sage-light); color: var(--sage); }
-  .pct-blue { background: var(--blue-light); color: var(--blue); }
-  .pct-terra { background: var(--terra-light); color: var(--terra); }
-  .pct-honey { background: var(--honey-light); color: var(--honey); }
-
-  .metric-val { font-size: 1.75rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; font-family: 'Baloo 2', sans-serif; }
-  .metric-sub { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 10px; }
-  .mini-bar-wrap { background: #f1e7d8; height: 9px; border-radius: 999px; overflow: hidden; }
-  .mini-bar { height: 100%; border-radius: 999px; }
-
-  /* ================= БЛОК УЧЕНИКА ================= */
-  .student-block-heading {
-    display: flex; align-items: center; gap: 10px; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line);
-  }
-  .student-block-title { font-size: 1.35rem; font-weight: 900; color: var(--ink); }
-
-  /* Next Lesson Card */
-  .next-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
-    padding: 26px 28px; margin-bottom: 24px; box-shadow: var(--shadow);
-  }
-  .next-header {
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-    margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed var(--line);
-  }
-  .next-title { font-size: 1.35rem; font-weight: 900; color: var(--ink); display: flex; align-items: center; gap: 8px; }
-  .next-time {
-    background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe;
-    padding: 6px 16px; border-radius: 12px; font-size: 1rem; font-weight: 800;
-  }
-  .next-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: center; }
-  @media(max-width: 680px) { .next-content { grid-template-columns: 1fr; } }
-  .next-meta p { font-size: 1.02rem; margin-bottom: 8px; }
-  .next-meta b { color: var(--ink); }
-  .zoom-box { text-align: center; }
-  .btn-zoom {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    background: #2563eb; color: #fff; text-decoration: none;
-    font-weight: 900; font-size: 1.2rem; padding: 15px 30px; border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(37,99,235,.28); transition: all .2s ease; width: 100%;
-  }
-  .btn-zoom:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(37,99,235,.36); }
-  .zoom-sub { font-size: 0.9rem; color: var(--ink-soft); margin-top: 8px; font-weight: 600; }
-
-  /* 🔥 CURRENT HOMEWORK HERO BANNER 🔥 */
-  .hw-hero {
-    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-    border: 3px solid #fb923c; border-radius: 26px;
-    padding: 28px 30px; margin-bottom: 24px;
-    box-shadow: 0 14px 36px rgba(234,88,12,.15);
-    position: relative; overflow: hidden;
-  }
-  .hw-badge-now {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: #ea580c; color: #fff; font-size: 0.95rem; font-weight: 900;
-    padding: 6px 18px; border-radius: 999px; letter-spacing: 0.04em;
-    box-shadow: 0 4px 12px rgba(234,88,12,.3); margin-bottom: 12px;
-  }
-  .hw-title { font-size: 1.7rem; font-weight: 900; color: #9a3412; margin-bottom: 8px; line-height: 1.25; }
-  .hw-subtitle { font-size: 1.08rem; color: #7c2d12; margin-bottom: 20px; font-weight: 600; }
-
-  .hw-action-box {
-    background: #ffffff; border: 2px solid #fdba74; border-radius: 22px;
-    padding: 22px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px; box-shadow: 0 8px 20px rgba(154,52,18,.08);
-  }
-  .hw-action-text b { font-size: 1.22rem; color: #9a3412; display: block; margin-bottom: 4px; }
-  .hw-action-text span { font-size: 0.98rem; color: #7c2d12; }
-  .btn-hw-big {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-    color: #ffffff; text-decoration: none; font-weight: 900; font-size: 1.15rem;
-    padding: 15px 30px; border-radius: 18px;
-    transition: all .2s ease;
-  }
-  .btn-hw-big:hover { transform: translateY(-2px); }
-
-  /* Homework Checklist */
-  .hw-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .hw-item {
-    background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 16px;
-    padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;
-    gap: 12px; font-size: 1.02rem; font-weight: 700; color: #431407; flex-wrap: wrap;
-  }
-  .hw-item-left { display: flex; align-items: center; gap: 12px; }
-  .hw-check-icon {
-    width: 28px; height: 28px; border-radius: 50%; background: #ffedd5; border: 2px solid #fb923c;
-    display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #c2410c; font-weight: 900;
-  }
-  .btn-item-link {
-    background: #ffedd5; color: #c2410c; border: 1px solid #fdba74; border-radius: 12px;
-    padding: 8px 16px; font-size: 0.92rem; font-weight: 800; text-decoration: none;
-    transition: all .15s ease;
-  }
-  .btn-item-link:hover { background: #ea580c; color: #fff; }
-
-  /* 🎯 MAIN CONSTANT WORD TRAINER BANNER 🎯 */
-  .main-trainer-banner {
-    background: #ffffff; border: 2.5px solid var(--terra); border-radius: 28px;
-    padding: 28px 30px; margin-bottom: 24px; box-shadow: 0 14px 34px rgba(194,59,43,0.1);
-    position: relative; overflow: hidden;
-  }
-  .main-trainer-banner::before {
-    content: '练习';
-    position: absolute; right: 24px; bottom: -20px;
-    font-family: 'Noto Sans SC', sans-serif; font-size: 6.5rem; font-weight: 900;
-    color: rgba(194,59,43,0.035); pointer-events: none;
-  }
-  .mt-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
-  .mt-badge {
-    background: var(--terra); color: #fff; font-size: 0.88rem; font-weight: 900;
-    padding: 5px 16px; border-radius: 999px; letter-spacing: 0.04em;
-  }
-  .mt-title { font-size: 1.75rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; }
-  .mt-desc { font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 22px; font-weight: 600; max-width: 68ch; line-height: 1.55; }
-  .mt-action-box {
-    background: var(--bg); border: 1.5px solid var(--line); border-radius: 20px;
-    padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .btn-mt-big {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--terra); color: #fff; text-decoration: none;
-    font-weight: 900; font-size: 1.15rem; padding: 15px 32px; border-radius: 16px;
-    transition: all .2s ease;
-  }
-  .btn-mt-big:hover { background: var(--terra-hover); transform: translateY(-2px); }
-
-  /* 🦫 ИНТЕРАКТИВНЫЙ ТАЛИСМАН: КАПИБАРА МИНМИН (ИЗЮМИНКА КАТИ) */
-  .capy-interactive-card {
-    background: linear-gradient(135deg, #fdfbf7 0%, #fffcf5 100%);
-    border: 2px solid #ecd8c2; border-radius: 26px;
-    padding: 24px 26px; margin-bottom: 30px;
-    box-shadow: var(--shadow);
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 18px;
-  }
-  .capy-left { display: flex; align-items: center; gap: 18px; }
-  .capy-mascot-btn {
-    width: 76px; height: 76px; border-radius: 24px; background: #faf0e4;
-    border: 2.5px solid #dcbfa3; display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0;
-  }
-  .capy-mascot-btn:hover {
-    transform: scale(1.08) rotate(4deg); background: #fdf5ea; border-color: var(--terra);
-  }
-  .capy-speech-bubble {
-    background: #ffffff; border: 1.5px solid #ecd8c2; border-radius: 18px;
-    padding: 12px 18px; position: relative; max-width: 480px;
-  }
-  .capy-speech-bubble::before {
-    content: ''; position: absolute; left: -9px; top: 24px;
-    width: 14px; height: 14px; background: #ffffff; border-left: 1.5px solid #ecd8c2; border-bottom: 1.5px solid #ecd8c2;
-    transform: rotate(45deg);
-  }
-  .capy-quote-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--terra); margin-bottom: 2px; }
-  .capy-quote-ru { font-size: 0.94rem; color: var(--ink-soft); font-weight: 600; }
-  .btn-capy-listen {
-    background: #ffffff; border: 1.5px solid #ecd8c2; border-radius: 12px;
-    padding: 8px 16px; font-family: inherit; font-size: 0.92rem; font-weight: 800; color: var(--ink);
-    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all .15s ease;
-  }
-  .btn-capy-listen:hover { border-color: var(--terra); color: var(--terra); }
-
-  /* 📚 ARCHIVE & PRACTICE MATERIALS 📚 */
-  .archive-section { margin-bottom: 30px; }
-  .section-heading {
-    font-size: 1.5rem; font-weight: 900; color: var(--ink); margin-bottom: 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .archive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media(max-width: 640px) { .archive-grid { grid-template-columns: 1fr; } }
-
-  .archive-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 22px;
-    padding: 22px; box-shadow: var(--shadow); transition: all .2s ease;
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .archive-card:hover { border-color: var(--terra); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-  .archive-tag {
-    display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 800;
-    margin-bottom: 10px;
-  }
-  .archive-title { font-size: 1.22rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
-  .archive-desc { font-size: 0.96rem; color: var(--ink-soft); margin-bottom: 18px; line-height: 1.48; }
-  .btn-open-material {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px;
-    padding: 11px 18px; font-weight: 800; font-size: 0.95rem; color: var(--ink);
-    text-decoration: none; transition: all .15s ease;
-  }
-  .archive-card:hover .btn-open-material { background: var(--terra); color: #fff; border-color: var(--terra); }
-
-  /* Student Superpowers / Badges */
-  .superpowers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
-  @media(max-width: 760px) { .superpowers-grid { grid-template-columns: 1fr 1fr; } }
-  .super-card {
-    background: #ffffff; border: 1.5px solid var(--line); border-radius: 20px;
-    padding: 18px; text-align: center; box-shadow: var(--shadow);
-  }
-  .super-icon { font-size: 2.3rem; margin-bottom: 8px; }
-  .super-title { font-size: 1.08rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
-  .super-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.45; }
-
-  /* Teacher Report for Parents */
-  .report-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
-    padding: 28px; margin-bottom: 30px; box-shadow: var(--shadow);
-  }
-  .report-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-  .report-badge {
-    background: var(--sage-light); color: var(--sage); border: 1px solid #bbf7d0;
-    padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 0.9rem;
-  }
-  .report-body { font-size: 1.05rem; color: var(--ink); line-height: 1.68; }
-  .report-highlight {
-    background: var(--bg); border-left: 4px solid var(--terra); border-radius: 0 12px 12px 0;
-    padding: 14px 18px; margin: 16px 0; font-size: 0.98rem; color: var(--ink);
-  }
-
-  /* Accordion for archive */
-  .accordion-item {
-    border: 1.5px solid var(--line); border-radius: 14px; margin-top: 12px; overflow: hidden;
-  }
-  .accordion-btn {
-    width: 100%; background: #ffffff; border: none; padding: 15px 20px;
-    text-align: left; font-weight: 800; font-size: 1.02rem; color: var(--ink);
-    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-  }
-  .accordion-btn:hover { background: var(--bg); }
-  .accordion-body {
-    display: none; padding: 16px 20px; background: #fffcf8; border-top: 1px dashed var(--line);
-    font-size: 0.96rem; color: var(--ink-soft); line-height: 1.65;
-  }
-  .accordion-item.open .accordion-body { display: block; }
-  .accordion-item.open .acc-icon { transform: rotate(180deg); }
-  .acc-icon { transition: transform .2s ease; font-size: 0.9rem; }
-
-  /* Journal & Balance Table */
-  .journal-card {
-    background: #ffffff; border: 2px solid var(--line); border-radius: 26px;
-    padding: 28px; margin-bottom: 30px; box-shadow: var(--shadow);
-  }
-  .journal-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.96rem; }
-  .journal-table th, .journal-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
-  .journal-table th { background: var(--bg); font-weight: 800; color: var(--ink-soft); border-radius: 8px; }
-  .st-done { background: var(--sage-light); color: var(--sage); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.88rem; }
-  .st-next { background: var(--honey-light); color: var(--honey); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.88rem; }
-  .st-plan { background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; }
-
-  /* Footer */
-  footer {
-    text-align: center; padding-top: 26px; border-top: 1px solid var(--line);
-    color: var(--ink-soft); font-size: 0.94rem;
-  }
-  .teacher-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    color: #a89f91; text-decoration: none; font-size: 0.88rem; font-weight: 700;
-    margin-top: 14px; padding: 7px 16px; border-radius: 999px; transition: all .15s ease;
-  }
-  .teacher-link:hover { color: var(--ink); background: #eee5d8; }
-</style>
-</head>
-<body>
-
-<div class="wrap">
-  <!-- Quick Navigation Pills -->
-  <nav class="quick-bar" aria-label="Быстрая навигация">
-    <a href="#trainer-main" class="pill-link" style="border-color:var(--terra);color:var(--terra);font-weight:900;background:#fff8f6">🎯 Тренажёр по всем темам</a>
-    <a href="#homework" class="pill-link active-pill">🔥 Текущее ДЗ</a>
-    <a href="time-trainer.html" class="pill-link">⏰ Время (Тема 10)</a>
-    <a href="https://app.notion.com/p/3a2ee1a0b26881a5b006c99d67cc9ce9" target="_blank" class="pill-link">📖 Словарик Кати</a>
-    <a href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" class="pill-link">🎥 Урок в Zoom</a>
-    <a href="#report" class="pill-link">📝 Отчёт для мамы</a>
-    <a href="#balance" class="pill-link">🎟️ Абонемент</a>
-  </nav>
-
-  <!-- Profile Header Card -->
-  <header class="profile-card">
-    <div class="profile-left">
-      <div class="profile-avatar">🌸</div>
-      <div>
-        <div class="profile-title">
-          <h1 class="profile-name">Катя</h1>
-          <span class="profile-zh zh">卡佳 · Kǎjiā</span>
-        </div>
-        <div class="profile-sub">12 лет · 7 класс · Учебник: Easy Steps to Chinese 1</div>
-        <div class="profile-tags">
-          <span class="tag">🏆 Цель: HSK 1</span>
-          <span class="tag blue">🎟️ Абонемент №2</span>
-          <span class="tag sage">🦫 Капибары 水豚</span>
-        </div>
-      </div>
-    </div>
-    <div>
-      <a href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" class="pill-link" style="border-color:var(--blue);color:var(--blue);font-weight:900">
-        🎥 Вход в Zoom урока →
-      </a>
-    </div>
-  </header>
-
-  <!-- Goal Banner -->
-  <section class="goal-card">
-    <div class="goal-top">
-      <div class="goal-title">
-        <span>🏆</span>
-        <span>Главная цель: Сдача HSK 1 (с ориентиром на HSK 2 / 3)</span>
-      </div>
-      <div class="goal-badge">Прогресс к цели: ≈ 62% (+6% за последний блок)</div>
-    </div>
-    <p class="goal-desc">
-      Закрыты темы 1–10 из 15 по учебнику. Следующая — тема 11 «Распорядок дня». Полный курс учебника даёт около 85% стандарта HSK 1, а оставшиеся 15% добираем живой разговорной практикой и материалами с капибарами.
-    </p>
-    <div class="goal-bar-wrap">
-      <div class="goal-bar"></div>
-    </div>
-    <div class="goal-foot">
-      <span>База 1–10 тем закрыта ✓</span>
-      <span>Цель абонемента №2: 70–75% к финалу</span>
-    </div>
-  </section>
-
-  <!-- Progress Metrics in Figures & % -->
-  <section class="metrics-grid">
-    <!-- 1. Course Progress -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">Маршрут по учебнику</span>
-        <span class="metric-pct pct-green">67%</span>
-      </div>
-      <div class="metric-val">10 / 15 <span style="font-size:1rem;color:var(--ink-soft);font-weight:600">тем</span></div>
-      <div class="metric-sub">Тема 10 закрыта · Старт темы 11</div>
-      <div class="mini-bar-wrap">
-        <div class="mini-bar" style="width:67%;background:var(--sage)"></div>
-      </div>
-    </div>
-
-    <!-- 2. Mock Exam / Tests -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">Срез знаний и тесты</span>
-        <span class="metric-pct pct-blue">96%</span>
-      </div>
-      <div class="metric-val">192 / 200 <span style="font-size:1rem;color:var(--ink-soft);font-weight:600">баллов</span></div>
-      <div class="metric-sub">Аудирование: 100% · Динамика +14%</div>
-      <div class="mini-bar-wrap">
-        <div class="mini-bar" style="width:96%;background:var(--blue)"></div>
-      </div>
-    </div>
-
-    <!-- 3. Vocabulary -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">Словарный запас</span>
-        <span class="metric-pct pct-terra">95%</span>
-      </div>
-      <div class="metric-val">142 <span style="font-size:1rem;color:var(--ink-soft);font-weight:600">слова</span></div>
-      <div class="metric-sub">Из 150 слов HSK 1 (база: 290 слов)</div>
-      <div class="mini-bar-wrap">
-        <div class="mini-bar" style="width:95%;background:var(--terra)"></div>
-      </div>
-    </div>
-
-    <!-- 4. Current Subscription -->
-    <div class="metric-card">
-      <div class="metric-header">
-        <span class="metric-title">Абонемент №2</span>
-        <span class="metric-pct pct-honey">20%</span>
-      </div>
-      <div class="metric-val">2 / 10 <span style="font-size:1rem;color:var(--ink-soft);font-weight:600">уроков</span></div>
-      <div class="metric-sub">Осталось 8 занятий абонемента</div>
-      <div class="mini-bar-wrap">
-        <div class="mini-bar" style="width:20%;background:var(--honey)"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= БЛОК ДЛЯ УЧЕНИКА (В ВЕРХНЕЙ ЧАСТИ ДАШБОРДА) ================= -->
-  <div class="student-block-heading">
-    <div style="font-size:1.8rem">🎒</div>
-    <div class="student-block-title">Учебный план ученика (к ближайшему уроку)</div>
-  </div>
-
-  <!-- 1. Next Lesson Card -->
-  <section class="next-card">
-    <div class="next-header">
-      <div class="next-title">
-        <span>🔜 Ближайший урок</span>
-        <span style="font-size:0.98rem;color:var(--ink-soft);font-weight:600">· Урок 13 (№3 во 2-м абонементе)</span>
-      </div>
-      <div class="next-time">📅 Воскресенье · 18:00 МСК (60 минут)</div>
-    </div>
-    <div class="next-content">
-      <div class="next-meta">
-        <p>🎯 <b>Тема:</b> Тема 11 «Распорядок дня» (日常起居) — старт темы.</p>
-        <p>💡 <b>Грамматика:</b> Порядок слов со временем (<code>Субъект + Время + Действие</code> — время никогда не ставится в конец предложения!).</p>
-        <p>🦫 <b>Капибары:</b> Серия 3 про режим дня капибары Минмина (во сколько просыпается, завтракает и идёт гулять).</p>
-      </div>
-      <div class="zoom-box">
-        <a href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" class="btn-zoom">
-          ▶️ Войти в Zoom урока
-        </a>
-        <div class="zoom-sub">ID: <b>886 6964 6666</b> · Код: <b>12345</b></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. 🔥 CURRENT HOMEWORK HERO BANNER (С ПОДСТВЕТКОЙ СРОЧНОСТИ) 🔥 -->
-  <section class="hw-hero" id="homework">
-    <div class="hw-badge-now">🔥 СДЕЛАЙ СЕЙЧАС (К СЛЕДУЮЩЕМУ УРОКУ)</div>
-    <h2 class="hw-title">Тема 10: Закрепление времени + подготовка к теме 11</h2>
-    <p class="hw-subtitle">Задания подобраны с учётом школьной нагрузки: сначала печатный лист от руки, затем 5 минут интерактивной практики на сайте!</p>
-
-    <!-- Main action button container with Pulse Glow -->
-    <div class="hw-action-box">
-      <div class="hw-action-text">
-        <b>⏰ Интерактивная практика: Тренажёр времени с капибарой</b>
-        <span>10 быстрых вопросов по часам, четвертям (刻) и половинам (半). Помоги Минмину разобраться со стрелками!</span>
-      </div>
-      <a href="time-trainer.html" class="btn-hw-big glow-orange">
-        👉 НАЖМИ СЮДА, ЧТОБЫ ОТКРЫТЬ ТРЕНАЖЁР ВРЕМЕНИ ⏰
-      </a>
-    </div>
-
-    <!-- Step-by-step Homework Checklist -->
-    <ul class="hw-checklist">
-      <li class="hw-item">
-        <div class="hw-item-left">
-          <div class="hw-check-icon">1</div>
-          <span>📄 <b>Печатный воркшит по теме «Время» (из WhatsApp):</b> распечатать и заполнить от руки стрелки и иероглифы.</span>
-        </div>
-        <span style="font-size:0.88rem;color:#7c2d12;font-weight:800">✍️ Пишем рукой</span>
-      </li>
-      <li class="hw-item">
-        <div class="hw-item-left">
-          <div class="hw-check-icon">2</div>
-          <span>🖼️ <b>Слайд из презентации:</b> прочитать вслух 4 предложения с частями дня (<code>上午</code>, <code>下午</code>, <code>晚上</code>).</span>
-        </div>
-        <span style="font-size:0.88rem;color:#7c2d12;font-weight:800">🗣️ Вслух</span>
-      </li>
-      <li class="hw-item">
-        <div class="hw-item-left">
-          <div class="hw-check-icon">3</div>
-          <span>⏰ <b>Интерактивный тренажёр на сайте:</b> пройти все 10 карточек на циферблаты до финала.</span>
-        </div>
-        <a href="time-trainer.html" class="btn-item-link">👉 Открыть тренажёр</a>
-      </li>
-      <li class="hw-item">
-        <div class="hw-item-left">
-          <div class="hw-check-icon">4</div>
-          <span>🦫 <b>Повторение (по желанию):</b> пройти станцию в Бюро профессий с капибарами.</span>
-        </div>
-        <a href="capybara-jobs.html" class="btn-item-link">👉 Бюро профессий</a>
-      </li>
-    </ul>
-  </section>
-
-  <!-- 3. 🎯 MAIN CONSTANT WORD TRAINER (ГЛАВНЫЙ ПОСТОЯННЫЙ ТРЕНАЖЁР) 🎯 -->
-  <section class="main-trainer-banner" id="trainer-main">
-    <div class="mt-top">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span class="mt-badge">ГЛАВНЫЙ ТРЕНАЖЁР</span>
-        <span style="font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:1.15rem;color:var(--terra)">词汇练习本</span>
-      </div>
-      <span style="font-size:0.92rem;font-weight:800;color:var(--ink-soft);background:var(--bg);padding:4px 14px;border-radius:999px;border:1px solid var(--line)">
-        15 тем · 8 форматов HSK 1 · 0.7x звук
-      </span>
-    </div>
-
-    <h2 class="mt-title">Тренажёр китайского языка</h2>
-    <p class="mt-desc">
-      Интерактивная тренировка всех слов словаря: карточки в китайской клетке 米字格, выбор перевода, аудирование на слух, ловушки и путаницы, тоны, конструктор предложений и спринт.
-    </p>
-
-    <div class="mt-action-box">
-      <div>
-        <b style="font-size:1.15rem;color:var(--ink);display:block;margin-bottom:2px">Сквозные экзаменационные форматы и темы учебника</b>
-        <span style="font-size:0.94rem;color:var(--ink-soft)">Академический стиль китайской тетради: чистый фокус на языке без лишнего визуального шума.</span>
-      </div>
-      <a href="trainer.html" class="btn-mt-big glow-red">
-        👉 Начать тренировку по всем темам →
-      </a>
-    </div>
-  </section>
-
-  <!-- 4. 🦫 ИНТЕРАКТИВНЫЙ ТАЛИСМАН ДНЯ: КАПИБАРА МИНМИН (ИЗЮМИНКА КАТИ) -->
-  <section class="capy-interactive-card" id="capy-widget">
-    <div class="capy-left">
-      <button class="capy-mascot-btn" onclick="sayCapyQuote()" title="Нажми на Минмина, чтобы услышать совет дня!">
-        🦫
-      </button>
-      <div class="capy-speech-bubble">
-        <div class="capy-quote-zh zh" id="capyZh">你好，卡佳！我们一起学中文！</div>
-        <div class="capy-quote-ru" id="capyRu">«Привет, Катя! Учим китайский вместе!» (нажми на капибару 🦫)</div>
-      </div>
-    </div>
-    <div>
-      <button class="btn-capy-listen" onclick="repeatCapyQuote()">
-        🔊 Слушать (0.7x голос)
-      </button>
-    </div>
-  </section>
-
-  <!-- ================= НИЖНЯЯ ЧАСТЬ (АРХИВ, РОДИТЕЛИ, БАЛАНС) ================= -->
-
-  <!-- 📚 ARCHIVE & PRACTICE MATERIALS 📚 -->
-  <section class="archive-section">
-    <h2 class="section-heading">📚 Прошлые задания и полезные материалы</h2>
-    <div class="archive-grid">
-      <!-- 1. Capybara Job Center -->
-      <div class="archive-card">
-        <div>
-          <span class="archive-tag" style="background:#fef3c7;color:#b45309">🦫 Интерактивный тренажёр</span>
-          <h3 class="archive-title">Бюро профессий с капибарами</h3>
-          <p class="archive-desc">
-            9 капибар, 9 профессий, 5 станций (знакомство, 对/不对, частица 也, аудирование на слух и тренировка говорения). Закрепление тем 7–9.
-          </p>
-        </div>
-        <a href="capybara-jobs.html" class="btn-open-material">👉 Открыть Бюро профессий</a>
-      </div>
-
-      <!-- 2. Notion Vocabulary -->
-      <div class="archive-card">
-        <div>
-          <span class="archive-tag" style="background:#eff6ff;color:#1d4ed8">📖 Словарик курса</span>
-          <h3 class="archive-title">Словарик Кати в Notion</h3>
-          <p class="archive-desc">
-            Полная база всех слов и конструкций с темами 1–10: числа, даты, семья, профессии, время, ключи и фразы живой речи.
-          </p>
-        </div>
-        <a href="https://app.notion.com/p/3a2ee1a0b26881a5b006c99d67cc9ce9" target="_blank" class="btn-open-material">👉 Открыть Словарик в Notion</a>
-      </div>
-
-      <!-- 3. Time Trainer -->
-      <div class="archive-card">
-        <div>
-          <span class="archive-tag" style="background:#f0fdf4;color:#15803d">⏰ Текущий тренажёр</span>
-          <h3 class="archive-title">Тренажёр времени (Тема 10)</h3>
-          <p class="archive-desc">
-            Отработка часов, минут, половины (半) и четвертей (刻). Помогает автоматизировать правильное произношение и исключить путаницу <code>两/二</code>.
-          </p>
-        </div>
-        <a href="time-trainer.html" class="btn-open-material">👉 Открыть тренажёр времени</a>
-      </div>
-
-      <!-- 4. Notion Katya Main Page -->
-      <div class="archive-card">
-        <div>
-          <span class="archive-tag" style="background:#fdf2f8;color:#be185d">🌸 База знаний</span>
-          <h3 class="archive-title">Главная страница Кати в Notion</h3>
-          <p class="archive-desc">
-            Карта тем учебника, история всех уроков абонементов №1 и №2, разборы домашних заданий, конспекты и ссылки.
-          </p>
-        </div>
-        <a href="https://app.notion.com/p/39dee1a0b26881a5b006c99d67cc9ce9" target="_blank" class="btn-open-material">👉 Открыть страницу в Notion</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Student Superpowers / Badges -->
-  <section style="margin-bottom:30px">
-    <h2 class="section-heading">🌟 Суперсилы и сильные стороны Кати</h2>
-    <div class="superpowers-grid">
-      <div class="super-card">
-        <div class="super-icon">🎧</div>
-        <div class="super-title">Суперслух</div>
-        <div class="super-desc">Без пиньиня мгновенно вытаскивает возраст, имена и факты из беглой китайской речи.</div>
-      </div>
-      <div class="super-card">
-        <div class="super-icon">🧩</div>
-        <div class="super-title">Мастер логики</div>
-        <div class="super-desc">Сама выводит смысл новых слов через иероглифические ключи (<code>水豚</code> → <code>海豚</code>, <code>美女</code>, <code>剪刀</code>).</div>
-      </div>
-      <div class="super-card">
-        <div class="super-icon">🗣️</div>
-        <div class="super-title">Живой диалог</div>
-        <div class="super-desc">Не боится длинных фраз, говорит <code>我不知道</code> вместо молчания и спорит по существу.</div>
-      </div>
-      <div class="super-card">
-        <div class="super-icon">✍️</div>
-        <div class="super-title">Рукописный профи</div>
-        <div class="super-desc">Любит писать от руки на бумаге: аккуратно выполняет печатные воркшиты и прописывает черты.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Teacher Report for Parents (СМЕЩЁН НИЖЕ БЛОКА УЧЕНИКА) -->
-  <section class="report-card" id="report">
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6f7f4"><title>Катя · Личный кабинет китайского</title><meta name="description" content="Личный кабинет: ближайший урок, домашнее задание, тренажёры, расписание и прогресс обучения китайскому языку."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#f6f7f4;--paper:#fff;--ink:#233730;--muted:#6d7770;--line:#e5e8e0;--accent:#27634e;--accent-dark:#1c4c3b;--soft:#eaf1e9;--tint:#f4f6ee;--gold:#ce9b43;--radius:22px;--shadow:0 5px 25px #28362b05;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:36px}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}body[data-theme=terra]{--accent:#9a513b;--accent-dark:#7c3e2c;--soft:#f5ece3;--tint:#faf5ec;--ink:#3b3830;--bg:#f8f7f3;--muted:#79756d;--line:#e9e5dd}body[data-theme=indigo]{--accent:#5b5d91;--accent-dark:#444774;--soft:#ededf7;--tint:#f5f4fa;--ink:#303347;--bg:#f6f6f8;--muted:#757586;--line:#e5e5ed}h1,h2,h3,p{margin:0}h1,h2,h3{line-height:1.25}a{color:inherit}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}a{text-decoration:none}button{color:inherit}button:disabled{cursor:default}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:4px}a,button{transition:background .18s,box-shadow .18s,transform .18s}button{background:none;border:0}button:hover:not(:disabled),.btn:hover{transform:translateY(-1px)}.icon{width:21px;height:21px;flex-shrink:0;vertical-align:middle}.skip{position:fixed;top:-100px;left:12px;z-index:99;padding:12px;background:var(--accent);color:#fff;border-radius:10px}.skip:focus{top:12px}.sidebar{position:fixed;inset:0 auto 0 0;width:228px;padding:32px 22px 22px;background:#fff;border-right:1px solid var(--line);z-index:30;display:flex;flex-direction:column}.brand{display:flex;gap:11px;align-items:center}.brand-mark{font-family:'Noto Sans SC',sans-serif;font-size:21px;letter-spacing:-2px;border-radius:12px;background:var(--accent);color:#fff;width:44px;height:44px;display:grid;place-items:center;padding-right:2px}.brand strong{display:block;font-size:16px;letter-spacing:-.5px}.brand small{display:block;font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);margin-top:1px}.profile{display:flex;align-items:center;gap:11px;margin:37px 0 29px;padding-bottom:24px;border-bottom:1px solid var(--line)}.avatar{border-radius:50%;width:40px;height:40px;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-size:18px;font-weight:800;flex-shrink:0}.profile b{font-size:15px;display:block}.profile small{color:var(--muted);font-size:11px;display:block;margin-top:3px}.nav{display:grid;gap:7px}.nav a{display:flex;gap:13px;align-items:center;color:var(--muted);padding:12px 14px;border-radius:11px;font-size:13px;font-weight:650}.nav a:hover,.nav a.active{background:var(--soft);color:var(--accent)}.nav a.active{font-weight:800}.sidebar-bottom{margin-top:auto;padding:24px 10px 3px}.sidebar-bottom .tiny-zh{font-family:'Noto Sans SC',sans-serif;font-size:17px;letter-spacing:2px;color:var(--accent)}.sidebar-bottom p{font-size:11px;color:var(--muted);margin-top:8px}.teacher-link{font-size:11px;display:flex;gap:7px;align-items:center;color:var(--muted);margin-top:22px}.teacher-link .icon{width:14px;height:14px}.workspace{margin-left:228px;max-width:1620px;padding:27px 40px 30px}.topbar{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-bottom:31px}.breadcrumbs{display:flex;gap:10px;align-items:center}.breadcrumbs b{color:var(--ink);font-weight:650}.top-right{display:flex;align-items:center;gap:18px}.top-right .avatar{width:33px;height:33px;font-size:13px}.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:16px}.eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:800;color:var(--accent);text-transform:uppercase}.intro h1{font-size:34px;letter-spacing:-1.3px;font-weight:800;margin-bottom:7px}.intro p{font-size:13px;color:var(--muted)}.level-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:#fff;font-size:11px;white-space:nowrap}.level-badge .icon{color:var(--gold);width:16px;height:16px}.hero-row{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:22px;margin-bottom:27px}.hero{position:relative;isolation:isolate;overflow:hidden;min-height:308px;border-radius:var(--radius);background:#faf0dd;box-shadow:var(--shadow)}.hero-img{position:absolute;right:0;top:0;width:100%;height:100%;object-fit:cover;object-position:75% 50%;z-index:-2}.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#fcf4e5 0%,#fcf4e5ed 22%,#fcf4e585 46%,transparent 70%);z-index:-1}.hero-copy{position:relative;padding:29px 28px;width:66%;max-width:420px}.hero h2{font-size:29px;letter-spacing:-1px;margin:12px 0 12px;line-height:1.18}.hero-desc{font-size:12px;line-height:1.65;max-width:240px;color:#5d6257}.hero .btn{margin-top:23px;font-size:11px;padding:12px 15px;min-height:43px}.hero .btn .icon{width:16px;height:16px}.hero-note{position:absolute;right:17px;bottom:16px;background:#ffffffd9;backdrop-filter:blur(8px);padding:5px 10px;font-size:9px;border:1px solid #ffffff8f;border-radius:99px;color:#5b6253}.btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:46px;padding:12px 19px;border-radius:11px;background:var(--accent);border:1px solid var(--accent);color:#fff;font-weight:750;font-size:12px;line-height:1.4}.btn:hover{background:var(--accent-dark);box-shadow:0 4px 12px #00000013}.btn-light{background:var(--soft);border-color:transparent;color:var(--accent)}.btn-light:hover{background:var(--soft);filter:brightness(.97)}.btn-outline{background:#fff;color:var(--accent);border-color:var(--line)}.btn-outline:hover{background:var(--soft)}.text-link{color:var(--accent);font-size:11px;font-weight:750;display:inline-flex;align-items:center;gap:6px;min-height:36px}.text-link .icon{width:15px;height:15px}.text-link:hover{text-decoration:underline}.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.lesson-card{padding:24px;display:flex;flex-direction:column;position:relative;min-height:308px}.card-kicker{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px;font-weight:650}.card-kicker .icon{width:16px;height:16px}.lesson-when{font-size:12px;font-weight:750;color:var(--accent);margin:16px 0 1px}.lesson-time{font-size:38px;letter-spacing:-1.5px;font-weight:800;line-height:1.2}.lesson-time small{font-size:10px;letter-spacing:0;color:var(--muted);font-weight:550;margin-left:7px}.lesson-topic{font-size:13px;font-weight:750;margin:10px 0 3px;line-height:1.45}.lesson-number{font-size:10px;color:var(--muted);margin-bottom:17px}.lesson-card .btn{width:100%;margin-top:auto}.lesson-note{font-size:11px;color:var(--muted);margin:7px 0 12px;line-height:1.5}.section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:0 0 17px}.section-head h2{font-size:19px;letter-spacing:-.5px;font-weight:800}.section-head p{font-size:11px;color:var(--muted);margin-top:5px}.study-row{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:22px;align-items:start;margin-bottom:31px}.homework-card{padding:24px}.pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:750;line-height:1.3;border-radius:99px;background:var(--soft);color:var(--accent);padding:6px 10px;white-space:nowrap}.hw-summary{display:flex;justify-content:space-between;align-items:center;margin:14px 0 9px;font-size:10px;color:var(--muted)}.hw-summary b{color:var(--accent);font-weight:750}.track{background:var(--line);height:5px;overflow:hidden;border-radius:10px}.track span{display:block;height:100%;background:var(--accent);border-radius:10px;transition:width .25s}.tasks{padding:0;margin:10px 0 0;list-style:none}.task{position:relative;display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;padding:17px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0;padding-bottom:3px}.task input{width:21px;height:21px;margin:2px 0 0;accent-color:var(--accent);cursor:pointer}.task label{display:block;cursor:pointer;font-weight:750;font-size:13px;line-height:1.5}.task p{font-size:11px;color:var(--muted);line-height:1.65;margin-top:5px;max-width:470px}.task.done label{text-decoration:line-through;color:var(--muted)}.task-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap}.task-time{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:4px}.task-time .icon{width:12px;height:12px}.hw-complete{background:var(--soft);border-radius:10px;padding:12px;margin-top:15px;font-size:12px;color:var(--accent);font-weight:750}.storage-note{font-size:9px;color:var(--muted);margin:15px 0 0}.schedule-card{padding:24px}.schedule-card .section-head{margin-bottom:14px}.schedule-card h2{font-size:17px}.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin:14px 0 12px;font-size:12px;font-weight:750}.calendar-nav button{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line)}.calendar-nav button:hover{background:var(--soft)}.calendar-nav button .icon{width:13px;height:13px}.calendar-prev{transform:rotate(180deg)}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.weekday{font-size:9px;color:var(--muted);text-align:center;padding:5px 0 9px}.day{height:31px;border-radius:8px;font-size:10px;position:relative;display:grid;place-items:center;border:1px solid transparent;min-width:0}.day.has-lesson{background:var(--soft);color:var(--accent);font-weight:800}.day.has-lesson::after{content:'';position:absolute;bottom:3px;width:3px;height:3px;border-radius:50%;background:currentColor}.day.planned{background:var(--accent);color:#fff}.day.today{border-color:var(--gold)}.day[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--gold)}.day:hover{background:var(--soft);transform:none!important}.calendar-key{display:flex;gap:13px;margin:13px 0 16px;font-size:8px;color:var(--muted);flex-wrap:wrap}.calendar-key span{display:flex;align-items:center;gap:4px}.dot{width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block}.dot.pale{background:var(--soft);border:1px solid var(--accent)}.dot.outline{background:transparent;border:1px solid var(--gold)}.calendar-detail{border-top:1px solid var(--line);padding-top:15px;min-height:70px;font-size:11px}.calendar-detail strong{display:block;font-size:12px;margin-bottom:3px}.calendar-detail p{color:var(--muted);font-size:10px}.schedule-rule{font-size:10px;color:var(--muted);line-height:1.7;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}.schedule-rule b{display:block;font-size:10px;color:var(--ink)}.trainers-section{margin-bottom:30px}.trainers-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.trainer-card{display:flex;flex-direction:column;padding:22px;transition:transform .2s,box-shadow .2s,border-color .2s;min-height:212px}.trainer-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 9px 25px #33333309}.trainer-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:8px}.trainer-icon{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--accent)}.trainer-icon .icon{width:20px;height:20px}.trainer-top small{font-size:8px;color:var(--muted);text-align:right}.trainer-card:nth-child(2) .trainer-icon{background:#f7ecd7;color:#9c722b}.trainer-card:nth-child(3) .trainer-icon{background:#eaf0f6;color:#55718d}.trainer-card h3{font-size:16px;letter-spacing:-.3px;margin-bottom:8px}.trainer-card p{font-size:11px;color:var(--muted);line-height:1.65;margin-bottom:17px;max-width:270px}.trainer-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:10px;color:var(--accent);font-weight:750}.trainer-footer .icon{width:16px;height:16px}.materials{margin-top:16px;padding:0 20px}.materials>summary{font-size:11px;font-weight:650;padding:14px 0;color:var(--muted)}summary{cursor:pointer;min-height:44px}details>summary::marker{color:var(--accent)}details[open]>summary{margin-bottom:5px}.materials-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px;padding-bottom:14px}.materials-list a{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;padding:12px 0;border-bottom:1px solid var(--line)}.materials-list a:hover{color:var(--accent)}.materials-list .icon{width:14px;height:14px}.progress-section{margin-bottom:30px}.progress-grid{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:16px}.goal-card{padding:22px;background:var(--soft);border:0}.goal-top{display:flex;align-items:center;gap:8px;color:var(--accent);font-size:11px;font-weight:750}.goal-top .icon{width:17px;height:17px}.goal-card h3{font-size:26px;letter-spacing:-1px;margin:14px 0 9px}.goal-card p{font-size:10px;color:var(--muted);margin:11px 0 0;line-height:1.65}.goal-card .track{background:#ffffff94}.stat-card{padding:22px;display:flex;flex-direction:column;justify-content:center}.stat-value{font-size:25px;font-weight:800;letter-spacing:-1px;white-space:nowrap}.stat-label{font-size:11px;font-weight:700;margin:5px 0}.stat-note{font-size:9px;color:var(--muted);line-height:1.6}.parents-section{margin-bottom:27px}.parents-overview{display:grid;align-items:start;grid-template-columns:1.5fr 1fr;gap:22px}.parent-card,.balance-card{padding:24px}.teacher-meta{display:flex;align-items:center;gap:10px;margin-bottom:15px}.teacher-meta .avatar{font-size:12px;width:34px;height:34px}.teacher-meta b{font-size:11px;display:block}.teacher-meta small{font-size:9px;color:var(--muted);display:block;margin-top:1px}.parent-card p{font-size:12px;line-height:1.8}.parent-action{border-left:3px solid var(--accent);padding-left:12px;margin:14px 0;color:var(--muted);font-size:11px;line-height:1.75}.balance-card .balance-number{font-size:38px;letter-spacing:-1.4px;font-weight:800;margin-top:13px}.balance-number small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0}.balance-caption{font-size:10px;color:var(--muted);margin:3px 0 18px}.lesson-dots{display:flex;gap:6px;margin:13px 0}.lesson-dots span{height:7px;border-radius:3px;background:var(--line);flex:1}.lesson-dots .used{background:var(--accent)}.balance-note{font-size:10px;color:var(--muted);margin-top:10px}.journal{margin-top:18px;padding:0 24px}.journal>summary{padding:17px 0;font-size:12px;font-weight:700}.table-scroll{overflow:auto;padding-bottom:16px}table{width:100%;border-collapse:collapse;font-size:11px;min-width:640px;text-align:left}th{font-size:10px;color:var(--muted);font-weight:650;padding:12px 10px;background:var(--tint)}td{padding:14px 10px;border-bottom:1px solid var(--line);line-height:1.6}td:last-child{white-space:nowrap;color:var(--accent)}.legacy{font-size:12px;color:var(--ink);line-height:1.85;margin:13px 0 21px}.legacy h2,.legacy h3,.legacy h4{font-size:14px;margin:15px 0 10px}.legacy p{font-size:12px;margin:12px 0}.legacy details{padding:9px 0;border-bottom:1px solid var(--line)}.legacy summary{font-size:11px;font-weight:650;min-height:35px}.legacy .feedback-meta,.legacy .report-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.legacy .feedback-meta{font-size:10px;color:var(--muted);margin-bottom:12px}.legacy .hl-pill,.legacy .report-badge{display:inline-block;border-radius:6px;padding:4px 7px;background:var(--soft);color:var(--accent);font-size:9px;margin:4px 3px 3px 0}.legacy .report-highlight,.legacy .report-focus-box{padding:14px;background:var(--tint);border-radius:12px;margin:10px 0}.extra-card{padding:21px 24px;margin:0 0 28px;display:flex;justify-content:space-between;align-items:center;gap:25px;background:var(--tint)}.extra-copy .eyebrow{font-size:9px}.extra-copy h3{font-size:18px;margin:7px 0}.extra-copy p{font-size:11px;color:var(--muted)}.extra-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.extra-actions .btn{font-size:10px;padding:10px 13px;min-height:42px}.word-hanzi{font-family:'Noto Sans SC',sans-serif;font-size:36px;line-height:1.4}.word-detail{font-size:11px;color:var(--muted);min-height:18px}.voice-settings{font-size:10px;color:var(--muted);margin:0 0 22px}.voice-settings summary{display:flex;align-items:center;gap:7px;min-height:40px}.voice-settings select{max-width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:11px;margin:5px 0}.voice-status{font-size:10px;color:var(--muted);display:block;margin-top:5px}.footer{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);padding:21px 0 0;font-size:9px;color:var(--muted)}.footer a{white-space:nowrap}.mobile-nav{display:none}dialog{border:1px solid var(--line);border-radius:25px;max-width:430px;width:calc(100% - 36px);padding:30px;text-align:center;color:var(--ink);box-shadow:0 20px 80px #0002}dialog::backdrop{background:#13271f88;backdrop-filter:blur(5px)}dialog h2{font-size:24px;margin-bottom:12px}dialog p{font-size:13px;color:var(--muted);line-height:1.7}dialog .btn{margin-top:20px}.timer-value{font-size:70px;font-weight:800;color:var(--accent);line-height:1.4}.timer-zh{font-size:23px;font-family:'Noto Sans SC',sans-serif}.zoom-help{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;font-size:10px;color:var(--muted)}.zoom-help summary{font-size:10px;min-height:30px}.zoom-help p{font-size:10px;margin:6px 0}code{font-family:'Noto Sans SC',sans-serif;background:var(--soft);padding:1px 4px;border-radius:4px}section[id],div[id]{scroll-margin-top:30px}[hidden]{display:none!important}
+.task label{font-size:14px}.task p{font-size:12px}.trainer-card p{font-size:12px}.btn{font-size:13px}.text-link{font-size:12px}.card-kicker{font-size:12px}.lesson-number{font-size:11px}.lesson-topic{font-size:14px}.nav a{font-size:14px}.storage-note{font-size:10px}.section-head p{font-size:12px}.trainer-top small{font-size:9px}.hero .btn{font-size:12px}
+@media(min-width:1700px){.workspace{margin-right:auto;margin-left:max(228px,calc((100vw - 1392px)/2 + 228px))}}
+@media(max-width:1230px){.sidebar{width:200px;padding:28px 16px}.workspace{margin-left:200px;padding:25px}.hero-copy{padding:25px 22px;width:69%}.hero h2{font-size:25px}.hero-desc{font-size:11px}.hero .btn{font-size:10px;padding:11px}.hero-row,.study-row{gap:18px;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr)}.lesson-card,.homework-card,.schedule-card{padding:21px}.progress-grid{grid-template-columns:repeat(3,1fr)}.goal-card{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;column-gap:28px;align-items:center}.goal-card h3{grid-row:1/3;grid-column:2;margin:0 0 9px;font-size:30px}.goal-card .track{grid-column:2;grid-row:2}.goal-card p{grid-column:1;grid-row:2;margin:4px 0 0}.trainers-grid{gap:14px}.trainer-card{padding:18px}.trainer-top small{font-size:8px}.parents-overview{grid-template-columns:1.5fr 1fr}}
+@media(max-width:1000px){.sidebar{width:176px;padding:27px 13px}.brand{gap:7px}.brand strong{font-size:13px}.brand small{font-size:8px}.brand-mark{width:36px;height:36px;font-size:18px}.workspace{margin-left:176px;padding:23px}.nav a{font-size:11px;padding:11px 10px;gap:10px}.profile small{font-size:9px}.hero-row{grid-template-columns:1fr}.hero{min-height:285px}.hero-img{width:82%;object-position:70% 50%}.hero-copy{width:60%;max-width:450px;padding:29px}.hero h2{font-size:31px}.hero-desc{font-size:13px;max-width:290px}.hero .btn{font-size:12px}.lesson-card{min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:0 22px}.lesson-card .card-kicker{grid-column:1/-1;margin-bottom:9px}.lesson-card .lesson-when{grid-column:1;grid-row:2;margin-top:0}.lesson-time{grid-column:1;grid-row:3}.lesson-topic{grid-column:2;grid-row:2/4;margin:0;font-size:14px;align-self:center}.lesson-number{grid-column:2;margin-bottom:0}.lesson-card .btn{grid-column:1/-1;margin-top:15px;max-width:100%}.lesson-note{grid-column:1/-1}.lesson-card .zoom-help{grid-column:1/-1}.study-row{grid-template-columns:1fr}.schedule-card{display:grid;grid-template-columns:1fr 1fr;gap:0 25px}.schedule-card .section-head{grid-column:1/-1}.calendar-nav{grid-column:1;grid-row:2;margin-top:0}.calendar-grid{grid-column:1;grid-row:3/6}.calendar-key{grid-column:1;grid-row:6}.calendar-detail{grid-column:2;grid-row:2/4;padding-top:6px;border:0}.schedule-rule{grid-column:2;grid-row:4/6}.trainers-grid{grid-template-columns:1fr}.trainer-card{display:grid;grid-template-columns:1fr auto;column-gap:18px;min-height:0;padding:20px}.trainer-top{grid-column:1;grid-row:1;margin-bottom:9px;justify-content:flex-start;gap:13px}.trainer-card h3{grid-column:1;grid-row:2}.trainer-card p{grid-column:1;grid-row:3;margin:0;max-width:none}.trainer-footer{grid-column:2;grid-row:1/4;border:0;gap:10px;margin:auto 0}.parents-overview{grid-template-columns:1fr}.extra-card{flex-wrap:wrap}.materials-list{grid-template-columns:1fr}.level-badge{font-size:9px}.intro h1{font-size:30px}.topbar{font-size:10px}.top-right{gap:10px}}
+@media(max-width:700px){html{scroll-padding-top:20px}.sidebar{display:none}.workspace{margin:0;padding:20px 18px 100px}.topbar{margin-bottom:23px}.breadcrumbs{font-size:10px}.top-right .today-label{display:none}.intro{margin-bottom:21px}.intro h1{font-size:29px;letter-spacing:-1px}.intro p{font-size:12px;max-width:240px}.level-badge{padding:6px 9px;font-size:9px;align-self:flex-start;margin-top:4px}.level-badge .icon{width:13px;height:13px}.hero-row{gap:16px;margin-bottom:24px}.hero{min-height:290px}.hero-copy{padding:24px 21px;width:68%}.hero h2{font-size:27px;letter-spacing:-.7px}.hero .eyebrow{font-size:8px;letter-spacing:1.2px}.hero-desc{font-size:11px;max-width:210px}.hero .btn{font-size:10px;margin-top:21px;padding:12px}.hero-note{font-size:8px;right:12px;bottom:12px}.hero-img{width:100%;object-position:76% 50%}.hero::after{background:linear-gradient(90deg,#fcf4e5 0%,#fcf4e5ed 20%,#fcf4e59c 46%,transparent 82%)}.lesson-card{padding:21px;column-gap:16px}.lesson-time{font-size:33px}.lesson-time small{font-size:8px;display:block;margin:2px 0 4px;letter-spacing:0}.lesson-topic{font-size:12px}.lesson-number{font-size:8px}.lesson-when{font-size:10px}.lesson-card .btn{margin-top:15px}.section-head h2{font-size:18px}.section-head{align-items:flex-start}.homework-card,.schedule-card{padding:21px}.homework-card .section-head{gap:8px}.pill{font-size:8px;padding:6px 8px}.task{gap:12px;padding:16px 0}.task label{font-size:14px}.task p{font-size:12px}.text-link{font-size:12px}.task-time{font-size:9px}.study-row{margin-bottom:26px;gap:20px}.schedule-card{display:block}.calendar-nav{margin-top:13px}.day{height:37px;font-size:12px}.weekday{font-size:10px}.calendar-key{font-size:9px}.calendar-detail{border-top:1px solid var(--line);padding-top:13px}.calendar-detail strong{font-size:12px}.calendar-detail p{font-size:11px}.schedule-rule{font-size:10px}.trainer-card{padding:20px}.trainer-card h3{font-size:16px}.trainer-card p{font-size:11px}.trainer-top{margin-bottom:12px}.trainer-footer{width:34px;height:34px;border-radius:50%;background:var(--soft);justify-content:center;flex-shrink:0}.trainer-footer span{display:none}.trainer-top small{font-size:9px}.materials{padding:0 18px}.progress-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.goal-card{padding:19px;display:block}.goal-card h3{font-size:30px;margin:13px 0}.goal-card p{font-size:10px;margin-top:10px}.stat-card{padding:15px 10px;justify-content:flex-start}.stat-value{font-size:20px;letter-spacing:-.8px}.stat-label{font-size:9px;line-height:1.5}.stat-note{font-size:8px}.parent-card,.balance-card{padding:21px}.parent-card p{font-size:12px}.journal{padding:0 18px}.extra-card{padding:20px}.extra-copy h3{font-size:17px}.footer{align-items:flex-start;font-size:9px;flex-direction:column;gap:6px}.footer a{display:none}.mobile-nav{display:grid;position:fixed;bottom:0;left:0;right:0;grid-template-columns:repeat(5,1fr);background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:9px 5px max(10px,env(safe-area-inset-bottom));z-index:50;box-shadow:0 -5px 20px #1b312008}.mobile-nav a{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;min-height:43px;font-size:8px;color:var(--muted);border-radius:9px}.mobile-nav .icon{width:19px;height:19px}.mobile-nav a.active{color:var(--accent);background:var(--soft)}.extra-actions .btn{font-size:10px}.voice-settings{margin-bottom:15px}}
+@media(max-width:370px){.intro{display:block}.intro p{max-width:none}.intro .level-badge{margin-top:11px}.workspace{padding-left:13px;padding-right:13px}.intro h1{font-size:26px}.hero-copy{padding:23px 18px;width:76%}.hero h2{font-size:25px}.hero-note{font-size:7px}.hero .btn{font-size:9px}.stat-value{font-size:18px}.section-head h2{font-size:16px}.homework-card{padding:18px}.pill{font-size:7px}.lesson-time{font-size:29px}.lesson-card{column-gap:12px}.lesson-topic{font-size:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style></head>
+<body data-theme="terra"><a class="skip" href="#main">Перейти к содержимому</a>
+<aside class="sidebar"><a class="brand" href="#overview" aria-label="Китайский — личный кабинет"><span class="brand-mark" lang="zh-CN">中文</span><span><strong>Китайский</strong><small>Личный кабинет</small></span></a><div class="profile"><span class="avatar">К</span><div><b>Катя <span lang="zh-CN">卡佳</span></b><small>12 лет · Easy Steps 1</small></div></div><nav class="nav" aria-label="Основная навигация"><a href="#overview" data-nav class="active" aria-current=location><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Мой кабинет</span></a><a href="#homework" data-nav class="" ><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>Домашка</span></a><a href="#trainers" data-nav class="" ><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3V4zM13 7a3 3 0 0 1 3-3h5v15h-5a4 4 0 0 0-3 2"/></svg><span>Тренажёры</span></a><a href="#schedule" data-nav class="" ><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 11h18m-13 5h2m4 0h2"/></svg><span>Расписание</span></a><a href="#progress" data-nav class="" ><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3v17h17M8 15l4-5 4 2 5-7"/></svg><span>Прогресс</span></a><a href="#parents" data-nav class="" ><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2m3-17a3 3 0 0 1 0 6m1 5a5 5 0 0 1 3 5"/></svg><span>Родителям</span></a></nav><div class="sidebar-bottom"><div class="tiny-zh" lang="zh-CN">每天进步一点点</div><p>Каждый день — маленький шаг вперёд.</p><a class="teacher-link" href="console.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg>Кабинет преподавателя</a></div></aside>
+<main class="workspace" id="main"><header class="topbar"><div class="breadcrumbs">Личный кабинет<span>/</span><b>Обзор</b></div><div class="top-right"><span class="today-label" id="today-date">Ноябрь 2026</span><span class="avatar" aria-label="Катя">К</span></div></header>
+<section id="overview" data-section aria-labelledby="welcome-title"><div class="intro"><div><h1 id="welcome-title">Привет, Катя!</h1><p>Немного практики сегодня — больше уверенности завтра.</p></div><span class="level-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg>HSK 1 · мой путь</span></div><div class="hero-row"><div class="hero"><img class="hero-img" src="assets/dashboard-hero.webp" alt="" width="1200" height="800" fetchpriority="high"><div class="hero-copy"><div class="eyebrow">ТВОЙ УЧЕБНЫЙ МАРШРУТ</div><h2>В своём ритме.<br>К новым открытиям.</h2><p class="hero-desc">Минмин рядом! Закрепим время и научимся рассказывать о своём дне.</p><a class="btn" href="time-trainer.html">Потренировать время<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div><span class="hero-note">Вместе с Минмином</span></div>
+<div class="card lesson-card"><h2 class="card-kicker"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="12" height="14" rx="3"/><path d="m15 10 6-4v12l-6-4"/></svg><span id="lesson-heading">Ближайший урок</span></h2><div class="lesson-when" id="lesson-date">2026-11-08</div><div class="lesson-time">18:00<small>МСК · 60 минут</small></div><h3 class="lesson-topic">Распорядок дня 日常起居</h3><div class="lesson-number">Урок 13 · №3 в абонементе №2</div><p class="lesson-note" id="lesson-note" hidden></p><a class="btn" href="https://us05web.zoom.us/j/88669646666?pwd=g87qHdVP327JNggjW7Xb5o3mwyq18v.1" target="_blank" rel="noopener noreferrer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="12" height="14" rx="3"/><path d="m15 10 6-4v12l-6-4"/></svg>Войти в Zoom<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></svg></a><details class="zoom-help"><summary>Если Zoom не открывается</summary><p>Откройте Zoom → «Войти в конференцию». ID: <b>886 6964 6666</b>. Ссылка с кодом доступа — в кнопке выше.</p></details></div></div></section>
+<div class="study-row"><section class="card homework-card" id="homework" data-section aria-labelledby="homework-title"><div class="section-head"><div><h2 id="homework-title">Твоя домашка</h2><p>Сначала лист от руки, затем короткая практика.</p></div><span class="pill">К следующему уроку</span></div><h3 style="font-size:14px;margin-top:19px">Время и распорядок дня</h3><div class="hw-summary"><span>Шаг за шагом</span><b id="hw-counter">0 из 3 заданий</b></div><div class="track" id="hw-progressbar" role="progressbar" aria-label="Выполнение домашних заданий" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="hw-progress" style="width:0%"></span></div><ol class="tasks"><li class="task"><input class="task-check" type="checkbox" id="task-0" data-legacy="" data-optional="false"><div><label for="task-0">Заполни печатный лист</label><p>Лист по теме «Время» — в WhatsApp. Нарисуй стрелки и напиши иероглифы.</p><div class="task-bottom"><span></span><span class="task-time"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>От руки</span></div></div></li><li class="task"><input class="task-check" type="checkbox" id="task-1" data-legacy="" data-optional="false"><div><label for="task-1">Прочитай 4 предложения вслух</label><p>Возьми слайд из презентации. Повтори 上午, 下午, 晚上.</p><div class="task-bottom"><span></span><span class="task-time"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Вслух</span></div></div></li><li class="task"><input class="task-check" type="checkbox" id="task-2" data-legacy="" data-optional="false"><div><label for="task-2">Пройди тренажёр времени</label><p>Все 10 карточек: часы, половины и четверти.</p><div class="task-bottom"><a class="text-link" href="time-trainer.html">Начать практику<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a><span class="task-time"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 минут</span></div></div></li><li class="task"><input class="task-check" type="checkbox" id="task-3" data-legacy="" data-optional="true"><div><label for="task-3">Повтори профессии с капибарами</label><p>Одна станция в Бюро профессий. Это дополнительное задание.</p><div class="task-bottom"><a class="text-link" href="capybara-jobs.html">Открыть бюро<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a><span class="task-time"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>По желанию</span></div></div></li></ol><div class="hw-complete" id="hw-complete" role="status" hidden><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> Все основные задания отмечены. Отличная работа!</div><p class="storage-note" id="storage-note">Отметки сохраняются в этом браузере.</p></section>
+<section class="card schedule-card" id="schedule" data-section aria-labelledby="schedule-title"><div class="section-head"><h2 id="schedule-title">Твоё расписание</h2><button class="text-link" id="calendar-today" type="button">Сегодня</button></div><div class="calendar-nav"><button type="button" id="calendar-prev" aria-label="Предыдущий месяц"><span class="calendar-prev"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></span></button><span id="calendar-month" aria-live="polite">Ноябрь 2026</span><button type="button" id="calendar-next" aria-label="Следующий месяц"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div><div class="calendar-grid" id="calendar-grid" role="group" aria-label="Календарь занятий"></div><div class="calendar-key"><span><i class="dot"></i>В плане</span><span><i class="dot pale"></i>Проведён</span><span><i class="dot outline"></i>Сегодня</span></div><div class="calendar-detail" aria-live="polite"><strong id="calendar-selected-date"></strong><p id="calendar-selected-topic"></p><p id="calendar-selected-status"></p></div><div class="schedule-rule"><b>Обычное расписание</b>Воскресенье · 18:00 МСК · 60 минут<br>Назначенные даты отмечены в календаре.</div></section></div>
+<section class="trainers-section" id="trainers" data-section aria-labelledby="trainers-title"><div class="section-head"><div><h2 id="trainers-title">Твои тренажёры</h2><p>Выбирай, что хочется потренировать.</p></div><span class="pill">Всегда под рукой</span></div><div class="trainers-grid"><a class="card trainer-card" href="trainer.html"><div class="trainer-top"><span class="trainer-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3V4zM13 7a3 3 0 0 1 3-3h5v15h-5a4 4 0 0 0-3 2"/></svg></span><small>Основной тренажёр</small></div><h3>Тренажёр слов</h3><p>Все 15 тем: карточки, аудирование, тоны и предложения.</p><div class="trainer-footer"><span>Все темы · Открыть</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></div></a><a class="card trainer-card" href="time-trainer.html"><div class="trainer-top"><span class="trainer-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><small>Сейчас повторяем</small></div><h3>Который час?</h3><p>10 карточек с часами, половинами и четвертями.</p><div class="trainer-footer"><span>Тема 10 · Открыть</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></div></a><a class="card trainer-card" href="capybara-jobs.html"><div class="trainer-top"><span class="trainer-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2m3-17a3 3 0 0 1 0 6m1 5a5 5 0 0 1 3 5"/></svg></span><small>Практика с Минмином</small></div><h3>Бюро профессий</h3><p>Капибары помогут повторить профессии и диалоги.</p><div class="trainer-footer"><span>Профессии · Открыть</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></div></a></div><details class="card materials"><summary>Ещё материалы и прошлые задания</summary><div class="materials-list"><a href="https://app.notion.com/p/3a2ee1a0b26881a5b006c99d67cc9ce9" target="_blank" rel="noopener noreferrer"><span>Словарик Кати в Notion</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></svg></a><a href="https://app.notion.com/p/39dee1a0b26881a5b006c99d67cc9ce9" target="_blank" rel="noopener noreferrer"><span>Конспекты и история уроков в Notion</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></svg></a></div></details></section>
+<section class="card extra-card" aria-labelledby="quote-title"><div class="extra-copy"><div class="eyebrow" id="quote-title">Минмин на связи</div><h3 id="quote-zh" lang="zh-CN">你好，卡佳！我们一起学中文！</h3><p id="quote-ru">Привет, Катя! Учим китайский вместе.</p></div><div class="extra-actions"><button class="btn btn-light" id="quote-speak"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg>Послушать</button><button class="btn btn-outline" id="quote-next">Другая фраза <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button></div></section><details class="voice-settings"><summary><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg>Настройки китайской озвучки</summary><label for="voice-choice">Голос браузера</label><br><select id="voice-choice" aria-describedby="voice-status"><option>Загружаем голоса…</option></select><span id="voice-status" class="voice-status" role="status"></span></details>
+<section class="progress-section" id="progress" data-section aria-labelledby="progress-title"><div class="section-head"><div><h2 id="progress-title">Посмотри, сколько уже получается</h2><p>Результаты из отчёта преподавателя · 25 октября 2026</p></div></div><div class="progress-grid"><div class="card goal-card"><div class="goal-top"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22V3m0 1c6-4 10 4 16 0v11c-6 4-10-4-16 0"/></svg>Твой маршрут к HSK 1</div><h3>≈62%</h3><div class="track" role="progressbar" aria-label="Оценка по курсу · +6% за последний блок" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"><span style="width:62%"></span></div><p>10 из 15 тем учебника уже пройдены. Дальше — распорядок дня.<br>Оценка по курсу · +6% за последний блок</p></div><div class="card stat-card"><div class="stat-value">10 / 15</div><div class="stat-label">тем учебника</div><div class="stat-note">Тема «Время» закрыта</div></div><div class="card stat-card"><div class="stat-value">192 / 200</div><div class="stat-label">баллов на срезе</div><div class="stat-note">Аудирование — 100%</div></div><div class="card stat-card"><div class="stat-value">142</div><div class="stat-label">слова HSK 1</div><div class="stat-note">По последнему отчёту</div></div></div></section>
+<section class="parents-section" id="parents" data-section aria-labelledby="parents-title"><div class="section-head"><div><h2 id="parents-title">Родителям — самое важное</h2><p>Как идут занятия и чем помочь дома.</p></div><span class="pill">Отчёт и баланс</span></div><div class="parents-overview"><div class="card parent-card"><div class="teacher-meta"><span class="avatar">И</span><div><b>Игорь · преподаватель</b><small>Последний отчёт · 25 октября 2026</small></div></div><p>Тема «Время» закрыта. Катя уверенно называет часы, половины и четверти; аудирование — сильная сторона.</p><div class="parent-action">Помогите найти печатный лист в WhatsApp. Нагрузку держим комфортной: письмо от руки и 5 минут тренажёра.</div><details><summary class="text-link">Полный отчёт и комментарии к прошлым урокам</summary><div class="legacy"><section class="report-card">
     <div class="report-top">
-      <h2 style="font-size:1.45rem;font-weight:900;color:var(--ink)">📝 Отчёт преподавателя для родителей</h2>
       <span class="report-badge">Урок 12 · 25.10 · Тема «Время» закрыта ✓</span>
     </div>
     <div class="report-body">
@@ -755,51 +35,20 @@
         <b>Следующий шаг:</b> На уроке 13 переходим к <b>Теме 11 «Распорядок дня»</b>. Время станет каркасом для предложений: во сколько встаём, когда уроки и когда отдых. Нагрузку держим комфортной с учётом школы!
       </p>
     </div>
-
     <!-- Accordion Archive of Reports -->
-    <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)">
-      <h3 style="font-size:1.1rem;font-weight:800;color:var(--ink-soft);margin-bottom:8px">📜 Архив отчётов по прошлым урокам</h3>
-      
-      <div class="accordion-item">
-        <button class="accordion-btn" onclick="toggleAcc(this)">
-          <span>📅 Урок 11 · 18.10 — Старт темы «Время», скороговорка и капибары</span>
-          <span class="acc-icon">▼</span>
-        </button>
-        <div class="accordion-body">
+    <div>
+      <h3>📜 Архив отчётов по прошлым урокам</h3>
+      <details><summary>📅 Урок 11 · 18.10 — Старт темы «Время», скороговорка и капибары</summary><p>
           Первый урок абонемента №2. Домашнее задание было выполнено полностью и самостоятельно. Отработали скороговорку на тоны (<code>妈妈种麻，我放马...</code>), посмотрели 2-ю серию про капибар в больнице, выучили счет на пальцах от 6 до 10 по-китайски и начали тему часов.
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-btn" onclick="toggleAcc(this)">
-          <span>🦫 Урок 10 · 11.10 — Финал Абонемента №1, капибары вышли на экран</span>
-          <span class="acc-icon">▼</span>
-        </button>
-        <div class="accordion-body">
+        </p></details>
+      <details><summary>🦫 Урок 10 · 11.10 — Финал Абонемента №1, капибары вышли на экран</summary><p>
           Юбилейный 10-й урок! Прошли мультик с капибарами (врач Сяомэй, стоматолог Дали, водитель), интерактивный тренажёр «Бюро профессий», выучили морскую лексику (<code>水豚</code>, <code>海豚</code>, <code>大海</code>, <code>黑海</code>) и конструкцию с <code>会说</code>.
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-btn" onclick="toggleAcc(this)">
-          <span>📊 Итоговый отчёт за Абонемент №1 (26.07 – 11.10)</span>
-          <span class="acc-icon">▼</span>
-        </button>
-        <div class="accordion-body">
+        </p></details>
+      <details><summary>📊 Итоговый отчёт за Абонемент №1 (26.07 – 11.10)</summary><p>
           10 уроков · 3 темы учебника закрыты · прогресс к HSK 1 вырос с 34% до 56%. Аудирование из сложной зоны превратилось в одну из самых сильных сторон. Катя научилась рассказывать о себе, семье, профессиях и спорить по существу на китайском языке.
-        </div>
-      </div>
+        </p></details>
     </div>
-  </section>
-
-  <!-- Journal & Balance Table -->
-  <section class="journal-card" id="balance">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <h2 style="font-size:1.45rem;font-weight:900;color:var(--ink)">🎟️ Журнал занятий и баланс уроков</h2>
-      <span class="tag" style="font-size:0.95rem;padding:6px 16px">Абонемент №2: 2 из 10 пройдено · осталось 8</span>
-    </div>
-
-    <table class="journal-table">
+  </section></div></details></div><div class="card balance-card"><div class="card-kicker"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 11h18m-13 5h2m4 0h2"/></svg>Абонемент №2</div><div class="balance-number">8 <small>уроков на балансе</small></div><p class="balance-caption">Проведено 2 из 10 занятий</p><div class="lesson-dots" aria-hidden="true"><span class="used"></span><span class="used"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><p class="balance-note">Баланс по отмеченным проведённым занятиям в журнале.</p><a class="text-link" href="#journal" onclick="document.getElementById('journal').open=true">Посмотреть журнал<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div></div><details class="card journal" id="journal"><summary>Журнал занятий · даты, темы и статусы</summary><div class="table-scroll" role="region" aria-label="Журнал занятий" tabindex="0"><table class="journal-table">
       <thead>
         <tr>
           <th>№</th>
@@ -821,11 +70,11 @@
           <td>Тема 10 «Время» закрыта ✓ · Части дня, 现在几点？</td>
           <td><span class="st-done">Завершён ✓</span></td>
         </tr>
-        <tr style="background:#fffcf2">
+        <tr>
           <td><b>3 (13)</b></td>
           <td>08.11.2026</td>
           <td><b>Тема 11 «Распорядок дня» 日常起居</b> — старт темы</td>
-          <td><span class="st-next">Ближайший ⏳</span></td>
+          <td><span class="st-next">Запланирован</span></td>
         </tr>
         <tr>
           <td><b>4 (14)</b></td>
@@ -846,97 +95,147 @@
           <td><span class="st-plan">В плане</span></td>
         </tr>
       </tbody>
-    </table>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>🌸 Персональный учебный портал по китайскому языку для Кати · Easy Steps to Chinese 1 & HSK 1</p>
-    <p style="margin-top:6px;font-size:0.88rem">Все права на капибар принадлежат Кате и Минмину 🦫</p>
-    <div>
-      <a href="console.html" class="teacher-link">🔒 Панель преподавателя</a>
-    </div>
-  </footer>
-</div>
-
-<script>
-// ================= ADVANCED TTS FOR DASHBOARD (EDGE CHILD VOICE 0.7x + FALLBACK CHAIN) =================
-var edgeVoice = null;
-
-function findEdgeChildVoice() {
-  if (!('speechSynthesis' in window)) return null;
-  var vs = window.speechSynthesis.getVoices();
-  if (!vs || !vs.length) return null;
-
-  var filters = [
-    function(v){ return /yunxia|云夏/i.test(v.name); },
-    function(v){ return /xiaoxiao|晓晓/i.test(v.name); },
-    function(v){ return /yunjian|云健|xiaoyi/i.test(v.name); },
-    function(v){ return /natural.*zh/i.test(v.name); },
-    function(v){ return /google.*普通话/i.test(v.name); },
-    function(v){ return /^zh-CN/i.test(v.lang); },
-    function(v){ return /^zh/i.test(v.lang); }
-  ];
-
-  for (var i = 0; i < filters.length; i++) {
-    for (var k = 0; k < vs.length; k++) {
-      if (filters[i](vs[k])) return vs[k];
-    }
-  }
-  return vs[0] || null;
+    </table></div></details></section>
+<footer class="footer"><p>Китайский с Игорем · Катя <span lang="zh-CN">卡佳</span> · Учимся в своём ритме.</p><a href="console.html">Кабинет преподавателя →</a></footer></main><nav class="mobile-nav" aria-label="Навигация на телефоне"><a href="#overview" data-nav class="active"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Главная</span></a><a href="#homework" data-nav class=""><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>Домашка</span></a><a href="#trainers" data-nav class=""><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3V4zM13 7a3 3 0 0 1 3-3h5v15h-5a4 4 0 0 0-3 2"/></svg><span>Тренажёры</span></a><a href="#schedule" data-nav class=""><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 11h18m-13 5h2m4 0h2"/></svg><span>Расписание</span></a><a href="#parents" data-nav class=""><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2m3-17a3 3 0 0 1 0 6m1 5a5 5 0 0 1 3 5"/></svg><span>Родителям</span></a></nav>
+<script id="dashboard-data" type="application/json">{"student": "katya", "revision": "2026-11-08-time", "lesson_date": "2026-11-08T18:00:00+03:00", "duration": 60, "lesson_time": "18:00", "subscription": 2, "events": [["2026-10-18", "Урок 11 · Начинаем время", "done"], ["2026-10-25", "Урок 12 · Время: закрепление", "done"], ["2026-11-08", "Урок 13 · Распорядок дня", "planned"]]}</script><script>
+(() => {
+'use strict';
+const config=JSON.parse(document.getElementById('dashboard-data').textContent);
+const $=id=>document.getElementById(id);
+const zone='Europe/Moscow';
+const fmt=(date,options)=>new Intl.DateTimeFormat('ru-RU',{timeZone:zone,...options}).format(date);
+const dayKey=date=>new Intl.DateTimeFormat('sv-SE',{timeZone:zone}).format(date);
+const today=new Date(); const todayKey=dayKey(today);
+$('today-date').textContent=fmt(today,{day:'numeric',month:'long',year:'numeric'});
+const planned=config.events.filter(ev=>ev[2]==='planned');
+const appointment=planned.find(ev=>today<=new Date(new Date(ev[0]+'T'+config.lesson_time+':00+03:00').getTime()+(config.duration||60)*60000))||planned[planned.length-1];
+const start=new Date(appointment?appointment[0]+'T'+config.lesson_time+':00+03:00':config.lesson_date);
+if(appointment&&appointment[0]!==config.lesson_date.slice(0,10)){
+ document.querySelector('.lesson-topic').textContent=appointment[1];
+ document.querySelector('.lesson-number').textContent='По журналу занятий · абонемент №'+config.subscription;
 }
-
-if ('speechSynthesis' in window) {
-  edgeVoice = findEdgeChildVoice();
-  window.speechSynthesis.onvoiceschanged = function() { edgeVoice = findEdgeChildVoice(); };
+const end=new Date(start.getTime()+(config.duration||60)*60000);
+const hasEnded=today>end;
+$('lesson-date').textContent=fmt(start,{weekday:'long',day:'numeric',month:'long'});
+if(hasEnded){
+ $('lesson-heading').textContent='Последний урок в расписании';
+ $('lesson-note').textContent='Эта дата уже прошла. Новая дата пока не указана — уточните её у преподавателя.';
+ $('lesson-note').hidden=false;
+} else if(today>=start){$('lesson-heading').textContent='Урок по расписанию сейчас';}
+else if(dayKey(start)===todayKey){$('lesson-heading').textContent='Сегодня урок';}
+// Homework belongs to this assignment; old one-time keys are not reused for future assignments.
+const prefix='chinese-dashboard:'+config.student+':'+config.revision+':';
+const boxes=[...document.querySelectorAll('.task-check')];
+let storageAvailable=true;
+function read(key){try{return localStorage.getItem(key)}catch(e){storageAvailable=false;return null}}
+function write(key,value){try{localStorage.setItem(key,value)}catch(e){storageAvailable=false}}
+function updateHomework(){
+ const required=boxes.filter(b=>b.dataset.optional!=='true');
+ const complete=required.filter(b=>b.checked).length;
+ const pct=Math.round(complete/required.length*100);
+ $('hw-counter').textContent=complete+' из '+required.length+' основных заданий';
+ $('hw-progress').style.width=pct+'%';
+ $('hw-progressbar').setAttribute('aria-valuenow',pct);
+ $('hw-complete').hidden=complete!==required.length;
+ boxes.forEach(b=>b.closest('.task').classList.toggle('done',b.checked));
+ $('storage-note').textContent=storageAvailable?'Отметки сохраняются в этом браузере. Их видите вы; преподавателю они не отправляются.':'Отметки доступны до закрытия страницы: браузер не разрешает сохранение.';
 }
-
-function speakWithRate(text, rate) {
-  if (!('speechSynthesis' in window)) return;
-  try {
-    if (!edgeVoice) edgeVoice = findEdgeChildVoice();
-    var u = new SpeechSynthesisUtterance(text);
-    if (edgeVoice) {
-      u.voice = edgeVoice;
-      u.lang = edgeVoice.lang || 'zh-CN';
-    } else {
-      u.lang = 'zh-CN';
-    }
-    u.rate = rate || 0.7; // 0.7x rate strictly
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  } catch (e) {}
+boxes.forEach(b=>{
+ const saved=read(prefix+b.id);
+ const migrated=b.dataset.legacy?read(b.dataset.legacy):null;
+ b.checked=saved==='true'||(saved===null&&migrated==='true');
+ b.addEventListener('change',()=>{write(prefix+b.id,String(b.checked));updateHomework()});
+});
+updateHomework();
+// Show only dates actually entered in the lesson journal; never infer new appointments.
+let month=new Date(Date.UTC(Number(todayKey.slice(0,4)),Number(todayKey.slice(5,7))-1,1,12));
+let selected=config.events.find(ev=>ev[0]>=todayKey&&ev[2]==='planned')?.[0]||config.events[config.events.length-1][0];
+function eventDate(key){return new Date(key+'T12:00:00+03:00')}
+function selectDate(key){
+ selected=key;
+ const ev=config.events.find(ev=>ev[0]===key);
+ $('calendar-selected-date').textContent=fmt(eventDate(key),{day:'numeric',month:'long'});
+ $('calendar-selected-topic').textContent=ev?ev[1]:'На эту дату урок не указан.';
+ $('calendar-selected-status').textContent=ev?(ev[2]==='done'?'Проведён по журналу':(key<todayKey||(key===dayKey(start)&&hasEnded))?'Запланированная дата прошла · ждём обновления':config.lesson_time+' МСК · запланирован'):'Новые даты добавляет преподаватель.';
+ document.querySelectorAll('.day').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.date===key)));
 }
-
-// ================= CAPYBARA MINGMING QUOTES (ИЗЮМИНКА КАТИ) =================
-var CAPY_QUOTES = [
-  { zh: "你好，卡佳！我们一起学中文！", ru: "«Привет, Катя! Учим китайский вместе!»" },
-  { zh: "现在几点？两点半！", ru: "«Который час? 2:30 (два часа — строго 两点)!»" },
-  { zh: "明天是明天，今年是今年！", ru: "«Минтянь — это завтра, а цзиньнянь — этот год! Не путай!»" },
-  { zh: "水豚和海豚都是好朋友！", ru: "«Капибара и дельфин — отличные друзья!»" },
-  { zh: "加油，卡佳！你很厉害！", ru: "«Вперёд, Катя! Ты большая молодец!»" },
-  { zh: "早上好！吃早饭了吗？", ru: "«Доброе утро! Ты уже позавтракала?»" }
-];
-
-var capyIdx = 0;
-
-function sayCapyQuote() {
-  capyIdx = (capyIdx + 1) % CAPY_QUOTES.length;
-  var q = CAPY_QUOTES[capyIdx];
-  document.getElementById('capyZh').textContent = q.zh;
-  document.getElementById('capyRu').textContent = q.ru;
-  speakWithRate(q.zh, 0.7);
+function renderCalendar(){
+ const y=month.getUTCFullYear(),m=month.getUTCMonth();
+ $('calendar-month').textContent=new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',month:'long',year:'numeric'}).format(month);
+ const prefix=y+'-'+String(m+1).padStart(2,'0');
+ if(selected.slice(0,7)!==prefix)selected=config.events.find(ev=>ev[0].startsWith(prefix))?.[0]||prefix+'-01';
+ const grid=$('calendar-grid');grid.replaceChildren();
+ ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].forEach(s=>{const el=document.createElement('span');el.className='weekday';el.textContent=s;grid.append(el)});
+ const offset=(new Date(Date.UTC(y,m,1)).getUTCDay()+6)%7;
+ for(let n=0;n<offset;n++){const el=document.createElement('span');el.setAttribute('aria-hidden','true');grid.append(el)}
+ const count=new Date(Date.UTC(y,m+1,0)).getUTCDate();
+ for(let n=1;n<=count;n++){
+  const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(n).padStart(2,'0');
+  const ev=config.events.find(x=>x[0]===key);
+  const b=document.createElement('button');b.type='button';b.className='day'+(ev?' has-lesson':'')+(ev?.[2]==='planned'?' planned':'')+(key===todayKey?' today':'');
+  b.textContent=n;b.dataset.date=key;b.setAttribute('aria-pressed',String(key===selected));
+  b.setAttribute('aria-label',fmt(eventDate(key),{day:'numeric',month:'long'})+(ev?' · '+ev[1]+' · '+(ev[2]==='done'?'проведён':'запланирован'):' · урок не указан'));
+  if(key===todayKey)b.setAttribute('aria-current','date');
+  b.addEventListener('click',()=>selectDate(key));grid.append(b);
+ }
+ selectDate(selected);
 }
-
-function repeatCapyQuote() {
-  var text = document.getElementById('capyZh').textContent;
-  speakWithRate(text, 0.7);
+$('calendar-prev').addEventListener('click',()=>{month.setUTCMonth(month.getUTCMonth()-1);renderCalendar()});
+$('calendar-next').addEventListener('click',()=>{month.setUTCMonth(month.getUTCMonth()+1);renderCalendar()});
+$('calendar-today').addEventListener('click',()=>{month=new Date(Date.UTC(Number(todayKey.slice(0,4)),Number(todayKey.slice(5,7))-1,1,12));selected=todayKey;renderCalendar()});
+renderCalendar();
+// Synchronize the two navigation bars, including keyboard and hash navigation.
+const navLinks=[...document.querySelectorAll('[data-nav]')];
+function setActive(id){navLinks.forEach(a=>{const active=a.hash==='#'+id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}
+navLinks.forEach(a=>a.addEventListener('click',()=>setActive(a.hash.slice(1))));
+if('IntersectionObserver' in window){const obs=new IntersectionObserver(entries=>{const visible=entries.filter(x=>x.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(visible[0])setActive(visible[0].target.id)},{rootMargin:'-5% 0px -55% 0px',threshold:[0,.2,.5]});document.querySelectorAll('[data-section]').forEach(s=>obs.observe(s))}
+// Browser speech: use an available Chinese voice, with a visible, honest fallback.
+let voices=[],chosenVoice='';
+function loadVoices(){
+ if(!('speechSynthesis'in window))return;
+ voices=window.speechSynthesis.getVoices().filter(v=>/^(zh|cmn)(-|_)/i.test(v.lang)||v.lang==='zh');
+ const select=$('voice-choice');if(!select)return;
+ const previous=select.value;select.replaceChildren();
+ voices.forEach(v=>{const o=document.createElement('option');o.value=v.voiceURI;o.textContent=v.name+' · '+v.lang;select.append(o)});
+ const preferred=voices.find(v=>/yunxia|xiaoxiao|xiaoyi|yunxi/i.test(v.name))||voices.find(v=>/CN|Hans/i.test(v.lang))||voices[0];
+ chosenVoice=voices.some(v=>v.voiceURI===previous)?previous:(preferred?.voiceURI||'');
+ select.value=chosenVoice;select.disabled=!voices.length;
+ if(!voices.length){const o=document.createElement('option');o.textContent='Китайский голос пока недоступен';select.append(o)}
+ $('voice-status').textContent=voices.length?'Китайские голоса вашего браузера · скорость 0.7×.':'Китайский голос не найден. Материалы можно читать без озвучки.';
 }
-
-function toggleAcc(btn) {
-  var item = btn.parentElement;
-  item.classList.toggle('open');
+function speak(text){
+ if(!('speechSynthesis'in window)){if($('voice-status'))$('voice-status').textContent='Этот браузер не поддерживает озвучку.';return}
+ if(!voices.length)loadVoices();
+ const voice=voices.find(v=>v.voiceURI===chosenVoice)||voices[0];
+ if(!voice){if($('voice-status'))$('voice-status').textContent='Китайский голос недоступен. Попробуйте другой браузер.';return}
+ const u=new SpeechSynthesisUtterance(text);u.voice=voice;u.lang=voice.lang;u.rate=.7;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
 }
-</script>
-</body>
-</html>
+if($('voice-choice')){
+ $('voice-choice').addEventListener('change',e=>{chosenVoice=e.target.value});
+ if('speechSynthesis'in window){loadVoices();window.speechSynthesis.addEventListener('voiceschanged',loadVoices)}
+ else{$('voice-status').textContent='Этот браузер не поддерживает озвучку.';$('voice-choice').disabled=true}
+}
+document.querySelectorAll('[data-speak]').forEach(b=>b.addEventListener('click',()=>speak(b.dataset.speak)));
+if(config.student==='askarchinese'){
+ const words=JSON.parse($('word-data').textContent);let index=0;
+ function showWord(){const w=words[index];$('word-hanzi').textContent=w[0];$('word-pinyin').textContent=w[1];$('word-translation').textContent=w[2];$('word-translation').hidden=false;$('word-flip').setAttribute('aria-expanded','true')}
+ $('word-next').addEventListener('click',()=>{index=(index+1+Math.floor(Math.random()*(words.length-1)))%words.length;showWord()});
+ $('word-speak').addEventListener('click',()=>speak(words[index][0]));
+ $('word-flip').addEventListener('click',()=>{const hidden=!$('word-translation').hidden;$('word-translation').hidden=hidden;$('word-flip').setAttribute('aria-expanded',String(!hidden))});showWord();
+ let timer=null;let opener=null;
+ const nums=['零','一','二','三','四','五','六','七','八','九','十','十一','十二','十三'];
+ function stop(){clearInterval(timer);timer=null;if('speechSynthesis'in window)window.speechSynthesis.cancel()}
+ function openChallenge(event){event.preventDefault();opener=event.currentTarget;stop();$('kungfu-dialog').showModal();let n=13;$('timer-value').textContent=n;$('timer-cn').textContent=nums[n];$('timer-status').textContent='Держи стойку, пока идёт отсчёт.';timer=setInterval(()=>{n--;$('timer-value').textContent=n;$('timer-cn').textContent=nums[n];if(n===0){stop();$('timer-value').textContent='✓';$('timer-cn').textContent='太棒了！';$('timer-status').textContent='Готово! Ты справился с челленджем Панды.';speak('太棒了！')}},1000)}
+ document.querySelectorAll('[href="#kungfu"]').forEach(b=>b.addEventListener('click',openChallenge));
+ $('timer-close').addEventListener('click',()=>$('kungfu-dialog').close());
+ $('kungfu-dialog').addEventListener('close',()=>{stop();opener?.focus()});
+ $('kungfu-dialog').addEventListener('cancel',stop);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&$('kungfu-dialog').open)$('kungfu-dialog').close()});
+}
+if(config.student==='katya'){
+ const quotes=[['你好，卡佳！我们一起学中文！','Привет, Катя! Учим китайский вместе.'],['现在几点？两点半！','Который час? Половина третьего!'],['水豚和海豚都是好朋友！','Капибара и дельфин — хорошие друзья!'],['加油，卡佳！你很厉害！','Вперёд, Катя! Ты большая молодец!'],['早上好！吃早饭了吗？','Доброе утро! Ты уже позавтракала?']];let index=0;
+ $('quote-next').addEventListener('click',()=>{index=(index+1)%quotes.length;$('quote-zh').textContent=quotes[index][0];$('quote-ru').textContent=quotes[index][1]});
+ $('quote-speak').addEventListener('click',()=>speak(quotes[index][0]));
+}
+})();
+</script><noscript><p style="padding:20px">Включите JavaScript для календаря и отметок домашнего задания. Ссылки на уроки и тренажёры работают без него.</p></noscript></body></html>
