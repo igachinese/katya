@@ -190,7 +190,7 @@ function setActive(id){navLinks.forEach(a=>{const active=a.hash==='#'+id;a.class
 navLinks.forEach(a=>a.addEventListener('click',()=>setActive(a.hash.slice(1))));
 if('IntersectionObserver' in window){const obs=new IntersectionObserver(entries=>{const visible=entries.filter(x=>x.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(visible[0])setActive(visible[0].target.id)},{rootMargin:'-5% 0px -55% 0px',threshold:[0,.2,.5]});document.querySelectorAll('[data-section]').forEach(s=>obs.observe(s))}
 const speak=text=>window.LearningSpeech.speak(text);
-if($('voice-choice'))window.LearningSpeech.bind({voiceSelect:$('voice-choice'),rateSelect:$('voice-speed'),status:$('voice-status'),testButton:$('voice-test')});
+if($('voice-choice'))window.LearningSpeech.bind({voiceSelect:$('voice-choice'),rateSelect:$('voice-speed'),status:$('voice-status'),testButton:$('voice-test'),testPhrase:'你好，卡佳！加油！'});
 document.querySelectorAll('[data-speak]').forEach(b=>b.addEventListener('click',()=>speak(b.dataset.speak)));
 if(config.student==='askarchinese'){
  const words=JSON.parse($('word-data').textContent);let index=0;
