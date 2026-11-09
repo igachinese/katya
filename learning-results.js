@@ -1,0 +1,17 @@
+(() => {
+'use strict';const root=document.getElementById('learning-results-content');if(!root)return;
+function read(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}}
+function node(tag,text,cls){const el=document.createElement(tag);el.textContent=text;if(cls)el.className=cls;return el}
+function render(){root.replaceChildren();const practice=read('katya.practice.v2'),home=read('katya.homework.time.v1');
+const rounds=(Array.isArray(practice?.rounds)?practice.rounds:[]).filter(r=>r.kind!=='cards'&&Number.isFinite(r.correct)&&Number.isFinite(r.total)&&r.total>0&&r.correct>=0&&r.correct<=r.total);
+const time=(Array.isArray(home)?home:[]).filter(r=>Array.isArray(r.rows)&&r.rows.length===8&&r.rows.every(q=>['read','set'].includes(q.kind)&&typeof q.correct==='boolean'));
+const total=rounds.reduce((a,r)=>a+r.total,0)+time.length*8,correct=rounds.reduce((a,r)=>a+r.correct,0)+time.reduce((a,r)=>a+r.rows.filter(q=>q.correct).length,0);
+if(!total){root.append(node('p','Здесь появятся маленькие победы после первой игры. Начни с часов или выбери свою тему в тренажёре.'));return}
+root.append(node('div',Math.round(correct/total*100)+'% правильных ответов','learning-score'));root.append(node('p',correct+' из '+total+' проверяемых ответов · '+(rounds.length+time.length)+' завершённых раундов'));
+const labels={read:'Читаем время на циферблате',set:'Ставим часы по китайской подписи'};
+for(const kind of ['read','set']){const rows=time.flatMap(r=>r.rows).filter(q=>q.kind===kind);if(!rows.length)continue;const n=rows.filter(q=>q.correct).length;const box=node('div','','learning-skill');box.append(node('b',labels[kind]),node('small',n+' из '+rows.length+' с первой попытки · '+Math.round(n/rows.length*100)+'%'));const repeat=[...new Set(rows.filter(q=>!q.correct).map(q=>q.m===0?'целыми часами':q.m===30?'половинами':'четвертями'))];box.append(node('p',repeat.length?'Уже есть опыт. Поиграем ещё немного с '+repeat.join(' и ')+'.':'Уверенные шаги! Попробуем ещё и на новых часах.'));root.append(box)}
+for(const group of [{title:'Узнаём китайские слова',modes:['choice','reverse','penalty','balloons','sprint','memory','traps']},{title:'Понимаем слова на слух',modes:['listen']},{title:'Различаем тоны',modes:['tones']},{title:'Собираем китайские фразы',modes:['sentence','gap']}]){const items=rounds.filter(r=>group.modes.includes(r.kind));if(!items.length)continue;const count=items.reduce((a,r)=>a+r.total,0),right=items.reduce((a,r)=>a+r.correct,0),box=node('div','','learning-skill');box.append(node('b',group.title),node('small',right+' из '+count+' · '+Math.round(right/count*100)+'%'),node('p',right/count>=.8?'В этих заданиях получается уверенно. Продолжим на новых примерах.':'Каждая попытка помогает. Вернёмся к сложным заданиям без спешки.'));root.append(box)}
+if(rounds.length){const last=rounds.at(-1),box=node('div','','learning-skill');box.append(node('b','Последняя практика: '+String(last.topic)+' · '+String(last.mode)),node('small',last.correct+' из '+last.total+' · '+Math.round(last.correct/last.total*100)+'%'));root.append(box)}
+root.append(node('p','Это результаты выполненных заданий. На уроке попробуем использовать их в живом разговоре.','storage-note'));}
+render();window.addEventListener('pageshow',render);window.addEventListener('storage',render);
+})();
