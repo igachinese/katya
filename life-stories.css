@@ -10,3 +10,9 @@
   color: var(--muted);
   overflow-wrap: anywhere;
 }
+.dialogue-pinyin {
+  display: block;
+  color: var(--muted);
+  font-size: .875rem;
+  margin-top: .4rem;
+}

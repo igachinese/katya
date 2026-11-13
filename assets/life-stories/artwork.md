@@ -24,3 +24,26 @@ Generated with the built-in image generation tool. Optimized as a whole WebP atl
 ## Prompt
 
 Four equal square panels in a precise 2x2 grid, no gutters. Premium children's storybook watercolor and delicate ink on warm ivory paper, soft sage and apricot palette. Same adorable capybara family across the panels. TOP LEFT: friendly capybaras meeting by a park bench, one offers a little present, warm social moment. TOP RIGHT: capybara schoolchild at a library craft table with books, ruler, eraser and scissors. BOTTOM LEFT: capybara doctor with stethoscope kindly welcoming a small capybara at a clinic reception, friendly not medical scary. BOTTOM RIGHT: capybara shopping in a cozy little shop, holding a wallet and smartphone, shelves with everyday objects. Each panel has complete scene safely centered inside its square, no limbs cut off, detailed charming props. No text, no letters, no numbers, no clocks, no speech bubbles, no watermark. Asset for real-life Chinese vocabulary learning game.
+
+## Семья, школа и повседневные диалоги
+
+Новые кадры сгенерированы по обложкам тренажёров в стилистике Chinese Storybook Ink & Wash. Каждый WebP содержит 16 сцен в сетке 4×4.
+
+### life-more-1.webp
+
+1. Приветствие у школы
+2. Знакомство с одноклассниками
+3. Разговор о семье дома
+4. Семейный альбом у бабушки и дедушки
+5. Расписание у входа в класс
+6. Разговор на занятии по китайскому
+7. Открытки из разных городов
+8. В гостях в новом доме
+9. Разговор с водителем
+10. У большого аквариума
+11. Встреча в кинотеатре
+12. Разговор на прогулке
+13. Сохраняем телефонный контакт
+14. Договариваемся о времени
+15. Заказ в кафе
+16. На ярмарке кружков
