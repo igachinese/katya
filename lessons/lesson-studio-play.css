@@ -1,0 +1,183 @@
+.lesson-play {
+  --play-ink: #18283e;
+  --play-accent: #963f29;
+  --play-paper: #f1f4fa;
+  --play-border: #cbd5e3;
+  --play-board: #18283e;
+  color: var(--play-ink);
+  margin: 0 0 1.25rem;
+  scroll-margin-top: 1rem;
+}
+.material-routine .lesson-play {
+  --play-ink: #392738;
+  --play-accent: #933b58;
+  --play-paper: #fff4e5;
+  --play-border: #e5cdbc;
+  --play-board: #653447;
+}
+.material-station .lesson-play {
+  --play-ink: #1c3835;
+  --play-accent: #216359;
+  --play-paper: #edf5f2;
+  --play-border: #bacfc6;
+  --play-board: #193d37;
+}
+.play-shell {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--play-border);
+  border-radius: 1rem;
+}
+.play-header {
+  padding: .9rem clamp(1rem, 4vw, 1.8rem);
+  color: #fff;
+  background: var(--play-board);
+}
+.play-header h2 { margin: 0; font-size: clamp(1.35rem, 4vw, 2rem); }
+.play-cover {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  background: var(--play-paper);
+}
+.play-cover-text, .play-panel { padding: clamp(1rem, 4vw, 1.8rem); }
+.play-cover-text {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: .9rem;
+}
+.play-cover-text p { margin: 0; font-size: 1.05rem; }
+.play-cover-image { display: block; width: 100%; height: 100%; min-height: 200px; object-fit: cover; }
+.play-panel h3 { margin: .25rem 0 .2rem; font-size: clamp(1.25rem, 3.5vw, 1.55rem); }
+.play-panel h4 { margin: 0 0 .55rem; }
+.play-panel h3:focus { outline: 0; }
+.lesson-play .button.primary { background-color: var(--play-accent); }
+.lesson-play .button.primary:not(:disabled):hover { background-color: var(--play-board); }
+.lesson-play .button:disabled { opacity: .55; }
+.play-progress { width: 100%; height: .7rem; display: block; margin: .35rem 0 .9rem; accent-color: var(--play-accent); }
+.play-recording { margin: .8rem 0; }
+.play-audio { width: min(100%, 24rem); display: block; }
+.play-recording .caption:empty, .play-feedback:empty { display: none; }
+.play-transcript { margin: .35rem 0; }
+.play-transcript summary { width: fit-content; cursor: pointer; padding: .35rem 0; color: var(--play-accent); }
+.play-transcript p { margin: .25rem 0; }
+.play-phrase [lang="zh"] { font-size: 1.13rem; }
+.play-choices { display: grid; gap: .55rem; margin: .7rem 0; }
+.play-choices-text { grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); }
+.play-choices-clock { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.play-choice {
+  min-width: 0;
+  min-height: 3.1rem;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: .25rem;
+  border: 1px solid var(--play-border);
+  border-radius: .65rem;
+  padding: .65rem .45rem;
+  background: var(--play-paper);
+  color: var(--play-ink);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+.play-choice:not(:disabled):hover { border-color: var(--play-accent); }
+.play-choice:disabled { cursor: default; }
+.play-choice:focus-visible, .lesson-play .button:focus-visible, .play-transcript summary:focus-visible {
+  outline: .16rem solid var(--play-accent);
+  outline-offset: .15rem;
+}
+.play-choice [lang="zh"] { font-size: 1.1rem; }
+.play-choice[data-result="correct"], .play-feedback[data-result="correct"] { color: #134733; background: #e8f5ea; border-color: #568668; }
+.play-choice[data-result="wrong"], .play-feedback[data-result="wrong"] { color: #791f29; background: #fff1ee; border-color: #b96862; }
+.play-board-header, .play-choices-board .play-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.15fr);
+  justify-items: stretch;
+  gap: .35rem;
+  text-align: center;
+  align-items: center;
+  padding-inline: .45rem;
+}
+.play-board-header {
+  min-height: 2.1rem;
+  border-radius: .45rem;
+  font-size: .85rem;
+  color: #fff;
+  background: var(--play-board);
+}
+.play-choices-board .play-choice span:first-child { font-variant-numeric: tabular-nums; }
+.play-dial {
+  display: block;
+  position: relative;
+  width: min(100%, 6rem);
+  aspect-ratio: 1;
+  color: #253046;
+  background: #fff;
+  border: 2px solid #253046;
+  border-radius: 50%;
+}
+.play-numeral { position: absolute; font-size: clamp(.56rem, 2vw, .78rem); line-height: 1; }
+.play-numeral-12 { top: 6%; left: 50%; translate: -50% 0; }
+.play-numeral-3 { top: 50%; right: 6%; translate: 0 -50%; }
+.play-numeral-6 { bottom: 6%; left: 50%; translate: -50% 0; }
+.play-numeral-9 { top: 50%; left: 6%; translate: 0 -50%; }
+.play-dial::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: .36rem;
+  height: .36rem;
+  translate: -50% -50%;
+  background: #253046;
+  border-radius: 50%;
+}
+.play-hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  border-radius: .25rem;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) rotate(var(--needle));
+}
+.play-hour { width: .22rem; height: 24%; background: #253046; }
+.play-minute { width: .17rem; height: 34%; background: #a1374c; }
+.play-period { font-size: .82rem; }
+.play-assembly {
+  min-height: 3rem;
+  margin: .7rem 0;
+  border: 1px dashed var(--play-border);
+  border-radius: .6rem;
+  padding: .5rem .65rem;
+  background: var(--play-paper);
+  font-size: 1.15rem;
+  overflow-wrap: anywhere;
+}
+.play-assembly ~ .actions + .actions { margin-top: .6rem; }
+.play-feedback {
+  width: fit-content;
+  padding: .5rem .75rem;
+  border: 1px solid;
+  border-radius: .55rem;
+  margin: .7rem 0;
+}
+.play-next, .play-final { margin: .8rem 0; }
+.play-journal {
+  margin: .9rem 0 .2rem;
+  background: var(--play-paper);
+  padding: .8rem 1rem;
+  border-radius: .55rem;
+}
+.play-journal dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+  gap: .55rem .9rem;
+  margin: 0;
+}
+.play-journal dt { font-size: .87rem; }
+.play-journal dd { font-weight: 650; margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .play-cover { grid-template-columns: 1fr; }
+  .play-cover-image { grid-row: 1; aspect-ratio: 16 / 9; min-height: 0; }
+}
+@media print { .lesson-play, .material-nav a[href="#lesson-play"] { display: none; } }

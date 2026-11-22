@@ -58,13 +58,18 @@ button{font:inherit;cursor:pointer}button:disabled{background:var(--sidebar);col
   .material-roles { grid-template-columns: minmax(0,1fr); }
   .material-character { display: none; }
 }</style>
-  <script defer src="../speech.js"></script>
+  <link rel="stylesheet" href="lesson-studio-play.css?v=1">
+  <script type="application/json" id="lesson-play-data">{"slug":"daily-routine","title":"Собери день Кэ-кэ","lead":"Послушай дневник, прочитай стрелки и расставь шесть дел по времени.","alt":"Школьница смотрит на часы рядом со школьным рюкзаком","finish":"Распорядок дня собран","collection":"Дневник Кэ-кэ","final":"Расскажи о своём дне. Назови, во сколько ты встаёшь, возвращаешься домой и ложишься спать. Поставь время перед действием.","model":"我早上七点起床。我下午四点半回家。我晚上九点一刻睡觉。","stages":[{"type":"clock","title":"Подъём","prompt":"Найди часы для 起床 — подъёма.","clue":{"zh":"我早上七点起床。","py":"Wǒ zǎoshang qī diǎn qǐchuáng.","ru":"Я встаю в семь утра."},"answer":"07:00","choices":[{"id":"19:00","label":"19:00","period":"Вечер","feedback":"Стрелки похожи. 早上 означает «утром»."},{"id":"07:00","label":"07:00","period":"Утро","feedback":""},{"id":"07:30","label":"07:30","period":"Утро","feedback":"В записи 七点. Для половины восьмого прозвучало бы 七点半."}],"fact":["起床","07:00"],"success":"早上七点 — семь утра."},{"type":"clock","title":"Завтрак","prompt":"Во сколько Кэ-кэ завтракает? Послушай 吃早饭.","clue":{"zh":"我早上七点半吃早饭。","py":"Wǒ zǎoshang qī diǎn bàn chī zǎofàn.","ru":"Я завтракаю в половине восьмого утра."},"answer":"07:30","choices":[{"id":"07:15","label":"07:15","period":"Утро","feedback":"半 — половина часа. Минутная стрелка должна смотреть на шесть."},{"id":"07:00","label":"07:00","period":"Утро","feedback":"После 七点 произнесли ещё 半."},{"id":"07:30","label":"07:30","period":"Утро","feedback":""}],"fact":["吃早饭","07:30"],"success":"七点半 — 7:30."},{"type":"clock","title":"В школу","prompt":"Поставь на шкалу дня 上学 — уход в школу.","clue":{"zh":"我早上八点上学。","py":"Wǒ zǎoshang bā diǎn shàngxué.","ru":"Я иду в школу в восемь утра."},"answer":"08:00","choices":[{"id":"08:00","label":"08:00","period":"Утро","feedback":""},{"id":"09:00","label":"09:00","period":"Утро","feedback":"Переслушай число. 八 — восемь, 九 — девять."},{"id":"08:30","label":"08:30","period":"Утро","feedback":"В этой реплике после 点 нет 半."}],"fact":["上学","08:00"],"success":"早上八点 — восемь утра."},{"type":"clock","title":"Возвращение домой","prompt":"Поставь на шкалу 回家 — возвращение домой.","clue":{"zh":"我下午四点半回家。","py":"Wǒ xiàwǔ sì diǎn bàn huí jiā.","ru":"Я возвращаюсь домой в половине пятого дня."},"answer":"16:30","choices":[{"id":"16:15","label":"16:15","period":"После обеда","feedback":"Для четверти ищи 一刻. Здесь звучит 半."},{"id":"04:30","label":"04:30","period":"Раннее утро","feedback":"下午 означает «после обеда». Ищи 4:30 во второй половине дня."},{"id":"16:30","label":"16:30","period":"После обеда","feedback":""}],"fact":["回家","16:30"],"success":"下午四点半 — 16:30."},{"type":"clock","title":"Домашнее задание","prompt":"Когда в дневнике стоит 做作业?","clue":{"zh":"我下午五点一刻做作业。","py":"Wǒ xiàwǔ wǔ diǎn yí kè zuò zuòyè.","ru":"Я делаю домашнее задание в четверть шестого дня."},"answer":"17:15","choices":[{"id":"17:15","label":"17:15","period":"После обеда","feedback":""},{"id":"17:30","label":"17:30","period":"После обеда","feedback":"一刻 — четверть часа. Минутная стрелка на тройке."},{"id":"16:15","label":"16:15","period":"После обеда","feedback":"Переслушай звук перед 点. Пять по-китайски — 五."}],"fact":["做作业","17:15"],"success":"下午五点一刻 — 17:15."},{"type":"clock","title":"Пора спать","prompt":"Найди время для 睡觉.","clue":{"zh":"我晚上九点一刻睡觉。","py":"Wǒ wǎnshang jiǔ diǎn yí kè shuìjiào.","ru":"Я ложусь спать в четверть десятого вечера."},"answer":"21:15","choices":[{"id":"09:15","label":"09:15","period":"Утро","feedback":"В реплике 晚上, значит действие вечером."},{"id":"21:15","label":"21:15","period":"Вечер","feedback":""},{"id":"21:30","label":"21:30","period":"Вечер","feedback":"В реплике 一刻, значит прошло 15 минут от начала часа."}],"fact":["睡觉","21:15"],"success":"晚上九点一刻 — 21:15."},{"type":"assemble","title":"Фраза для дневника","prompt":"Собери фразу «Я возвращаюсь домой в половине пятого дня».","tokens":[["home","回家"],["me","我"],["sleep","睡觉"],["time","下午四点半"]],"solution":["me","time","home"],"hint":"В нашем образце порядок такой: кто, во сколько, что делает.","example":{"zh":"我下午四点半回家。","py":"Wǒ xiàwǔ sì diǎn bàn huí jiā."},"success":"Время 下午四点半 стоит перед действием 回家."}],"listeningFile":"listening"}</script>
   <script type="application/json" id="lesson-data">{"name":"Катя","title":"Мой обычный день","intro":"Вспомни, как назвать время, и расскажи по-китайски, во сколько ты встаёшь, возвращаешься домой и ложишься спать.","pinyin":true,"theme":"routine","warmup":[["7:00 утром","早上七点","zǎoshang qī diǎn","Семь утра."],["2:30 после обеда","下午两点半","xiàwǔ liǎng diǎn bàn","14:30."],["7:15 вечером","晚上七点一刻","wǎnshang qī diǎn yí kè","Четверть восьмого вечера. Можно сказать 晚上七点十五分 (wǎnshang qī diǎn shíwǔ fēn)."]],"words":[["起床","qǐchuáng","вставать с постели"],["吃早饭","chī zǎofàn","завтракать"],["上学","shàngxué","идти в школу"],["回家","huí jiā","возвращаться домой"],["做作业","zuò zuòyè","делать домашнее задание"],["睡觉","shuìjiào","ложиться спать, спать"]],"patterns":[["你几点起床？","Nǐ jǐ diǎn qǐchuáng?","Во сколько ты встаёшь?"],["我早上七点起床。","Wǒ zǎoshang qī diǎn qǐchuáng.","Я встаю в семь утра. Время ставим перед действием."],["我下午四点回家。","Wǒ xiàwǔ sì diǎn huí jiā.","Я возвращаюсь домой в четыре дня."]],"dialogue":[["Сяоюй","你早上几点起床？","Nǐ zǎoshang jǐ diǎn qǐchuáng?","Во сколько ты встаёшь утром?"],["Кэ-кэ","我七点起床，七点半吃早饭。","Wǒ qī diǎn qǐchuáng, qī diǎn bàn chī zǎofàn.","Я встаю в семь, а завтракаю в половине восьмого."],["Сяоюй","你下午几点回家？","Nǐ xiàwǔ jǐ diǎn huí jiā?","Во сколько ты возвращаешься домой днём?"],["Кэ-кэ","我下午四点回家。你呢？","Wǒ xiàwǔ sì diǎn huí jiā. Nǐ ne?","Я возвращаюсь домой в четыре. А ты?"],["Сяоюй","我下午五点回家，晚上九点睡觉。","Wǒ xiàwǔ wǔ diǎn huí jiā, wǎnshang jiǔ diǎn shuìjiào.","Я возвращаюсь домой в пять, а в девять вечера ложусь спать."]],"quiz":[{"question":"Как сказать «Я встаю в семь утра»?","options":[["我起床早上七点。","Wǒ qǐchuáng zǎoshang qī diǎn."],["我早上七点起床。","Wǒ zǎoshang qī diǎn qǐchuáng."],["我晚上七点睡觉。","Wǒ wǎnshang qī diǎn shuìjiào."]],"answer":1,"reason":"В нашем образце сначала идёт «я», потом время и затем действие."},{"question":"Как спросить «Во сколько ты возвращаешься домой?»","options":[["你几点回家？","Nǐ jǐ diǎn huí jiā?"],["你几点吃早饭？","Nǐ jǐ diǎn chī zǎofàn?"],["你晚上几点睡觉？","Nǐ wǎnshang jǐ diǎn shuìjiào?"]],"answer":0,"reason":"回家 (huí jiā) — возвращаться домой. 几点 (jǐ diǎn) — во сколько."},{"question":"Кэ-кэ сказал 我下午两点半回家 (Wǒ xiàwǔ liǎng diǎn bàn huí jiā). Когда он вернётся домой?","options":[["В 2:00 дня"],["В 7:30 вечера"],["В 2:30 дня"]],"answer":2,"reason":"下午 (xiàwǔ) — после полудня, 两点半 (liǎng diǎn bàn) — 2:30."}],"listening":["Во сколько героиня завтракает?","Во сколько она приходит домой?","Во сколько она ложится спать?"],"roleplay":{"intro":"Один отвечает за героя карточки, второй задаёт вопросы про утро, день и вечер. После трёх ответов поменяйтесь ролями и расскажите о своём дне.","cards":[{"title":"Школьный день","facts":["7:00 — встать","15:30 — вернуться домой","21:00 — лечь спать"]},{"title":"Воскресенье","facts":["9:00 — встать","9:30 — позавтракать","22:00 — лечь спать"]}],"challenge":"Если остаётся время, добавь действие из словаря. Например, в половине пятого дня я делаю домашнее задание."},"homework":"Запиши или скажи три фразы о своём обычном дне. Выбери по одному делу на утро, день и вечер. В каждой фразе назови время перед действием. Прочитай всё вслух один раз.","back":"../index.html","listenText":["我早上七点起床，七点半吃早饭。我下午四点回家，晚上九点睡觉。","Wǒ zǎoshang qī diǎn qǐchuáng, qī diǎn bàn chī zǎofàn. Wǒ xiàwǔ sì diǎn huí jiā, wǎnshang jiǔ diǎn shuìjiào."]}</script>
 </head>
 <body>
   <a class="skip" href="#lesson-material">Перейти к уроку</a>
   <main id="lesson-material"><noscript>Включи JavaScript, чтобы открыть задания урока.</noscript></main>
-  <script type="module">const lesson = JSON.parse(document.querySelector("#lesson-data").textContent);
+  <script type="module">
+import {lessonAudio, startLessonGame} from "./lesson-studio-play.js?v=1";
+
+const play = JSON.parse(document.querySelector("#lesson-play-data").textContent);
+const lesson = JSON.parse(document.querySelector("#lesson-data").textContent);
 const page = document.querySelector("#lesson-material");
 const esc = value => String(value ?? "").replace(/[&<>"']/g, char =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -113,8 +118,9 @@ page.innerHTML = `<header class="material-top">
     <div><p class="caption">${esc(lesson.name)} · 60 минут</p><h1>${esc(lesson.title)}</h1><p>${esc(lesson.intro)}</p></div>
     <span lang="zh" class="material-character" aria-hidden="true">${{ field: "球", station: "站", routine: "日" }[lesson.theme]}</span>
   </section>
-  <nav aria-label="Разделы урока" class="material-nav">${lesson.warmup ? '<a href="#warmup">Разминка</a>' : ""}<a href="#phrases">Слова и фразы</a><a href="#dialogue">Диалог</a>
+  <nav aria-label="Разделы урока" class="material-nav"><a href="#lesson-play">Игра</a>${lesson.warmup ? '<a href="#warmup">Разминка</a>' : ""}<a href="#phrases">Слова и фразы</a><a href="#dialogue">Диалог</a>
     <a href="#practice">Практика</a><a href="#listening">На слух</a><a href="#speaking">По ролям</a><a href="#homework">Домашнее</a></nav>
+  <section class="lesson-play" id="lesson-play" aria-labelledby="lesson-play-title"></section>
   ${warmup()}
   ${block("phrases", "Слова и фразы", `<div class="material-words">${lesson.words.map(phrase).join("")}</div>
     <div class="material-patterns">${lesson.patterns.map(phrase).join("")}</div>`)}
@@ -122,8 +128,7 @@ page.innerHTML = `<header class="material-top">
     `<div><strong>${esc(speaker)}</strong>${phrase(line)}</div>`).join("")}</div>`)}
   ${block("practice", "Выбери подходящую фразу", quiz())}
   ${block("listening", "Послушай и ответь", `<p>Послушай реплику дважды и ответь на вопросы.</p>
-    <div class="actions material-listen-actions"><button type="button" class="button primary" id="lesson-listen">Прослушать текст</button>
-      <p class="caption" role="status" id="lesson-listen-status"></p></div>
+    <div class="material-listen-actions" id="lesson-listen"></div>
     ${list(lesson.listening)}
     <details class="material-transcript"><summary>Текст для чтения</summary>${phrase(lesson.listenText)}</details>`)}
   ${block("speaking", "Сыграйте по ролям", `<p>${esc(lesson.roleplay.intro)}</p>
@@ -166,21 +171,19 @@ pinyin?.addEventListener("click", () => {
   const hidden = page.classList.toggle("material-no-pinyin");
   pinyin.setAttribute("aria-pressed", String(!hidden));
 });
-const listenButton = document.querySelector("#lesson-listen");
-const listenStatus = document.querySelector("#lesson-listen-status");
-listenButton.addEventListener("click", async () => {
-  const voices = window.LearningSpeech ?? window.AskarSpeech;
-  listenButton.disabled = true;
-  listenStatus.textContent = "Запускаем озвучку…";
-  try {
-    const played = await voices?.speak(lesson.listenText[0]);
-    listenStatus.textContent = played ? "Готово. Можно прослушать ещё раз." : "Китайский голос недоступен. Открой текст для чтения.";
-  } catch {
-    listenStatus.textContent = "Озвучка не запустилась. Открой текст для чтения.";
-  } finally {
-    listenButton.disabled = false;
-  }
-});
+const listeningSlot = document.querySelector("#lesson-listen");
+const player = lessonAudio(play, play.listeningFile, "Озвучка для аудирования");
+listeningSlot.append(player);
+player.addEventListener("error", () => {
+  const status = document.createElement("p");
+  status.className = "caption";
+  status.setAttribute("role", "status");
+  status.textContent = "Аудио не загрузилось. Текст доступен ниже.";
+  listeningSlot.append(status);
+  document.querySelector("#listening details").open = true;
+}, {once: true});
+
+startLessonGame(document.querySelector("#lesson-play"), play);
 </script>
 </body>
 </html>
