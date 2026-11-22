@@ -3,187 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f7f4">
+  <meta name="theme-color" content="#a24450">
   <title>Мой обычный день · Китайский</title>
-  <style>:root{--paper:#f6f7f4;--surface:#fffefb;--white:#fff;--ink:#233730;--muted:#515f58;--line:#dce4d8;--line-strong:#a7b8ad;--green:#27634e;--green-soft:#eaf1e9;--green-deep:#194b3a;--moss:#a3bcab;--blue:#e5edf5;--blue-ink:#285779;--sand:#f7ecdb;--sand-ink:#765522;--sidebar:#f0f3ed;--clay-ink:#943528;--focus:#ad4c24;--radius:.9rem;--type:Manrope,system-ui,"Segoe UI",sans-serif;--han:"Noto Sans SC","Microsoft YaHei",sans-serif;color-scheme:light}
-*{box-sizing:border-box}html,body{overflow-x:clip}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.55 var(--type)}
-h1,h2,h3,p{margin:0}h1,h2,h3{line-height:1.17;overflow-wrap:break-word}h1{font-size:clamp(1.8rem,5.8vw,3rem);letter-spacing:-.04em}h2{font-size:1.35rem}a{color:var(--green);text-underline-offset:.2em}[lang=zh]{font-family:var(--han)}
-button{font:inherit;cursor:pointer}button:disabled{background:var(--sidebar);color:var(--muted);cursor:wait}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}[hidden]{display:none!important}
-.skip{position:fixed;top:.5rem;left:.5rem;translate:0 -160%;z-index:2}.skip:focus{translate:0;background:var(--surface);padding:.5rem .75rem}
-.actions{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}.button{min-height:2.75rem;display:inline-flex;justify-content:center;align-items:center;padding:.45rem .75rem;color:var(--green);background:var(--surface);border:1px solid var(--line-strong);border-radius:.5rem;text-decoration:none;font-size:.94rem;font-weight:650}.button:hover{background:var(--green-soft)}.button.primary{color:var(--white);background:var(--green)}.button.primary:not(:disabled):hover{background:var(--green-deep)}.button.quiet{background:transparent}
-.panel{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);min-width:0}.caption{color:var(--muted);font-size:.9rem}.material-listen-actions{margin-top:.8rem}.material-transcript{border-top:1px solid var(--line);padding-top:.6rem}.material-transcript summary{min-height:2.4rem;cursor:pointer}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
-.material-page { max-width: 58rem; margin: 0 auto; padding: 1.15rem clamp(1rem, 4vw, 2rem) 3rem; }
-.material-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; padding-bottom: 1rem; }
-.material-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .8rem; background: var(--green-soft); padding: clamp(1.1rem, 4vw, 2rem); border-radius: var(--radius); }
-.material-station .material-intro { background: var(--blue); }
-.material-routine .material-intro { background: var(--sand); }
-.material-intro h1 { margin: .32rem 0 .65rem; }
-.material-intro p:last-child { max-width: 36rem; }
-.material-character { color: var(--green); font-size: clamp(2.8rem, 14vw, 7rem); line-height: 1; padding: .2rem; }
-.material-station .material-character { color: var(--blue-ink); }
-.material-routine .material-character { color: var(--sand-ink); }
-.material-nav { display: flex; flex-wrap: wrap; gap: .2rem 1rem; margin: .65rem 0 1.05rem; }
-.material-nav a { display: inline-flex; min-height: 2.6rem; align-items: center; font-size: .95rem; }
-.material-block { padding: clamp(.95rem, 3vw, 1.45rem); margin-bottom: .9rem; scroll-margin-top: .8rem; }
-.material-block h2 { margin-bottom: .9rem; }
-.material-block h3 { margin: .95rem 0 .35rem; }
-.material-block ul { margin-block: .65rem; padding-left: 1.3rem; }
-.material-block li + li { margin-top: .35rem; }
-.material-words { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .75rem; }
-.material-words .material-phrase { background: var(--sidebar); border-radius: .5rem; padding: .62rem .72rem; }
-.material-phrase { display: grid; gap: .12rem; overflow-wrap: anywhere; }
-.material-phrase [lang="zh"] { font-size: 1.16rem; }
-.material-pinyin { display: block; color: var(--green); font-size: .92rem; }
-.material-no-pinyin .material-pinyin { display: none; }
-.material-patterns, .material-dialogue { display: grid; gap: .6rem; margin-top: .8rem; }
-.material-patterns .material-phrase { border-left: 3px solid var(--moss); padding: .35rem .65rem; }
-.material-dialogue > div { display: grid; grid-template-columns: minmax(5rem, .22fr) minmax(0, 1fr); align-items: start; gap: .5rem; border-top: 1px solid var(--line); padding-top: .55rem; }
-.material-block fieldset { border: 0; border-bottom: 1px solid var(--line); margin: 0 0 1.1rem; min-width: 0; padding: 0 0 1rem; }
-.material-block legend { font-weight: 650; margin-bottom: .5rem; }
-.material-options { display: grid; gap: .35rem; }
-.material-options label { display: flex; align-items: center; min-height: 2.7rem; gap: .65rem; padding: .35rem .58rem; border: 1px solid var(--line); border-radius: .46rem; cursor: pointer; }
-.material-options label:focus-within { outline: 2px solid var(--focus); }
-.material-options label:has(input:checked) { background: var(--green-soft); border-color: var(--moss); }
-.material-options input[type=radio] { accent-color: var(--green); flex: none; width: 1.15rem; height: 1.15rem; min-height: 0; padding: 0; margin: 0; }
-.material-feedback, .material-result { margin-top: .6rem; }
-.material-feedback[data-result="retry"] { color: var(--clay-ink); }
-.material-feedback[data-result="correct"] { color: var(--green-deep); }
-.material-roles { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .6rem; margin: .7rem 0; }
-.material-roles details { border: 1px solid var(--line); border-radius: .48rem; padding: .45rem .6rem; }
-.material-roles summary { cursor: pointer; min-height: 2.35rem; padding-top: .35rem; font-weight: 650; }
-
-@media (max-width:34rem) {
-  .material-words { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .material-roles { grid-template-columns: minmax(0,1fr); }
-  .material-character { display: none; }
-}</style>
-  <link rel="stylesheet" href="lesson-studio-play.css?v=1">
-  <script type="application/json" id="lesson-play-data">{"slug":"daily-routine","title":"Собери день Кэ-кэ","lead":"Послушай дневник, прочитай стрелки и расставь шесть дел по времени.","alt":"Школьница смотрит на часы рядом со школьным рюкзаком","finish":"Распорядок дня собран","collection":"Дневник Кэ-кэ","final":"Расскажи о своём дне. Назови, во сколько ты встаёшь, возвращаешься домой и ложишься спать. Поставь время перед действием.","model":"我早上七点起床。我下午四点半回家。我晚上九点一刻睡觉。","stages":[{"type":"clock","title":"Подъём","prompt":"Найди часы для 起床 — подъёма.","clue":{"zh":"我早上七点起床。","py":"Wǒ zǎoshang qī diǎn qǐchuáng.","ru":"Я встаю в семь утра."},"answer":"07:00","choices":[{"id":"19:00","label":"19:00","period":"Вечер","feedback":"Стрелки похожи. 早上 означает «утром»."},{"id":"07:00","label":"07:00","period":"Утро","feedback":""},{"id":"07:30","label":"07:30","period":"Утро","feedback":"В записи 七点. Для половины восьмого прозвучало бы 七点半."}],"fact":["起床","07:00"],"success":"早上七点 — семь утра."},{"type":"clock","title":"Завтрак","prompt":"Во сколько Кэ-кэ завтракает? Послушай 吃早饭.","clue":{"zh":"我早上七点半吃早饭。","py":"Wǒ zǎoshang qī diǎn bàn chī zǎofàn.","ru":"Я завтракаю в половине восьмого утра."},"answer":"07:30","choices":[{"id":"07:15","label":"07:15","period":"Утро","feedback":"半 — половина часа. Минутная стрелка должна смотреть на шесть."},{"id":"07:00","label":"07:00","period":"Утро","feedback":"После 七点 произнесли ещё 半."},{"id":"07:30","label":"07:30","period":"Утро","feedback":""}],"fact":["吃早饭","07:30"],"success":"七点半 — 7:30."},{"type":"clock","title":"В школу","prompt":"Поставь на шкалу дня 上学 — уход в школу.","clue":{"zh":"我早上八点上学。","py":"Wǒ zǎoshang bā diǎn shàngxué.","ru":"Я иду в школу в восемь утра."},"answer":"08:00","choices":[{"id":"08:00","label":"08:00","period":"Утро","feedback":""},{"id":"09:00","label":"09:00","period":"Утро","feedback":"Переслушай число. 八 — восемь, 九 — девять."},{"id":"08:30","label":"08:30","period":"Утро","feedback":"В этой реплике после 点 нет 半."}],"fact":["上学","08:00"],"success":"早上八点 — восемь утра."},{"type":"clock","title":"Возвращение домой","prompt":"Поставь на шкалу 回家 — возвращение домой.","clue":{"zh":"我下午四点半回家。","py":"Wǒ xiàwǔ sì diǎn bàn huí jiā.","ru":"Я возвращаюсь домой в половине пятого дня."},"answer":"16:30","choices":[{"id":"16:15","label":"16:15","period":"После обеда","feedback":"Для четверти ищи 一刻. Здесь звучит 半."},{"id":"04:30","label":"04:30","period":"Раннее утро","feedback":"下午 означает «после обеда». Ищи 4:30 во второй половине дня."},{"id":"16:30","label":"16:30","period":"После обеда","feedback":""}],"fact":["回家","16:30"],"success":"下午四点半 — 16:30."},{"type":"clock","title":"Домашнее задание","prompt":"Когда в дневнике стоит 做作业?","clue":{"zh":"我下午五点一刻做作业。","py":"Wǒ xiàwǔ wǔ diǎn yí kè zuò zuòyè.","ru":"Я делаю домашнее задание в четверть шестого дня."},"answer":"17:15","choices":[{"id":"17:15","label":"17:15","period":"После обеда","feedback":""},{"id":"17:30","label":"17:30","period":"После обеда","feedback":"一刻 — четверть часа. Минутная стрелка на тройке."},{"id":"16:15","label":"16:15","period":"После обеда","feedback":"Переслушай звук перед 点. Пять по-китайски — 五."}],"fact":["做作业","17:15"],"success":"下午五点一刻 — 17:15."},{"type":"clock","title":"Пора спать","prompt":"Найди время для 睡觉.","clue":{"zh":"我晚上九点一刻睡觉。","py":"Wǒ wǎnshang jiǔ diǎn yí kè shuìjiào.","ru":"Я ложусь спать в четверть десятого вечера."},"answer":"21:15","choices":[{"id":"09:15","label":"09:15","period":"Утро","feedback":"В реплике 晚上, значит действие вечером."},{"id":"21:15","label":"21:15","period":"Вечер","feedback":""},{"id":"21:30","label":"21:30","period":"Вечер","feedback":"В реплике 一刻, значит прошло 15 минут от начала часа."}],"fact":["睡觉","21:15"],"success":"晚上九点一刻 — 21:15."},{"type":"assemble","title":"Фраза для дневника","prompt":"Собери фразу «Я возвращаюсь домой в половине пятого дня».","tokens":[["home","回家"],["me","我"],["sleep","睡觉"],["time","下午四点半"]],"solution":["me","time","home"],"hint":"В нашем образце порядок такой: кто, во сколько, что делает.","example":{"zh":"我下午四点半回家。","py":"Wǒ xiàwǔ sì diǎn bàn huí jiā."},"success":"Время 下午四点半 стоит перед действием 回家."}],"listeningFile":"listening"}</script>
-  <script type="application/json" id="lesson-data">{"name":"Катя","title":"Мой обычный день","intro":"Вспомни, как назвать время, и расскажи по-китайски, во сколько ты встаёшь, возвращаешься домой и ложишься спать.","pinyin":true,"theme":"routine","warmup":[["7:00 утром","早上七点","zǎoshang qī diǎn","Семь утра."],["2:30 после обеда","下午两点半","xiàwǔ liǎng diǎn bàn","14:30."],["7:15 вечером","晚上七点一刻","wǎnshang qī diǎn yí kè","Четверть восьмого вечера. Можно сказать 晚上七点十五分 (wǎnshang qī diǎn shíwǔ fēn)."]],"words":[["起床","qǐchuáng","вставать с постели"],["吃早饭","chī zǎofàn","завтракать"],["上学","shàngxué","идти в школу"],["回家","huí jiā","возвращаться домой"],["做作业","zuò zuòyè","делать домашнее задание"],["睡觉","shuìjiào","ложиться спать, спать"]],"patterns":[["你几点起床？","Nǐ jǐ diǎn qǐchuáng?","Во сколько ты встаёшь?"],["我早上七点起床。","Wǒ zǎoshang qī diǎn qǐchuáng.","Я встаю в семь утра. Время ставим перед действием."],["我下午四点回家。","Wǒ xiàwǔ sì diǎn huí jiā.","Я возвращаюсь домой в четыре дня."]],"dialogue":[["Сяоюй","你早上几点起床？","Nǐ zǎoshang jǐ diǎn qǐchuáng?","Во сколько ты встаёшь утром?"],["Кэ-кэ","我七点起床，七点半吃早饭。","Wǒ qī diǎn qǐchuáng, qī diǎn bàn chī zǎofàn.","Я встаю в семь, а завтракаю в половине восьмого."],["Сяоюй","你下午几点回家？","Nǐ xiàwǔ jǐ diǎn huí jiā?","Во сколько ты возвращаешься домой днём?"],["Кэ-кэ","我下午四点回家。你呢？","Wǒ xiàwǔ sì diǎn huí jiā. Nǐ ne?","Я возвращаюсь домой в четыре. А ты?"],["Сяоюй","我下午五点回家，晚上九点睡觉。","Wǒ xiàwǔ wǔ diǎn huí jiā, wǎnshang jiǔ diǎn shuìjiào.","Я возвращаюсь домой в пять, а в девять вечера ложусь спать."]],"quiz":[{"question":"Как сказать «Я встаю в семь утра»?","options":[["我起床早上七点。","Wǒ qǐchuáng zǎoshang qī diǎn."],["我早上七点起床。","Wǒ zǎoshang qī diǎn qǐchuáng."],["我晚上七点睡觉。","Wǒ wǎnshang qī diǎn shuìjiào."]],"answer":1,"reason":"В нашем образце сначала идёт «я», потом время и затем действие."},{"question":"Как спросить «Во сколько ты возвращаешься домой?»","options":[["你几点回家？","Nǐ jǐ diǎn huí jiā?"],["你几点吃早饭？","Nǐ jǐ diǎn chī zǎofàn?"],["你晚上几点睡觉？","Nǐ wǎnshang jǐ diǎn shuìjiào?"]],"answer":0,"reason":"回家 (huí jiā) — возвращаться домой. 几点 (jǐ diǎn) — во сколько."},{"question":"Кэ-кэ сказал 我下午两点半回家 (Wǒ xiàwǔ liǎng diǎn bàn huí jiā). Когда он вернётся домой?","options":[["В 2:00 дня"],["В 7:30 вечера"],["В 2:30 дня"]],"answer":2,"reason":"下午 (xiàwǔ) — после полудня, 两点半 (liǎng diǎn bàn) — 2:30."}],"listening":["Во сколько героиня завтракает?","Во сколько она приходит домой?","Во сколько она ложится спать?"],"roleplay":{"intro":"Один отвечает за героя карточки, второй задаёт вопросы про утро, день и вечер. После трёх ответов поменяйтесь ролями и расскажите о своём дне.","cards":[{"title":"Школьный день","facts":["7:00 — встать","15:30 — вернуться домой","21:00 — лечь спать"]},{"title":"Воскресенье","facts":["9:00 — встать","9:30 — позавтракать","22:00 — лечь спать"]}],"challenge":"Если остаётся время, добавь действие из словаря. Например, в половине пятого дня я делаю домашнее задание."},"homework":"Запиши или скажи три фразы о своём обычном дне. Выбери по одному делу на утро, день и вечер. В каждой фразе назови время перед действием. Прочитай всё вслух один раз.","back":"../index.html","listenText":["我早上七点起床，七点半吃早饭。我下午四点回家，晚上九点睡觉。","Wǒ zǎoshang qī diǎn qǐchuáng, qī diǎn bàn chī zǎofàn. Wǒ xiàwǔ sì diǎn huí jiā, wǎnshang jiǔ diǎn shuìjiào."]}</script>
+  <link rel="stylesheet" href="lesson-studio-v2.css">
+  <link rel="preload" as="image" href="media/daily-routine/studio/hero.webp">
+  <script type="application/json" id="lesson-content">{"file":"2026-11-22-daily-routine.html","slug":"daily-routine","name":"Катя","title":"Мой обычный день","hero":"Героиня у окна с часами, школьным рюкзаком и дневником","accent":"#a24450","intro":"Дела Кэ-кэ перепутались. Восстанови её день по голосовым заметкам и расскажи, как устроен твой.","go":"Открыть дневник","theme":"Распорядок дня","finish":"День собран","success":"Ты восстановила распорядок и рассказала о своём дне.","hook":{"zh":"你好！你早上几点起床？","py":"nǐ hǎo  nǐ zǎo shang jǐ diǎn qǐ chuáng","ru":"Привет! Во сколько ты встаёшь утром?","voice":"friend"},"words":[{"id":"wake","zh":"起床","py":"qǐ chuáng","ru":"вставать","parts":"起 — подняться, 床 — кровать. Подняться с кровати."},{"id":"breakfast","zh":"吃早饭","py":"chī zǎo fàn","ru":"завтракать","parts":"吃 — есть, 早 — рано, 饭 — еда. Есть утреннюю еду."},{"id":"school","zh":"上学","py":"shàng xué","ru":"идти в школу","parts":"上学 — ходить в школу. 学 связано с учёбой."},{"id":"home","zh":"回家","py":"huí jiā","ru":"идти домой","parts":"回 — возвращаться, 家 — дом. Вернуться домой."},{"id":"study","zh":"做作业","py":"zuò zuò yè","ru":"делать домашнее задание","parts":"做 — делать, 作业 — задание. 作业 запоминай одним блоком."},{"id":"sleep","zh":"睡觉","py":"shuì jiào","ru":"ложиться спать","parts":"睡 — спать, 觉 здесь читается jiào. Слева в 睡 виден 目 «глаз»: во сне глаза закрыты."}],"tones":[{"clip":"wake","index":0,"tone":3,"why":"qǐ звучит низко перед chuáng. Не вытягивай подъём."},{"clip":"school","index":1,"tone":2,"why":"В конце xué голос поднимается."},{"clip":"sleep","index":0,"tone":4,"why":"shuì падает. Следом второй нисходящий слог jiào."}],"secret":{"clip":"timewhat","body":"几点 пишем jǐ diǎn (3 + 3). Когда говорим этот блок отдельно, слышится jí diǎn. Первый слог поднимается. В 一刻 一 тоже поднимается перед 4-м тоном 刻.","extra":"night"},"phrases":{"timewhat":{"zh":"几点？","py":"jǐ diǎn","ru":"Во сколько?"},"me":{"zh":"我","py":"wǒ","ru":"я"},"morning":{"zh":"早上七点","py":"zǎo shang qī diǎn","ru":"в семь утра"},"after":{"zh":"下午四点半","py":"xià wǔ sì diǎn bàn","ru":"в 16:30"},"night":{"zh":"晚上九点一刻","py":"wǎn shang jiǔ diǎn yí kè","ru":"в 21:15"},"wake7":{"zh":"我早上七点起床。","py":"wǒ zǎo shang qī diǎn qǐ chuáng","ru":"Я встаю в семь утра."},"wake8":{"zh":"我早上八点起床。","py":"wǒ zǎo shang bā diǎn qǐ chuáng","ru":"Я встаю в восемь утра."},"home430":{"zh":"我下午四点半回家。","py":"wǒ xià wǔ sì diǎn bàn huí jiā","ru":"Я возвращаюсь домой в 16:30."},"home5":{"zh":"我下午五点回家。","py":"wǒ xià wǔ wǔ diǎn huí jiā","ru":"Я возвращаюсь домой в пять дня."},"sleep915":{"zh":"我晚上九点一刻睡觉。","py":"wǒ wǎn shang jiǔ diǎn yí kè shuì jiào","ru":"Я ложусь спать в 21:15."},"sleep10":{"zh":"我晚上十点睡觉。","py":"wǒ wǎn shang shí diǎn shuì jiào","ru":"Я ложусь спать в десять вечера."},"break730":{"zh":"我早上七点半吃早饭。","py":"wǒ zǎo shang qī diǎn bàn chī zǎo fàn","ru":"Я завтракаю в 7:30."},"wakeq":{"zh":"你早上几点起床？","py":"nǐ zǎo shang jǐ diǎn qǐ chuáng","ru":"Во сколько ты встаёшь утром?","voice":"friend"},"homeq":{"zh":"你下午几点回家？","py":"nǐ xià wǔ jǐ diǎn huí jiā","ru":"Во сколько ты возвращаешься домой?","voice":"friend"},"sleepq":{"zh":"你晚上几点睡觉？","py":"nǐ wǎn shang jǐ diǎn shuì jiào","ru":"Во сколько ты ложишься спать?","voice":"friend"}},"bonus":{"type":"clocks","title":"Восстанови часы","prompt":"Послушай запись. Выбери часы, которые показывают нужное время.","rounds":[{"clip":"break730","answer":"07:30","choices":["07:00","07:30","08:30"]},{"clip":"home430","answer":"16:30","choices":["16:15","17:30","16:30"]},{"clip":"sleep915","answer":"21:15","choices":["21:15","21:30","22:15"]}]},"builds":[{"key":"wake","task":"Скажи, что встаёшь в семь утра.","pieces":["me","morning","wake"],"full":"wake7"},{"key":"home","task":"Скажи, что возвращаешься домой в 16:30.","pieces":["me","after","home"],"full":"home430"},{"key":"sleep","task":"Скажи, что ложишься спать в 21:15.","pieces":["me","night","sleep"],"full":"sleep915"}],"roles":[{"question":"wakeq","task":"Ответь про своё утро. Подставь своё время.","models":["wake7","wake8"]},{"question":"homeq","task":"Когда ты обычно возвращаешься домой?","models":["home430","home5"]},{"question":"sleepq","task":"Назови время, когда ты обычно ложишься спать.","models":["sleep915","sleep10"]}],"teacher":{"can":"Соотносит шесть действий с картинками. Читает часы и говорит о трёх событиях дня, ставя время перед действием.","warm":"Покажите время на циферблате. Катя сначала называет часы, затем добавляет утро, день или вечер.","extra":"Пусть Катя сравнит школьный день и выходной. Дайте связку 先……，然后…… для двух действий.","sound":"В 起床 тренируйте короткий низкий qǐ и подъём chuáng. В 睡觉 дайте два отдельных падения, не скатывая оба слога в один акцент. Сравните 七点半 и 七点一刻.","home":"Запиши или скажи три фразы о своём дне. В каждой поставь время перед действием."},"praise":{"great":{"zh":"太棒了！","py":"tài bàng le","ru":"Здорово!"},"nice":{"zh":"真厉害！","py":"zhēn lì hai","ru":"Вот это да!"},"again":{"zh":"加油，再试一次！","py":"jiā yóu  zài shì yí cì","ru":"Давай, попробуй ещё раз!"},"passed":{"zh":"做得好！","py":"zuò de hǎo","ru":"Хорошая работа!"},"ready":{"zh":"继续加油！","py":"jì xù jiā yóu","ru":"Продолжай в том же духе!"}}}</script>
+  <script type="module" src="lesson-studio-v2.js"></script>
 </head>
-<body>
-  <a class="skip" href="#lesson-material">Перейти к уроку</a>
-  <main id="lesson-material"><noscript>Включи JavaScript, чтобы открыть задания урока.</noscript></main>
-  <script type="module">
-import {lessonAudio, startLessonGame} from "./lesson-studio-play.js?v=1";
-
-const play = JSON.parse(document.querySelector("#lesson-play-data").textContent);
-const lesson = JSON.parse(document.querySelector("#lesson-data").textContent);
-const page = document.querySelector("#lesson-material");
-const esc = value => String(value ?? "").replace(/[&<>"']/g, char =>
-  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-
-function phrase([chinese, pinyin, russian]) {
-  return `<div class="material-phrase"><span lang="zh">${esc(chinese)}</span>
-    ${pinyin ? `<span class="material-pinyin">${esc(pinyin)}</span>` : ""}
-    ${russian ? `<span class="caption">${esc(russian)}</span>` : ""}</div>`;
-}
-
-function block(id, title, content) {
-  return `<section class="panel material-block" id="${id}" aria-labelledby="${id}-title">
-    <h2 id="${id}-title">${title}</h2>${content}</section>`;
-}
-
-function list(values) {
-  return `<ul>${values.map(value => `<li>${esc(value)}</li>`).join("")}</ul>`;
-}
-
-function warmup() {
-  if (!lesson.warmup) return "";
-  return block("warmup", "Разминка на время", `<p>Скажи время по-китайски, потом открой карточку и проверь себя.</p>
-    <div class="material-roles">${lesson.warmup.map(([title, ...line]) => `<details><summary>${esc(title)}</summary>${phrase(line)}</details>`).join("")}</div>`);
-}
-
-function quiz() {
-  const questions = lesson.quiz.map(({ question, options }, index) =>
-    `<fieldset><legend>${esc(question)}</legend><div class="material-options">
-      ${options.map(([answer, pinyin], n) => `<label><input type="radio" name="q${index}" value="${n}">
-        <span>${esc(answer)}${pinyin ? `<span class="material-pinyin">${esc(pinyin)}</span>` : ""}</span></label>`).join("")}
-      </div><p class="material-feedback" hidden></p></fieldset>`).join("");
-  return `<form id="material-quiz">${questions}<div class="actions">
-    <button class="button primary" type="submit">Проверить ответы</button>
-    <button class="button" type="reset">Начать заново</button>
-    </div><p class="material-result" role="status"></p></form>`;
-}
-
-document.title = `${lesson.title} · Китайский по плану`;
-page.className = `material-page material-${lesson.theme}`;
-page.innerHTML = `<header class="material-top">
-  <a class="button quiet" href="${esc(lesson.back)}">К урокам</a>
-  <div class="actions">
-  ${lesson.pinyin ? '<button type="button" aria-pressed="true" class="button" id="material-pinyin">Пиньинь в карточках</button>' : ""}
-  </div></header>
-  <section class="material-intro">
-    <div><p class="caption">${esc(lesson.name)} · 60 минут</p><h1>${esc(lesson.title)}</h1><p>${esc(lesson.intro)}</p></div>
-    <span lang="zh" class="material-character" aria-hidden="true">${{ field: "球", station: "站", routine: "日" }[lesson.theme]}</span>
-  </section>
-  <nav aria-label="Разделы урока" class="material-nav"><a href="#lesson-play">Игра</a>${lesson.warmup ? '<a href="#warmup">Разминка</a>' : ""}<a href="#phrases">Слова и фразы</a><a href="#dialogue">Диалог</a>
-    <a href="#practice">Практика</a><a href="#listening">На слух</a><a href="#speaking">По ролям</a><a href="#homework">Домашнее</a></nav>
-  <section class="lesson-play" id="lesson-play" aria-labelledby="lesson-play-title"></section>
-  ${warmup()}
-  ${block("phrases", "Слова и фразы", `<div class="material-words">${lesson.words.map(phrase).join("")}</div>
-    <div class="material-patterns">${lesson.patterns.map(phrase).join("")}</div>`)}
-  ${block("dialogue", "Диалог", `<div class="material-dialogue">${lesson.dialogue.map(([speaker, ...line]) =>
-    `<div><strong>${esc(speaker)}</strong>${phrase(line)}</div>`).join("")}</div>`)}
-  ${block("practice", "Выбери подходящую фразу", quiz())}
-  ${block("listening", "Послушай и ответь", `<p>Послушай реплику дважды и ответь на вопросы.</p>
-    <div class="material-listen-actions" id="lesson-listen"></div>
-    ${list(lesson.listening)}
-    <details class="material-transcript"><summary>Текст для чтения</summary>${phrase(lesson.listenText)}</details>`)}
-  ${block("speaking", "Сыграйте по ролям", `<p>${esc(lesson.roleplay.intro)}</p>
-    <div class="material-roles">${lesson.roleplay.cards.map(card => `<details><summary>${esc(card.title)}</summary>${list(card.facts)}</details>`).join("")}</div>
-    <p>${esc(lesson.roleplay.challenge)}</p>`)}
-  ${block("homework", "Домашнее задание", `<p>${esc(lesson.homework)}</p>`)}`;
-
-const quizForm = document.querySelector("#material-quiz");
-const status = quizForm.querySelector(".material-result");
-quizForm.addEventListener("submit", event => {
-  event.preventDefault();
-  const values = new FormData(quizForm);
-  let right = 0;
-  let answered = 0;
-  quizForm.querySelectorAll("fieldset").forEach((question, index) => {
-    const choice = values.get(`q${index}`);
-    const note = question.querySelector(".material-feedback");
-    const { answer, reason } = lesson.quiz[index];
-    note.hidden = false;
-    if (choice === null) {
-      note.textContent = "Выбери один вариант.";
-      note.dataset.result = "empty";
-      return;
-    }
-    const correct = Number(choice) === answer;
-    answered++;
-    if (correct) right++;
-    note.textContent = correct ? `Верно. ${reason}` : "Попробуй ещё раз.";
-    note.dataset.result = correct ? "correct" : "retry";
-  });
-  status.textContent = `Верно ${right} из ${lesson.quiz.length}.${answered < lesson.quiz.length ? " Ответь на пропущенные вопросы." : ""}`;
-});
-quizForm.addEventListener("reset", () => {
-  for (const note of quizForm.querySelectorAll(".material-feedback")) note.hidden = true;
-  status.textContent = "";
-});
-
-const pinyin = document.querySelector("#material-pinyin");
-pinyin?.addEventListener("click", () => {
-  const hidden = page.classList.toggle("material-no-pinyin");
-  pinyin.setAttribute("aria-pressed", String(!hidden));
-});
-const listeningSlot = document.querySelector("#lesson-listen");
-const player = lessonAudio(play, play.listeningFile, "Озвучка для аудирования");
-listeningSlot.append(player);
-player.addEventListener("error", () => {
-  const status = document.createElement("p");
-  status.className = "caption";
-  status.setAttribute("role", "status");
-  status.textContent = "Аудио не загрузилось. Текст доступен ниже.";
-  listeningSlot.append(status);
-  document.querySelector("#listening details").open = true;
-}, {once: true});
-
-startLessonGame(document.querySelector("#lesson-play"), play);
-</script>
+<body style="--accent: #a24450">
+  <a class="skip" href="#lesson-play">Перейти к уроку</a>
+  <main>
+    <header class="top">
+      <a href="../index.html">← К урокам</a>
+      <span class="theme">Катя · Китайский</span>
+    </header>
+    <div class="toolbar">
+      <nav class="steps" aria-label="Пять этапов урока"></nav>
+      <progress class="progress" id="stage-progress" max="5" value="0" aria-label="Прогресс урока"></progress>
+      <div class="settings">
+        <label for="mode">Подсказки</label>
+        <select id="mode">
+          <option value="pinyin">Пиньинь + иероглифы</option>
+          <option value="hanzi">Только иероглифы</option>
+          <option value="sound">Только звук (профи)</option>
+        </select>
+        <button class="btn secondary" id="tone-color" type="button" aria-pressed="true">Цвет тонов</button>
+        <button class="btn secondary teacher-trigger" id="teacher-open" type="button" title="Клавиша T">Преподавателю</button>
+      </div>
+      <p id="audio-notice" class="status" role="status"></p>
+    </div>
+    <section class="stage" id="lesson-play" tabindex="-1" aria-label="Мой обычный день">
+      <noscript>Включи JavaScript, чтобы открыть задания урока.</noscript>
+    </section>
+  </main>
+  <dialog id="teacher-panel" aria-labelledby="teacher-title">
+    <h2 id="teacher-title">Шторка преподавателя</h2>
+    <p><strong>Цель урока</strong><br>Соотносит шесть действий с картинками. Читает часы и говорит о трёх событиях дня, ставя время перед действием.</p>
+    <p><strong>Устный разогрев</strong><br>Покажите время на циферблате. Катя сначала называет часы, затем добавляет утро, день или вечер.</p>
+    <p><strong>Если легко</strong><br>Пусть Катя сравнит школьный день и выходной. Дайте связку 先……，然后…… для двух действий.</p>
+    <p><strong>На что обратить внимание в произношении</strong><br>В 起床 тренируйте короткий низкий qǐ и подъём chuáng. В 睡觉 дайте два отдельных падения, не скатывая оба слога в один акцент. Сравните 七点半 и 七点一刻.</p>
+    <p><strong>После урока</strong><br>Запиши или скажи три фразы о своём дне. В каждой поставь время перед действием.</p>
+    <form method="dialog"><button class="btn" autofocus>Закрыть</button></form>
+  </dialog>
 </body>
 </html>
