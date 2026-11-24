@@ -42,17 +42,23 @@ function stopAudio() {
   audio?.pause();
 }
 
-async function listen(entry, slow, feedback) {
+async function playClip(src, onError) {
   stopAudio();
-  const current = new Audio(`${media}${entry.key}${slow ? '-slow' : ''}.mp3`);
+  const current = new Audio(src);
   audio = current;
-  heard = true;
   try { await current.play(); }
   catch(error) {
-    if (audio !== current || error.name === 'AbortError') return;
+    if (audio === current && error.name !== 'AbortError') onError();
+  }
+}
+
+function listen(entry, slow, feedback) {
+  heard = true;
+  playClip(`${media}${entry.key}${slow ? '-slow' : ''}.mp3`, () => {
+    if (!feedback.isConnected) return;
     root.querySelector('details.hint').open = true;
     feedback.textContent = 'Звук не загрузился. Фраза в подсказке.';
-  }
+  });
 }
 
 function line(entry) {
@@ -69,7 +75,8 @@ function result() {
       <p lang="zh">我下午……点回家。</p>
     </div>
     <div class="actions"><button class="btn secondary restart" type="button">Сыграть ещё раз</button>
-      <a class="btn" href="index.html#homework">К домашке</a></div>
+      <a class="btn" href="#notebook">К тетради</a>
+      <a class="btn secondary" href="index.html#homework">К домашке</a></div>
     <p class="translation">Можно сделать скриншот этого экрана для преподавателя.</p>
   </article>`;
   root.querySelector('.restart').addEventListener('click',() => {
@@ -136,3 +143,98 @@ function draw(focus = false) {
 
 window.addEventListener('pagehide', stopAudio);
 draw();
+
+const notebookKey = 'katya-radio-diary-notebook-2026-11-22';
+const periods = [
+  ['morning','早上','zǎoshang','утро','wake'],
+  ['noon','中午','zhōngwǔ','полдень','noon'],
+  ['afternoon','下午','xiàwǔ','вторая половина дня','home'],
+  ['evening','晚上','wǎnshang','вечер','sleep'],
+];
+const activities = [
+  ['wake','起床','qǐchuáng','вставать с постели'],
+  ['breakfast','吃早饭','chī zǎofàn','завтракать'],
+  ['home','回家','huí jiā','возвращаться домой'],
+  ['study','做作业','zuò zuòyè','делать домашнее задание'],
+  ['sleep','睡觉','shuìjiào','ложиться спать'],
+];
+const notebook = document.querySelector('#notebook');
+const count = notebook.querySelector('#notebook-count');
+const recallButton = notebook.querySelector('#notebook-recall');
+const audioStatus = notebook.querySelector('#notebook-audio');
+let copied = new Set();
+let recall = false;
+try {
+  const saved = JSON.parse(localStorage.getItem(notebookKey));
+  if (Array.isArray(saved)) copied = new Set(saved);
+} catch {}
+
+function terms(title, words, image, clip, label) {
+  return `<section class="notebook-group">
+    <h3>${title}</h3>
+    <ul class="notebook-terms">${words.map(([key, zh, py, ru, example]) =>
+      `<li class="notebook-term">
+        <img src="${image(key)}" alt="" width="432" height="432" loading="lazy">
+        <div class="notebook-term-body">
+          <p class="notebook-gloss">${ru}</p>
+          <div class="notebook-answer" id="answer-${key}">
+            <strong lang="zh">${zh}</strong><span>${py}</span>
+          </div>
+          <button class="btn secondary notebook-reveal" type="button" aria-controls="answer-${key}" aria-expanded="false" hidden>Показать</button>
+          <button class="btn secondary notebook-play" type="button" data-audio="${clip(key,example)}" aria-label="${label}: ${ru}">${label}</button>
+          <label class="notebook-mark"><input type="checkbox" data-copied="${key}"> Записала</label>
+        </div>
+      </li>`).join('')}</ul>
+  </section>`;
+}
+
+notebook.querySelector('#notebook-words').innerHTML =
+  terms('Части дня', periods, key=>`${media}notebook-${key}.webp`, (_,example)=>`${media}${example}.mp3`, 'Слушать пример') +
+  terms('Действия', activities, key=>`${art}${key}.webp`, key=>`${art}${key}.mp3`, 'Слушать слово');
+notebook.querySelector('#notebook-recordings').innerHTML = day.map(entry=>`<li>
+  <div class="notebook-recording-head"><b>${entry.time} · ${entry.action}</b>
+    <button class="btn secondary" type="button" data-audio="${media}${entry.key}.mp3" aria-label="Слушать: ${entry.action}">Слушать</button></div>
+  ${line(entry)}
+</li>`).join('');
+
+const marks = [...notebook.querySelectorAll('[data-copied]')];
+function updateCopied() {
+  count.textContent = `В тетради: ${marks.filter(mark=>mark.checked).length} из ${marks.length}`;
+}
+for (const mark of marks) {
+  mark.checked = copied.has(mark.dataset.copied);
+  mark.addEventListener('change', () => {
+    if (mark.checked) copied.add(mark.dataset.copied);
+    else copied.delete(mark.dataset.copied);
+    try { localStorage.setItem(notebookKey, JSON.stringify([...copied])); } catch {}
+    updateCopied();
+  });
+}
+updateCopied();
+
+function showAnswer(button, show) {
+  notebook.querySelector('#' + button.getAttribute('aria-controls')).hidden = !show;
+  button.setAttribute('aria-expanded', String(show));
+  button.textContent = show ? 'Спрятать ответ' : 'Показать';
+}
+const revealButtons = [...notebook.querySelectorAll('.notebook-reveal')];
+recallButton.hidden = false;
+recallButton.addEventListener('click', () => {
+  recall = !recall;
+  notebook.querySelector('.notebook-lines').open = !recall;
+  recallButton.setAttribute('aria-pressed', String(recall));
+  recallButton.textContent = recall ? 'Показать весь китайский' : 'Спрятать китайский';
+  for (const button of revealButtons) {
+    button.hidden = !recall;
+    showAnswer(button, !recall);
+  }
+});
+for (const button of revealButtons) {
+  button.addEventListener('click', () => showAnswer(button, button.getAttribute('aria-expanded') !== 'true'));
+}
+for (const button of notebook.querySelectorAll('[data-audio]')) {
+  button.addEventListener('click', () => {
+    audioStatus.textContent = '';
+    playClip(button.dataset.audio, () => { audioStatus.textContent = 'Звук не загрузился. Прочитай по пиньиню.'; });
+  });
+}

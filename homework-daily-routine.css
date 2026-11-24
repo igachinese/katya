@@ -19,10 +19,35 @@ main { max-width: 62rem; }
 .revealed small { display:block; color:var(--muted); margin-top:.2rem; }
 .finish-line { margin:1.05rem 0; }
 #daily-game :focus { scroll-margin:1rem; }
+.notebook { margin-top:1rem; scroll-margin-top:1rem; }
+.notebook-tools { justify-content:space-between; margin-bottom:1.05rem; }
+#notebook-count { color:var(--accent); font-weight:750; }
+.notebook-group + .notebook-group { margin-top:1.25rem; }
+.notebook-terms { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,8rem),1fr)); gap:.6rem; padding:0; margin:.6rem 0 0; }
+.notebook-term { display:flex; flex-direction:column; min-width:0; list-style:none; overflow:hidden; border:1px solid var(--line); border-radius:.8rem; background:#fffdfa; }
+.notebook-term img { display:block; width:100%; height:auto; aspect-ratio:1; object-fit:cover; }
+.notebook-term-body { display:flex; flex:1; flex-direction:column; gap:.37rem; padding:.62rem; }
+.notebook-gloss { font-size:.84rem; min-height:2.45em; font-weight:700; color:var(--muted); overflow-wrap:anywhere; }
+.notebook-answer { display:grid; gap:.08rem; margin-bottom:.14rem; line-height:1.17; }
+.notebook-answer strong { font-size:clamp(1.25rem,3.2vw,1.9rem); color:var(--accent); }
+.notebook-answer span { font-size:.88rem; }
+.notebook-term .btn { width:100%; padding:.35rem .25rem; font-size:.82rem; }
+.notebook-play { margin-top:auto; }
+.notebook-mark { display:flex; min-height:2.75rem; align-items:center; gap:.35rem; font-weight:750; font-size:.86rem; cursor:pointer; }
+.notebook-mark input { width:1.15rem; height:1.15rem; margin:0; accent-color:var(--accent); }
+.notebook-term:has(:checked) { background:var(--tint); border-color:var(--accent); }
+.notebook-lines { margin-top:1.2rem; border-top:1px solid var(--line); padding-top:.65rem; }
+.notebook-lines > p { color:var(--muted); }
+#notebook-recordings { display:grid; gap:.65rem; padding:0; margin:.7rem 0 0; }
+#notebook-recordings li { list-style:none; }
+.notebook-recording-head { display:flex; justify-content:space-between; gap:.4rem; flex-wrap:wrap; align-items:center; padding:.3rem .1rem; }
 @media(max-width:610px) {
   .daily-deck { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .daily-deck img,.daily-deck .noon { max-height:3.65rem; object-fit:cover; }
   .note { grid-template-columns:1fr; }
   .note-pic { max-width:6rem; }
   .note-pic img,.note-pic .noon { aspect-ratio:1; }
+  .notebook-terms { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
+  .notebook-term-body { padding:.5rem; }
+  .notebook-recording-head .btn { font-size:.85rem; }
 }

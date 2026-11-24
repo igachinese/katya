@@ -6,17 +6,36 @@
   <meta name="theme-color" content="#a24450">
   <title>Радиодневник · Домашка Кати</title>
   <link rel="stylesheet" href="lessons/lesson-studio-v2.css">
-  <link rel="stylesheet" href="homework-daily-routine.css">
-  <script type="module" src="homework-daily-routine.js"></script>
+  <link rel="stylesheet" href="homework-daily-routine.css?v=notebook">
+  <script type="module" src="homework-daily-routine.js?v=notebook"></script>
 </head>
 <body style="--accent:#9a4251">
   <main>
     <nav class="top" aria-label="Домашнее задание">
       <a href="index.html#homework">← К домашке</a>
+      <a href="#notebook">К тетради</a>
       <a href="lessons/2026-11-22-daily-routine.html">К уроку</a>
     </nav>
     <section id="daily-game" aria-label="Радиодневник">
       <noscript>Включи JavaScript, чтобы восстановить дневник.</noscript>
+    </section>
+    <section id="notebook" class="sheet notebook" aria-labelledby="notebook-title">
+      <header class="sheet-header">
+        <p class="eyebrow" lang="zh">我的一天</p>
+        <h2 id="notebook-title">В тетрадь · Мой день</h2>
+        <p>Перепиши части дня, действия и записи из дневника. Отмечай слова, которые уже записала. Потом спрячь китайский и попробуй вспомнить слова по картинкам.</p>
+      </header>
+      <div class="actions notebook-tools">
+        <button class="btn secondary" id="notebook-recall" type="button" aria-pressed="false" hidden>Спрятать китайский</button>
+        <p id="notebook-count" role="status"></p>
+      </div>
+      <div id="notebook-words"></div>
+      <p id="notebook-audio" class="status" role="status"></p>
+      <details class="notebook-lines" open>
+        <summary>Шесть записей с временем</summary>
+        <p>Читай по порядку. В предложениях о себе сначала называй время, затем действие.</p>
+        <ol id="notebook-recordings"></ol>
+      </details>
     </section>
   </main>
 </body>
