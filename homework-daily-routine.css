@@ -1,0 +1,28 @@
+main { max-width: 62rem; }
+.daily-deck { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:.45rem; margin:1rem 0; }
+.daily-deck li { list-style:none; padding:.28rem; background:#f6f1ed; border:1px solid var(--line); border-radius:.7rem; text-align:center; min-width:0; }
+.daily-deck [data-now] { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; }
+.daily-deck [data-found] { background:var(--tint); }
+.daily-deck img,.note img { display:block; width:100%; height:auto; aspect-ratio:1; object-fit:cover; border-radius:.49rem; }
+.daily-deck b,.daily-deck small { display:block; font-variant-numeric:tabular-nums; }
+.daily-deck { padding:0; }
+.daily-deck b { font-size:.94rem; }
+.daily-deck small { font-size:.75rem; color:var(--muted); font-weight:660; overflow-wrap:anywhere; }
+.noon { display:grid; place-items:center; aspect-ratio:1; border-radius:.49rem; background:#f8e7bf; color:#6d4a26; min-width:0; font-size:clamp(1.6rem,6vw,3.7rem); }
+.note { display:grid; grid-template-columns:minmax(0,.62fr) minmax(0,1fr); gap:clamp(.8rem,3vw,1.45rem); align-items:center; }
+.note-pic { max-width:12.5rem; }
+.note-body > * + * { margin-top:.65rem; }
+.time-picks { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.38rem; }
+.time-picks .opt { font-size:clamp(1rem,4vw,1.5rem); font-variant-numeric:tabular-nums; }
+.revealed { padding:.8rem; border-radius:.62rem; background:var(--tint); }
+.revealed p:first-child { font-size:clamp(1.16rem,3vw,1.75rem); }
+.revealed small { display:block; color:var(--muted); margin-top:.2rem; }
+.finish-line { margin:1.05rem 0; }
+#daily-game :focus { scroll-margin:1rem; }
+@media(max-width:610px) {
+  .daily-deck { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .daily-deck img,.daily-deck .noon { max-height:3.65rem; object-fit:cover; }
+  .note { grid-template-columns:1fr; }
+  .note-pic { max-width:6rem; }
+  .note-pic img,.note-pic .noon { aspect-ratio:1; }
+}
