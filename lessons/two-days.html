@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Два дня — два расписания · Катя</title>
   <link rel="stylesheet" href="lesson-studio-v2.css">
-  <link rel="stylesheet" href="lesson-nov27.css">
-  <script type="module" src="two-days.js"></script>
+  <link rel="stylesheet" href="lesson-nov27.css?v=practice">
+  <script type="module" src="two-days.js?v=practice"></script>
 </head>
 <body style="--accent:#904257">
   <main>
     <nav class="top" aria-label="Навигация урока"><a href="../index.html">← В кабинет</a>
-      <a href="#diaries">К дневникам</a>
+      <a href="#morning">К заданиям</a>
+      <a href="#road">К транспорту</a>
     </nav>
     <header class="cover-lesson">
       <img src="media/two-days/hero.webp" width="1280" height="720" alt="Две девочки сравнивают расписания за столом">
@@ -21,6 +22,15 @@
         <p>У Кэ-кэ и Сяоюй разные дни. Сверь их голосовые дневники, найди отличия и расскажи про себя.</p>
       </div>
     </header>
+    <section class="sheet lesson-block" id="morning" aria-labelledby="morning-title">
+      <h2 id="morning-title">Собери день по картинкам</h2>
+      <p>Послушай короткую запись. Нажимай на картинки в том порядке, в котором услышишь действия.</p>
+      <div class="actions"><button class="btn" type="button" data-clip="sequence">Слушать</button><button class="btn secondary" type="button" data-clip="sequence-slow">Медленнее</button></div>
+      <div id="sequence-cards" class="photo-grid"></div>
+      <ol class="sequence-track" id="sequence-track" aria-label="Выбранный порядок действий"></ol>
+      <p class="status" id="sequence-status" role="status"></p>
+      <div class="actions"><button type="button" class="btn" id="sequence-check">Проверить порядок</button><button type="button" class="btn secondary" id="sequence-undo">Убрать последний шаг</button></div>
+    </section>
     <section class="sheet lesson-block" id="diaries" aria-labelledby="diaries-title">
       <h2 id="diaries-title">Два голосовых дневника</h2>
       <p>Сначала послушай обе записи целиком. Затем найди время для каждого дела. Можно переслушивать и делать пометки.</p>
@@ -34,10 +44,11 @@
     </section>
     <section class="sheet lesson-block" id="report" aria-labelledby="report-title">
       <h2 id="report-title">Проверь сообщение подруги</h2>
-      <p>Сяоюй перепутала две детали понедельника. Найди их в аудио и поправь её по-китайски.</p>
+      <p>Сяоюй перепутала две детали понедельника. Послушай её сообщение и запиши или скажи исправление.</p>
+      <div class="actions"><button type="button" class="btn" data-clip="correction">Слушать сообщение Сяоюй</button></div>
       <div class="speak-grid">
-        <div class="lesson-cell"><p lang="zh">可可早上六点半起床。</p><details class="hint"><summary>Свериться</summary><p lang="zh">可可早上六点起床。六点半吃早饭。</p></details></div>
-        <div class="lesson-cell"><p lang="zh">可可下午四点回家。</p><details class="hint"><summary>Свериться</summary><p lang="zh">可可下午两点半回家。四点做作业。</p></details></div>
+        <div class="lesson-cell"><label>Во сколько Кэ-кэ встала?<input class="lesson-reply" type="text" lang="zh"></label><details class="hint"><summary>Свериться</summary><p lang="zh">可可早上六点起床。六点半吃早饭。</p></details></div>
+        <div class="lesson-cell"><label>Во сколько Кэ-кэ вернулась домой?<input class="lesson-reply" type="text" lang="zh"></label><details class="hint"><summary>Свериться</summary><p lang="zh">可可下午两点半回家。四点做作业。</p></details></div>
       </div>
       <h3>Возьми интервью</h3>
       <p>Послушай три вопроса. Ответь по очереди про свой день, затем задай один вопрос преподавателю.</p>
@@ -52,11 +63,22 @@
     <section class="sheet lesson-block" id="road" aria-labelledby="road-title">
       <p class="eyebrow">交通工具 · Транспорт</p>
       <h2 id="road-title">Как ты добираешься до школы?</h2>
+      <div class="lesson-cell route-task">
+        <h3>На чём Сяоюй поехала в школу?</h3>
+        <p>Сначала послушай всё сообщение. Время завтрака тебе уже знакомо. Найди по смыслу, как Сяоюй добирается до школы.</p>
+        <div class="actions"><button class="btn" type="button" data-clip="roadscene">Слушать сообщение</button><button class="btn secondary" type="button" data-clip="roadscene-slow">Медленнее</button></div>
+        <div class="photo-grid transport-grid" id="transport-picks"></div>
+        <p class="status" id="transport-status" role="status"></p>
+        <details class="hint"><summary>Подсказка к сообщению</summary><p lang="zh">今天早上，我七点吃早饭。七点半，我骑自行车去学校。你怎么去学校？</p>
+          <p><span lang="zh">骑自行车</span> · qí zìxíngchē · ехать на велосипеде.</p>
+        </details>
+      </div>
       <div class="actions"><button class="btn" type="button" data-clip="roadq">Слушать вопрос</button></div>
       <p lang="zh" class="listen-line">你怎么去学校？</p>
-      <p>Выбери, как ты обычно добираешься, или предложи свой вариант.</p>
+      <p>Открой фразу про свой способ добраться до школы. Послушай её и скажи вслух.</p>
       <div class="oral-choices">
         <button class="btn secondary" type="button" data-route="bus" aria-pressed="false">На автобусе</button>
+        <button class="btn secondary" type="button" data-route="bicycle" aria-pressed="false">На велосипеде</button>
         <button class="btn secondary" type="button" data-route="walk" aria-pressed="false">Пешком</button>
       </div>
       <p class="listen-line" id="route-phrase" lang="zh"></p>
@@ -68,10 +90,10 @@
       </details>
     </section>
     <details class="notes lesson-block"><summary>Сценарий для преподавателя</summary>
-      <p><strong>10 минут · разогрев.</strong> Назвать часть дня, время и действие по трём картинкам из прошлого урока. Подхватить знакомые 起床, 吃早饭, 回家 и 睡觉.</p>
+      <p><strong>10 минут · разогрев.</strong> Собрать порядок действий по короткой записи и пересказать его с 先 и 然后. Подхватить знакомые 起床, 吃早饭 и 睡觉.</p>
       <p><strong>20 минут · сравнение дневников.</strong> Первый проход на общий смысл, второй для заполнения времени. После сверки Катя формулирует два отличия полными фразами.</p>
       <p><strong>15 минут · речь.</strong> Сменить роли после вопросов. Уточнить 吃午饭 и 吃晚饭 на знакомом порядке слов. Попросить назвать одну деталь, которой не было в записи.</p>
-      <p><strong>15 минут · мостик к транспорту.</strong> Ввести один вопрос и два способа добраться. Последний ответ связывает время завтрака с дорогой до школы.</p>
+      <p><strong>15 минут · мостик к транспорту.</strong> Начать с сообщения Сяоюй, связав уже знакомое время завтрака с новой дорогой до школы. Затем сравнить 坐公共汽车, 骑自行车 и 走路 и дать Кате ответить про себя.</p>
     </details>
     <p id="lesson-audio-status" class="status listen-status" role="status"></p>
   </main>

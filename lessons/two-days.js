@@ -25,10 +25,8 @@ document.querySelector('#diary-sources').innerHTML = recordings.map(({id,title,t
 
 const rows = [
   ["起床", "Подъём", "06:00", "08:30", ["06:30", "08:00"]],
-  ["吃早饭", "Завтрак", "06:30", "09:00", ["06:00", "09:30"]],
   ["吃午饭", "Обед", "12:00", "12:30", ["11:30", "13:00"]],
   ["回家", "Возвращение домой", "14:30", "15:00", ["14:00", "16:00"]],
-  ["吃晚饭", "Ужин", "18:00", "19:00", ["18:30", "19:30"]],
   ["睡觉", "Сон", "22:30", "22:00", ["21:30", "23:00"]]
 ];
 const form = document.querySelector('#schedule-check');
@@ -60,7 +58,7 @@ form.addEventListener('change', event => {
   event.target.removeAttribute('data-correct');
   event.target.removeAttribute('data-retry');
 });
-const routes = {bus:'我坐公共汽车去学校。',walk:'我走路去学校。'};
+const routes = {bus:'我坐公共汽车去学校。',bicycle:'我骑自行车去学校。',walk:'我走路去学校。'};
 const routeButtons = [...document.querySelectorAll('[data-route]')];
 document.addEventListener('click', event => {
   const button = event.target.closest('button');
@@ -70,5 +68,71 @@ document.addEventListener('click', event => {
     for (const item of routeButtons) item.setAttribute('aria-pressed', String(item === button));
     document.querySelector('#route-phrase').textContent = routes[button.dataset.route];
     speak(button.dataset.route);
+  }
+});
+
+const routineArt = 'media/daily-routine/studio/';
+const moments = [
+  {id:'sleep', ru:'Лечь спать', img:routineArt + 'sleep.webp'},
+  {id:'wake', ru:'Встать', img:routineArt + 'wake.webp'},
+  {id:'lunch', ru:'Пообедать', img:'media/homework-daily-routine/notebook-noon.webp'},
+  {id:'breakfast', ru:'Позавтракать', img:routineArt + 'breakfast.webp'},
+];
+const expectedOrder = ['wake','breakfast','lunch','sleep'];
+const chosenOrder = [];
+const list = document.querySelector('#sequence-track');
+const checkpoint = document.querySelector('#sequence-status');
+const checkOrder = document.querySelector('#sequence-check');
+const undo = document.querySelector('#sequence-undo');
+const momentHolder = document.querySelector('#sequence-cards');
+momentHolder.innerHTML = moments.map(moment => `<button class="photo-choice" type="button" data-moment="${moment.id}">
+  <img src="${moment.img}" alt="" width="384" height="384"><span>${moment.ru}</span></button>`).join('');
+const momentButtons = [...momentHolder.querySelectorAll('button')];
+function drawSequence() {
+  list.innerHTML = chosenOrder.map(id => `<li>${moments.find(moment => moment.id === id).ru}</li>`).join('');
+  for (const moment of momentButtons) moment.disabled = chosenOrder.includes(moment.dataset.moment);
+  checkOrder.disabled = chosenOrder.length !== expectedOrder.length;
+  undo.disabled = !chosenOrder.length;
+}
+for (const button of momentButtons) button.addEventListener('click', () => {
+  chosenOrder.push(button.dataset.moment);
+  checkpoint.textContent = '';
+  drawSequence();
+  (momentButtons.find(moment => !moment.disabled) || checkOrder).focus({preventScroll:true});
+});
+undo.addEventListener('click', () => {
+  const removed = chosenOrder.pop();
+  checkpoint.textContent = '';
+  drawSequence();
+  momentButtons.find(moment => moment.dataset.moment === removed)?.focus({preventScroll:true});
+});
+checkOrder.addEventListener('click', () => {
+  const firstWrong = expectedOrder.findIndex((id,index) => id !== chosenOrder[index]);
+  checkpoint.textContent = firstWrong === -1
+    ? 'Верно! Перескажи этот день. Начни с 先 и продолжи 然后.'
+    : 'Переслушай запись и проверь порядок с шага ' + (firstWrong + 1) + '.';
+});
+drawSequence();
+
+const transport = [
+  ['bus','Автобус'],
+  ['bicycle','Велосипед'],
+  ['walk','Пешком'],
+];
+const transportHolder = document.querySelector('#transport-picks');
+transportHolder.innerHTML = transport.map(([id,title]) => `<button type="button" class="photo-choice" data-transport="${id}">
+  <img src="media/two-days/transport-${id}.webp" alt="" width="384" height="384"><span>${title}</span></button>`).join('');
+const transportFeedback = document.querySelector('#transport-status');
+transportHolder.addEventListener('click', event => {
+  const picked = event.target.closest('[data-transport]');
+  if (!picked) return;
+  const correct = picked.dataset.transport === 'bicycle';
+  transportFeedback.textContent = correct
+    ? 'На велосипеде. 骑自行车 (qí zìxíngchē) — ехать на велосипеде. А как добираешься ты?'
+    : 'Переслушай фразу после 七点半 и сравни её с подсказкой.';
+  if (correct) {
+    picked.dataset.correct = '';
+    picked.closest('.route-task').querySelector('details').open = true;
+    for (const option of transportHolder.querySelectorAll('button')) option.disabled = true;
   }
 });
