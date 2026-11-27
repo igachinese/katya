@@ -1,0 +1,48 @@
+main { max-width: 67rem; }
+.top { gap: 1rem; }
+.cover-lesson { overflow:hidden; border:1px solid var(--line); border-radius:1.15rem; background:white; box-shadow:var(--shadow); }
+.cover-lesson img { display:block; width:100%; height:auto; aspect-ratio:2.6; object-fit:cover; object-position:center 51%; }
+.cover-copy { padding:clamp(1rem,4vw,2rem); display:grid; gap:.65rem; }
+.cover-copy h1 { font-size:clamp(2.2rem,6vw,4.3rem); }
+.lesson-block { margin-top:1.05rem; scroll-margin-top:1rem; }
+.lesson-block > * + * { margin-top:.85rem; }
+.lessons-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+.lesson-cell { min-width:0; border:1px solid var(--line); border-radius:.75rem; padding:clamp(.7rem,2vw,1.2rem); background:#fffdf8; }
+.lesson-cell > * + *, .answer-box > * + * { margin-top:.55rem; }
+.lesson-cell .btn { margin:.45rem .35rem 0 0; }
+.notes { padding:.75rem 1rem; border:1px solid var(--line); border-radius:.65rem; background:white; }
+.notes p + p { margin-top:.5rem; }
+.listen-status:empty { display:none; }
+.listen-line { font-size:1.1rem; color:var(--ink); }
+.riddles-tabs { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.45rem; margin-top:.8rem; }
+.lantern-tab { min-height:3rem; border-radius:.7rem; border:1px solid #e2d8c8; background:#fff7e6; color:var(--ink); font-weight:750; padding:.3rem; }
+.lantern-tab[aria-current="step"] { background:var(--accent); color:white; }
+.lantern-tab[data-solved]:not([aria-current]) { background:#f8dd97; }
+.riddle-screen { margin-top:.8rem; }
+.riddle-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.55rem; margin:.75rem 0; }
+.riddle-option { width:100%; min-width:0; min-height:3rem; border-radius:.75rem; border:2px solid var(--line); background:#fffcf5; padding:.3rem; }
+.riddle-option img { width:100%; height:auto; aspect-ratio:1; object-fit:cover; display:block; border-radius:.45rem; }
+.riddle-option:hover:not(:disabled), .riddle-option[data-correct] { border-color:var(--accent); }
+.riddle-option[data-correct] { background:#f8dd97; }
+.answer-box { margin-top:.7rem; padding:.75rem 1rem; border-radius:.7rem; background:#fff0cf; }
+.answer-box [lang="zh"] { font-size:1.55rem; font-weight:700; }
+.riddle-hint { margin:.7rem 0; }
+.day-table { width:100%; border-collapse:collapse; background:white; }
+.day-table th,.day-table td { text-align:left; padding:.55rem .45rem; border-bottom:1px solid var(--line); }
+.day-table thead { background:#f2e2e1; }
+.day-table select { width:100%; min-width:0; padding:.25rem .36rem; }
+.day-table [data-correct] { border:2px solid #47806a; }
+.day-table [data-retry] { border:2px solid #a24450; }
+.day-table th[scope="row"] span { display:block; color:var(--muted); font-weight:400; font-size:.8rem; }
+.speak-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; }
+.oral-choices { display:flex; gap:.45rem; flex-wrap:wrap; }
+.oral-choices .btn[aria-pressed="true"] { background:var(--tint); border-color:var(--accent); }
+@media (max-width:550px) {
+  .cover-lesson img { aspect-ratio:1.76; }
+  .lessons-columns { grid-template-columns:1fr; }
+  .day-table th,.day-table td { padding:.42rem .22rem; }
+  .day-table th[scope="row"] { width:34%; font-size:.86rem; }
+  .day-table select { font-size:.89rem; }
+  .riddle-options { gap:.3rem; }
+  .riddles-tabs { gap:.25rem; }
+}
