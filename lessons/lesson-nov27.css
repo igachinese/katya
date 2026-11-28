@@ -65,3 +65,11 @@ main { max-width: 67rem; }
 
 .lesson-reply { display:block; width:100%; min-height:2.75rem; margin-top:.35rem; padding:.35rem .55rem; border:1px solid #bdafa9; border-radius:.5rem; font:inherit; }
 @media(max-width:420px){ .speak-grid {grid-template-columns:1fr;} }
+
+#correct-report > * + *, #katya-exit > * + * { margin-top:.7rem; }
+#correct-report label,#katya-exit label,.lesson-clock { display:grid; gap:.28rem; min-width:0; }
+#correct-report select,#katya-exit select,.lesson-clock select { width:100%; min-width:0; }
+.lesson-clock { max-width:20rem; }
+#correct-report [data-correct],#katya-exit [data-correct] { border:2px solid #47806a; }
+#correct-report [data-retry],#katya-exit [data-retry] { border:2px solid #a24450; }
+#diary-gist [aria-pressed=true] { background:var(--tint); border-color:var(--accent); }

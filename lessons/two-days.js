@@ -1,3 +1,5 @@
+import {setupLessonRoute} from './lesson-route.js';
+
 const unit = 'two-days';
 let player;
 const notice = document.querySelector('#lesson-audio-status');
@@ -57,17 +59,32 @@ form.addEventListener('submit', event => {
 form.addEventListener('change', event => {
   event.target.removeAttribute('data-correct');
   event.target.removeAttribute('data-retry');
+  scheduleStatus.textContent = '';
 });
-const routes = {bus:'我坐公共汽车去学校。',bicycle:'我骑自行车去学校。',walk:'我走路去学校。'};
+const routes = {bus:'坐公共汽车',bicycle:'骑自行车',walk:'走路'};
 const routeButtons = [...document.querySelectorAll('[data-route]')];
+const breakfast = document.querySelector('#route-breakfast');
+const combined = document.querySelector('#route-combined');
+const routePlaceholder = document.querySelector('#route-placeholder');
+let selectedRoute;
+function drawRoute() {
+  const route = routes[selectedRoute];
+  const ready = !!(route && breakfast.value);
+  combined.hidden = !ready;
+  routePlaceholder.hidden = ready;
+  combined.textContent = ready ? '我早上'+breakfast.value+'吃早饭，然后'+route+'去学校。' : '';
+}
+breakfast.addEventListener('change',drawRoute);
 document.addEventListener('click', event => {
   const button = event.target.closest('button');
   if (!button) return;
   if (button.dataset.clip) speak(button.dataset.clip);
   if (button.dataset.route) {
+    selectedRoute = button.dataset.route;
     for (const item of routeButtons) item.setAttribute('aria-pressed', String(item === button));
-    document.querySelector('#route-phrase').textContent = routes[button.dataset.route];
-    speak(button.dataset.route);
+    document.querySelector('#route-phrase').textContent = '我'+routes[selectedRoute]+'去学校。';
+    drawRoute();
+    speak(selectedRoute);
   }
 });
 
@@ -136,3 +153,54 @@ transportHolder.addEventListener('click', event => {
     for (const option of transportHolder.querySelectorAll('button')) option.disabled = true;
   }
 });
+
+document.querySelector('#diary-gist').addEventListener('click', event => {
+  const choice = event.target.closest('[data-gist]');
+  if (!choice) return;
+  const correct = choice.dataset.gist === 'keke';
+  document.querySelector('#diary-gist-status').textContent = correct
+    ? 'Верно. Теперь найди точное время в обеих записях.'
+    : 'Переслушай начало двух дневников и сравни время подъёма.';
+  for (const button of event.currentTarget.querySelectorAll('button')) {
+    button.setAttribute('aria-pressed', String(button === choice));
+  }
+});
+
+function checkTwo(formId, fields, statusId, success) {
+  const form = document.querySelector(formId);
+  const status = document.querySelector(statusId);
+  const responses = fields.map(([selector, answer, hint]) => [document.querySelector(selector), answer, hint]);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const missing = responses.find(([field]) => !field.value);
+    if (missing) {
+      status.textContent = 'Заполни оба поля.';
+      missing[0].focus();
+      return;
+    }
+    const wrong = [];
+    for (const [field, answer, hint] of responses) {
+      const correct = field.value === answer;
+      field.toggleAttribute('data-correct',correct);
+      field.toggleAttribute('data-retry',!correct);
+      field.setAttribute('aria-invalid',String(!correct));
+      if (!correct) wrong.push(hint);
+    }
+    status.textContent = wrong.length ? 'Совпало '+(responses.length-wrong.length)+' из 2. '+wrong[0] : success;
+  });
+  form.addEventListener('change', event => {
+    for (const attribute of ['data-correct','data-retry','aria-invalid']) event.target.removeAttribute(attribute);
+    status.textContent = '';
+  });
+}
+
+checkTwo('#correct-report', [
+  ['#correct-wake','06:00','В дневнике время подъёма звучит перед 起床.'],
+  ['#correct-home','14:30','В дневнике время возвращения звучит перед 回家.'],
+], '#correct-report-status', 'Обе детали верны. Теперь передай исправления по-китайски.');
+checkTwo('#katya-exit', [
+  ['#exit-time','07:30','Прочитай, какое время стоит перед 吃早饭.'],
+  ['#exit-route','walk','Найди действие после 然后.'],
+], '#katya-exit-status', 'Оба ответа верны. Теперь придумай свою версию и скажи её вслух.');
+
+setupLessonRoute({stopAudio:()=>player?.pause()});
